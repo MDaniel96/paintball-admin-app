@@ -1,6 +1,6 @@
 package server.admin.paintball.model
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -20,7 +20,7 @@ class Game(
     var state: State = State.CREATED,
 
     @Column(nullable = false)
-    var date: LocalDateTime = LocalDateTime.now()
+    var date: LocalDate = LocalDate.now()
 ) {
 
     enum class State(val value: String) {
