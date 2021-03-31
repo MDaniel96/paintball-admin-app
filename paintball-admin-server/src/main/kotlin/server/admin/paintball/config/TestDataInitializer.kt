@@ -17,13 +17,22 @@ class TestDataInitializer(
     private val userRepository: UserRepository
 ) : ApplicationRunner {
 
+    companion object {
+        val TODAY: LocalDate = LocalDate.now()
+        val YESTERDAY: LocalDate = LocalDate.now().minusDays(1)
+    }
+
     override fun run(args: ApplicationArguments?) {
         val games = gameRepository.saveAll(
             listOf(
-                Game(name = "TDM game1", type = "TDM", state = Game.State.FINISHED),
-                Game(name = "TDM game2", type = "TDM", state = Game.State.FINISHED),
-                Game(name = "DM game3", type = "DM", state = Game.State.FINISHED),
-                Game(name = "DM game4", type = "DM", state = Game.State.CREATED, date = LocalDate.now().minusDays(1))
+                Game(name = "TDM game1", type = "TDM", state = Game.State.FINISHED, date = TODAY),
+                Game(name = "TDM game2", type = "TDM", state = Game.State.FINISHED, date = TODAY),
+                Game(name = "DM game3", type = "DM", state = Game.State.FINISHED, date = TODAY),
+                Game(name = "DM game4", type = "DM", state = Game.State.CREATED, date = TODAY),
+                Game(name = "DM game5", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "DM game6", type = "CTF", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "DM game7", type = "DM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "DM game8", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
             )
         )
 

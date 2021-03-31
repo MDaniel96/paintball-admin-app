@@ -1,6 +1,8 @@
 package server.admin.paintball.service
 
 import org.modelmapper.ModelMapper
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -45,6 +47,12 @@ class GameServiceImpl(
         }.run {
             toDTO(mapper)
         }
+    }
+
+    override fun getGamesPage(pageable: Pageable): Page<GameDTO> {
+        val gameToDTO: (Game) -> GameDTO = { it.toDTO(mapper) }
+        return gameRepository.findAll(pageable)
+            .map(gameToDTO)
     }
 
     private fun getGameById(id: Long): Game {

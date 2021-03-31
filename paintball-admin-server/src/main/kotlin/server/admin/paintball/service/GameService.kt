@@ -1,5 +1,7 @@
 package server.admin.paintball.service
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import server.admin.paintball.dto.GameDTO
 import server.admin.paintball.dto.util.GameFilter
 
@@ -12,4 +14,6 @@ interface GameService {
     fun deleteGame(id: Long)
 
     fun editGame(id: Long, game: GameDTO): GameDTO
+
+    fun getGamesPage(pageable: Pageable): Page<GameDTO>
 }

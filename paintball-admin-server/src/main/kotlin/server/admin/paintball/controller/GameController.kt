@@ -1,5 +1,10 @@
 package server.admin.paintball.controller
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.data.web.SortDefault
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
@@ -44,5 +49,14 @@ class GameController(private val gameService: GameService) {
     @PutMapping("{id}")
     fun editGame(@PathVariable id: Long, @RequestBody game: GameDTO): ResponseEntity<GameDTO> {
         return ok(gameService.editGame(id, game))
+    }
+
+    @GetMapping("/page")
+    fun getGamesPage(
+        @PageableDefault(page = 0, size = 10)
+        @SortDefault(sort = ["name"], direction = Sort.Direction.ASC)
+        pageable: Pageable, sort: Sort
+    ): Page<GameDTO> {
+        return gameService.getGamesPage(pageable)
     }
 }
