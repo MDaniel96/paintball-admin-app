@@ -20,3 +20,6 @@ fun List<Game>.toDTO(mapper: ModelMapper): List<GameDTO> {
     val listType = object : TypeToken<List<GameDTO>>() {}.type
     return mapper.map(this, listType)
 }
+
+fun Game.toDTO(mapper: ModelMapper): GameDTO =
+    mapper.map(this, GameDTO::class.java)

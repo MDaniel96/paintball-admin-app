@@ -14,6 +14,10 @@ class User(
     var name: String = "",
 
     @JsonIgnore
-    @ManyToMany
-    var games: MutableSet<Game> = hashSetOf()
+    @ManyToMany(mappedBy = "redPlayers")
+    var redGames: MutableSet<Game> = hashSetOf(),
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "bluePlayers")
+    var blueGames: MutableSet<Game> = hashSetOf()
 )

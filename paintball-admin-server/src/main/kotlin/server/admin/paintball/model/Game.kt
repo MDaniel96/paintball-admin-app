@@ -26,7 +26,7 @@ class Game(
     var redPlayers: MutableSet<User> = hashSetOf(),
 
     @ManyToMany
-    var bluePlayers: MutableSet<User> = hashSetOf(),
+    var bluePlayers: MutableSet<User> = hashSetOf()
 ) {
 
     enum class State(val value: String) {
@@ -37,11 +37,11 @@ class Game(
 
     fun addRedPlayer(user: User) {
         redPlayers.add(user)
-        user.games.add(this)
+        user.redGames.add(this)
     }
 
     fun addBluePlayer(user: User) {
         bluePlayers.add(user)
-        user.games.add(this)
+        user.blueGames.add(this)
     }
 }
