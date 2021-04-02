@@ -33,6 +33,10 @@ class TestDataInitializer(
                 Game(name = "DM game6", type = "CTF", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "DM game7", type = "DM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "DM game8", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "TDM game9", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "TDM game10", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "TDM game11", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "TDM game12", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
             )
         )
 
