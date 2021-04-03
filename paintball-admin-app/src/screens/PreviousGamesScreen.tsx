@@ -45,6 +45,15 @@ const PreviousGamesScreen: FC = (props: any) => {
         });
     }
 
+    const selectGame = (id: number) => {
+        props.navigation.navigate({
+            name: 'Game details',
+            params: {
+                gameId: id
+            }
+        });
+    }
+
     const cancelFilter = () => {
         setFilterShown(false);
         setGameFilter(
@@ -87,7 +96,8 @@ const PreviousGamesScreen: FC = (props: any) => {
                     <PreviousGameItem
                         key={game.id}
                         game={game}
-                        onDelete={deleteGame}/>
+                        onDelete={deleteGame}
+                        onSelect={selectGame}/>
                 ))}
             </List.Section>
             <PreviousGameFilterPanel show={isFilterShown} onCancel={cancelFilter} onFilter={filterGames}/>

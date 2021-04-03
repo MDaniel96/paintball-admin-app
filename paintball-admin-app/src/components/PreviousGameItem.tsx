@@ -8,6 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 interface Props {
     game: Game;
     onDelete: (id: number) => void
+    onSelect: (id: number) => void
 }
 
 const PreviousGameItem: FC<Props> = (props) => {
@@ -25,8 +26,7 @@ const PreviousGameItem: FC<Props> = (props) => {
 
     return (
         <TouchableOpacity
-            onPress={() => {
-            }}
+            onPress={() => props.onSelect(props.game.id)}
             style={styles.touchableItem}>
             <Swipeable renderRightActions={deleteButton}>
                 <List.Item

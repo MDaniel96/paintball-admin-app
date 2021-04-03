@@ -8,8 +8,8 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator: FC = () => {
     return (
         <NavigationContainer>
-            <Drawer.Navigator initialRouteName="PreviousGames">
-                <Drawer.Screen name="PreviousGames" component={PreviousGamesStack}/>
+            <Drawer.Navigator initialRouteName="Previous games">
+                <Drawer.Screen name="Previous games" component={PreviousGamesStack}/>
                 <Drawer.Screen name="Maps" component={MapsStack}/>
             </Drawer.Navigator>
         </NavigationContainer>

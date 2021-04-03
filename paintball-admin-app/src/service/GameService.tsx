@@ -16,6 +16,17 @@ export class GameService {
         }
     }
 
+    static async getGame(id: number): Promise<Game> {
+        try {
+            let url = `${Config.base_url}/api/game/${id}`;
+            let response = await fetch(url);
+            return await response.json();
+        } catch (error) {
+            console.error('Getting game', error);
+            return new Game();
+        }
+    }
+
     static async deleteGame(id: number): Promise<any> {
         try {
             let url = `${Config.base_url}/api/game/${id}`;
@@ -23,6 +34,21 @@ export class GameService {
         } catch (error) {
             console.error('Deleting game', error);
             return [];
+        }
+    }
+
+    static async editGame(id: number, game: Game): Promise<Game> {
+        try {
+            let url = `${Config.base_url}/api/game/${id}`;
+            let response = await fetch(url, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(game)
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Editing game', error);
+            return new Game();
         }
     }
 
