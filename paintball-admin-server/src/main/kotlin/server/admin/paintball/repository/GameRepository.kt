@@ -9,8 +9,13 @@ import java.time.LocalDate
 interface GameRepository : JpaRepository<Game, Long> {
 
     @Query(
-        "SELECT g FROM Game g WHERE (:state is null or g.state = :state) AND (:name is null or g.name LIKE %:name%) " +
-                "AND ((:types) is null or g.type IN :types) AND (:date is null or g.date = :date)"
+        """
+            SELECT g FROM Game g 
+            WHERE (:state is null or g.state = :state) 
+                AND (:name is null or g.name LIKE %:name%)
+                AND ((:types) is null or g.type IN :types)
+                AND (:date is null or g.date = :date)
+         """
     )
     fun findAllByStateAndNameContainsAndTypeInAndDate(
         @Param("state") state: Game.State?,

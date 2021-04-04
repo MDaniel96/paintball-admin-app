@@ -7,7 +7,7 @@ import server.admin.paintball.dto.util.GameFilter
 
 interface GameService {
 
-    fun getGames(gameFilter: GameFilter?): List<GameDTO>
+    fun getGames(gameFilter: GameFilter): List<GameDTO>
 
     fun getGame(id: Long): GameDTO
 

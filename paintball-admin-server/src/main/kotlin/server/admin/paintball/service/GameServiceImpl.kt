@@ -19,11 +19,10 @@ class GameServiceImpl(
     private val mapper: ModelMapper
 ) : GameService {
 
-    override fun getGames(gameFilter: GameFilter?): List<GameDTO> {
-        val gameList = gameFilter?.run {
+    override fun getGames(gameFilter: GameFilter): List<GameDTO> {
+        val gameList = gameFilter.run {
             gameRepository.findAllByStateAndNameContainsAndTypeInAndDate(state, name, types, date)
-        } ?: gameRepository.findAll()
-
+        }
         return gameList.toDTO(mapper)
     }
 
