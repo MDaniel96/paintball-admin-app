@@ -11,6 +11,10 @@ class MapDTO(
     var name: String = "",
     var imageUrl: String = "",
     var orientation: Int = 0,
+    var borderX: Long = -1L,
+    var borderY: Long = -1L,
+    var borderWidth: Long = -1L,
+    var borderHeight: Long = -1L,
     var location: LocationDTO? = null,
 
     @JsonIgnore

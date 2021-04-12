@@ -24,4 +24,9 @@ class MapController(private val mapService: MapService) {
     fun getImage(@PathVariable("imageName") imageName: String): ResponseEntity<ByteArray> {
         return ok(mapService.getImage(imageName))
     }
+
+    @PatchMapping("{id}")
+    fun edit(@PathVariable id: Long, @RequestBody map: MapDTO): ResponseEntity<MapDTO> {
+        return ok(mapService.edit(id, map))
+    }
 }

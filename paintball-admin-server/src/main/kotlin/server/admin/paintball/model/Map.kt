@@ -18,6 +18,18 @@ class Map(
     @Column(nullable = false)
     var orientation: Int = 0,
 
+    @Column(nullable = false)
+    var borderX: Long = -1L,
+
+    @Column(nullable = false)
+    var borderY: Long = -1L,
+
+    @Column(nullable = false)
+    var borderWidth: Long = -1L,
+
+    @Column(nullable = false)
+    var borderHeight: Long = -1L,
+
     @ManyToOne
     var location: Location? = null,
 
