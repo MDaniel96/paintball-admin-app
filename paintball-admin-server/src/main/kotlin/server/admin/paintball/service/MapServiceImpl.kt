@@ -9,6 +9,7 @@ import server.admin.paintball.dto.request.CreateMapRequest
 import server.admin.paintball.dto.toDTO
 import server.admin.paintball.dto.toEntity
 import server.admin.paintball.model.Map
+import server.admin.paintball.repository.AnchorRepository
 import server.admin.paintball.repository.MapRepository
 import server.admin.paintball.repository.ObstacleRepository
 import server.admin.paintball.util.exceptions.EntityNotFoundException
@@ -20,6 +21,7 @@ import javax.transaction.Transactional
 class MapServiceImpl(
     private val mapRepository: MapRepository,
     private val obstacleRepository: ObstacleRepository,
+    private val anchorRepository: AnchorRepository,
     private val mapper: ModelMapper,
     private val locationService: LocationService,
     private val userService: UserService
@@ -30,7 +32,7 @@ class MapServiceImpl(
 
     @Transactional
     override fun save(createMapRequest: CreateMapRequest): MapDTO {
-        createMapRequest.run {
+        return createMapRequest.run {
             val map = mapRepository.save(
                 Map(
                     name = name,
@@ -41,7 +43,7 @@ class MapServiceImpl(
             saveImage(imageBase64, map.id)
             val user = userService.getUserById(userId)
             user.addMapUnderCreation(map)
-            return map.toDTO(mapper)
+            map.toDTO(mapper)
         }
     }
 
@@ -52,9 +54,11 @@ class MapServiceImpl(
 
     @Transactional
     override fun edit(id: Long, map: MapDTO): MapDTO {
-
         val obstacles = obstacleRepository.saveAll(
             map.obstacles.toEntity(mapper)
+        )
+        val anchors = anchorRepository.saveAll(
+            map.anchors.toEntity(mapper)
         )
 
         return getMapById(id).also {
@@ -66,6 +70,7 @@ class MapServiceImpl(
             }
         }.also {
             it.addObstacles(obstacles.toSet())
+            it.addAnchors(anchors.toSet())
         }.run {
             toDTO(mapper)
         }
