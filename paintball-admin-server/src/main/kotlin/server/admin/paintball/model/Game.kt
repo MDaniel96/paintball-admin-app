@@ -26,7 +26,10 @@ class Game(
     var redPlayers: MutableSet<User> = hashSetOf(),
 
     @ManyToMany
-    var bluePlayers: MutableSet<User> = hashSetOf()
+    var bluePlayers: MutableSet<User> = hashSetOf(),
+
+    @ManyToOne
+    var map: Map? = null
 ) {
 
     enum class State(val value: String) {

@@ -5,8 +5,12 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import server.admin.paintball.model.Game
+import server.admin.paintball.model.Location
+import server.admin.paintball.model.Map
 import server.admin.paintball.model.User
 import server.admin.paintball.repository.GameRepository
+import server.admin.paintball.repository.LocationRepository
+import server.admin.paintball.repository.MapRepository
 import server.admin.paintball.repository.UserRepository
 import java.time.LocalDate
 
@@ -14,7 +18,9 @@ import java.time.LocalDate
 @Profile("dev")
 class TestDataInitializer(
     private val gameRepository: GameRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val locationRepository: LocationRepository,
+    private val mapRepository: MapRepository
 ) : ApplicationRunner {
 
     companion object {
@@ -48,12 +54,41 @@ class TestDataInitializer(
             )
         )
 
+        val locations = locationRepository.saveAll(
+            listOf(
+                Location(name = "Location1"),
+                Location(name = "Location2"),
+                Location(name = "Location3")
+            )
+        )
+
+        val maps = mapRepository.saveAll(
+            listOf(
+                Map(name = "Map1"),
+                Map(name = "Map2"),
+                Map(name = "Map3")
+            )
+        )
+
         games[0].run {
             addRedPlayer(users[0])
             addRedPlayer(users[1])
             addBluePlayer(users[2])
         }
+
+        locations[0].run {
+            addMap(maps[0])
+            addMap(maps[1])
+        }
+
+        maps[0].run {
+            addGame(games[0])
+            addGame(games[1])
+        }
+
         gameRepository.saveAll(games)
         userRepository.saveAll(users)
+        locationRepository.saveAll(locations)
+        mapRepository.saveAll(maps)
     }
 }
