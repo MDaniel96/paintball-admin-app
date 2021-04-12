@@ -12,11 +12,20 @@ class Map(
     @Column(nullable = false)
     var name: String = "",
 
+    @Column(nullable = false)
+    var imageUrl: String = "",
+
+    @Column(nullable = false)
+    var orientation: Int = 0,
+
     @ManyToOne
     var location: Location? = null,
 
     @OneToMany(mappedBy = "map")
-    var games: MutableSet<Game> = hashSetOf()
+    var games: MutableSet<Game> = hashSetOf(),
+
+    @ManyToOne
+    var creator: User? = null
 ) {
 
     fun addGame(game: Game) {

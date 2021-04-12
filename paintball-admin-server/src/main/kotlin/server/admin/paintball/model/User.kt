@@ -13,6 +13,9 @@ class User(
     @Column(nullable = false)
     var name: String = "",
 
+    @OneToMany(mappedBy = "creator")
+    var mapsUnderCreation: MutableSet<Map> = hashSetOf(),
+
     @JsonIgnore
     @ManyToMany(mappedBy = "redPlayers")
     var redGames: MutableSet<Game> = hashSetOf(),
@@ -20,4 +23,10 @@ class User(
     @JsonIgnore
     @ManyToMany(mappedBy = "bluePlayers")
     var blueGames: MutableSet<Game> = hashSetOf()
-)
+) {
+
+    fun addMapUnderCreation(map: Map) {
+        mapsUnderCreation.add(map)
+        map.creator = this
+    }
+}
