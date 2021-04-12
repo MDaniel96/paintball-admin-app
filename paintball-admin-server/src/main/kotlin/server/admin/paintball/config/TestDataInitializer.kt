@@ -64,9 +64,9 @@ class TestDataInitializer(
 
         val maps = mapRepository.saveAll(
             listOf(
-                Map(name = "Map1"),
-                Map(name = "Map2"),
-                Map(name = "Map3")
+                Map(name = "Map1", borderX = 10, borderY = 10, borderWidth = 10, borderHeight = 10),
+                Map(name = "Map2", borderX = 20, borderY = 20, borderWidth = 20, borderHeight = 20),
+                Map(name = "Map3", borderX = 30, borderY = 30, borderWidth = 30, borderHeight = 30)
             )
         )
 

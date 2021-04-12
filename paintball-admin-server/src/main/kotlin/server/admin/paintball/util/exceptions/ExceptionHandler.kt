@@ -20,4 +20,14 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         )
         return handleExceptionInternal(ex, body, HttpHeaders(), HttpStatus.NOT_FOUND, request)
     }
+
+    @ExceptionHandler(BadRequestException::class)
+    protected fun handleBadRequest(ex: RuntimeException, request: WebRequest): ResponseEntity<Any> {
+        val body = ErrorCode(
+            error = ex.javaClass.name,
+            httpStatus = HttpStatus.BAD_REQUEST,
+            message = ex.localizedMessage
+        )
+        return handleExceptionInternal(ex, body, HttpHeaders(), HttpStatus.BAD_REQUEST, request)
+    }
 }

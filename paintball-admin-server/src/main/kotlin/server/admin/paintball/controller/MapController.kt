@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import server.admin.paintball.dto.MapDTO
+import server.admin.paintball.dto.ObstacleDTO
 import server.admin.paintball.dto.request.CreateMapRequest
 import server.admin.paintball.service.MapService
 
@@ -28,5 +29,10 @@ class MapController(private val mapService: MapService) {
     @PatchMapping("{id}")
     fun edit(@PathVariable id: Long, @RequestBody map: MapDTO): ResponseEntity<MapDTO> {
         return ok(mapService.edit(id, map))
+    }
+
+    @GetMapping("/{id}/detect-obstacles")
+    fun detectObstacles(@PathVariable("id") id: Long): ResponseEntity<List<ObstacleDTO>> {
+        return ok(mapService.detectObstacles(id))
     }
 }

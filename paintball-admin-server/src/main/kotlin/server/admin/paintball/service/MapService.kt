@@ -1,6 +1,7 @@
 package server.admin.paintball.service
 
 import server.admin.paintball.dto.MapDTO
+import server.admin.paintball.dto.ObstacleDTO
 import server.admin.paintball.dto.request.CreateMapRequest
 
 interface MapService {
@@ -10,4 +11,6 @@ interface MapService {
     fun getImage(id: Long): ByteArray
 
     fun edit(id: Long, map: MapDTO): MapDTO
+
+    fun detectObstacles(id: Long): List<ObstacleDTO>
 }
