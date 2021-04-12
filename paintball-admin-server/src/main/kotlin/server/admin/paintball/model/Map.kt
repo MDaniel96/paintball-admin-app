@@ -34,6 +34,9 @@ class Map(
     var location: Location? = null,
 
     @OneToMany(mappedBy = "map")
+    var obstacles: MutableSet<Obstacle> = hashSetOf(),
+
+    @OneToMany(mappedBy = "map")
     var games: MutableSet<Game> = hashSetOf(),
 
     @ManyToOne
@@ -43,5 +46,12 @@ class Map(
     fun addGame(game: Game) {
         games.add(game)
         game.map = this
+    }
+
+    fun addObstacles(obstacleList: Set<Obstacle>) {
+        obstacleList.forEach {
+            obstacles.add(it)
+            it.map = this
+        }
     }
 }

@@ -16,6 +16,7 @@ class MapDTO(
     var borderWidth: Long = -1L,
     var borderHeight: Long = -1L,
     var location: LocationDTO? = null,
+    var obstacles: MutableSet<ObstacleDTO> = hashSetOf(),
 
     @JsonIgnore
     var games: MutableSet<GameDTO> = hashSetOf(),

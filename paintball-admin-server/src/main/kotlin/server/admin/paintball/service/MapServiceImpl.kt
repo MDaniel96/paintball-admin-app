@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service
 import server.admin.paintball.dto.MapDTO
 import server.admin.paintball.dto.request.CreateMapRequest
 import server.admin.paintball.dto.toDTO
+import server.admin.paintball.dto.toEntity
 import server.admin.paintball.model.Map
 import server.admin.paintball.repository.MapRepository
+import server.admin.paintball.repository.ObstacleRepository
 import server.admin.paintball.util.exceptions.EntityNotFoundException
 import java.io.File
 import java.util.*
@@ -17,6 +19,7 @@ import javax.transaction.Transactional
 @Service
 class MapServiceImpl(
     private val mapRepository: MapRepository,
+    private val obstacleRepository: ObstacleRepository,
     private val mapper: ModelMapper,
     private val locationService: LocationService,
     private val userService: UserService
@@ -50,11 +53,20 @@ class MapServiceImpl(
 
     @Transactional
     override fun edit(id: Long, map: MapDTO): MapDTO {
-        return getMapById(id).apply {
-            borderX = map.borderX
-            borderY = map.borderY
-            borderWidth = map.borderWidth
-            borderHeight = map.borderHeight
+
+        val obstacles = obstacleRepository.saveAll(
+            map.obstacles.toEntity(mapper)
+        )
+
+        return getMapById(id).also {
+            if (map.borderX != -1L) {
+                it.borderX = map.borderX
+                it.borderY = map.borderY
+                it.borderWidth = map.borderWidth
+                it.borderHeight = map.borderHeight
+            }
+        }.also {
+            it.addObstacles(obstacles.toSet())
         }.run {
             toDTO(mapper)
         }
