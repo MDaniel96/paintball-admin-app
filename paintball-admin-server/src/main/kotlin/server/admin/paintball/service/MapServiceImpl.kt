@@ -25,30 +25,29 @@ class MapServiceImpl(
     private val userService: UserService
 ) : MapService {
 
-    @Value("\${map.image.location}")
-    private val mapImageLocation: String = ""
+    @Value("\${map.images.location}")
+    private val mapImagesLocation: String = ""
 
     @Transactional
     override fun save(createMapRequest: CreateMapRequest): MapDTO {
         createMapRequest.run {
-            val imageName = "${name.replace("\\s".toRegex(), "")}.png"
             val map = mapRepository.save(
                 Map(
                     name = name,
-                    imageUrl = "map/image/${imageName}",
                     orientation = orientation,
                     location = locationService.getLocationById(locationId)
                 )
             )
-            saveImage(imageBase64, imageName)
+            saveImage(imageBase64, map.id)
             val user = userService.getUserById(userId)
             user.addMapUnderCreation(map)
             return map.toDTO(mapper)
         }
     }
 
-    override fun getImage(imageName: String): ByteArray {
-        return File("${mapImageLocation}//${imageName}").readBytes()
+    override fun getImage(id: Long): ByteArray {
+        return File("${mapImagesLocation}/$id.png")
+            .readBytes()
     }
 
     @Transactional
@@ -72,9 +71,10 @@ class MapServiceImpl(
         }
     }
 
-    private fun saveImage(imageBase64: String, imageName: String) {
+    private fun saveImage(imageBase64: String, id: Long) {
         val imageByteArray = Base64.getDecoder().decode(imageBase64)
-        File("${mapImageLocation}//${imageName.replace("\\s".toRegex(), "")}").writeBytes(imageByteArray)
+        File("${mapImagesLocation}/$id.png")
+            .writeBytes(imageByteArray)
     }
 
     private fun getMapById(id: Long): Map {

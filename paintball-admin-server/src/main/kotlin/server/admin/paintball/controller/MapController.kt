@@ -20,9 +20,9 @@ class MapController(private val mapService: MapService) {
         return ok(mapService.save(createMapRequest))
     }
 
-    @GetMapping("image/{imageName}")
-    fun getImage(@PathVariable("imageName") imageName: String): ResponseEntity<ByteArray> {
-        return ok(mapService.getImage(imageName))
+    @GetMapping("/{id}/image")
+    fun getImage(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
+        return ok(mapService.getImage(id))
     }
 
     @PatchMapping("{id}")

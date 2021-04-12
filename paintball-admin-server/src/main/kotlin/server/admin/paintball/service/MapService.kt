@@ -7,7 +7,7 @@ interface MapService {
 
     fun save(createMapRequest: CreateMapRequest): MapDTO
 
-    fun getImage(imageName: String): ByteArray
+    fun getImage(id: Long): ByteArray
 
     fun edit(id: Long, map: MapDTO): MapDTO
 }

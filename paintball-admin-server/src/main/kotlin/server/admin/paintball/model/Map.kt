@@ -13,9 +13,6 @@ class Map(
     var name: String = "",
 
     @Column(nullable = false)
-    var imageUrl: String = "",
-
-    @Column(nullable = false)
     var orientation: Int = 0,
 
     @Column(nullable = false)

@@ -9,7 +9,6 @@ class MapDTO(
 
     val id: Long = -1L,
     var name: String = "",
-    var imageUrl: String = "",
     var orientation: Int = 0,
     var borderX: Long = -1L,
     var borderY: Long = -1L,
