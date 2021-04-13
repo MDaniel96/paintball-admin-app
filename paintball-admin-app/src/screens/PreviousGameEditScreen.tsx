@@ -44,7 +44,6 @@ const PreviousGameEditScreen: FC = (props: any) => {
             <Card>
                 <Card.Title title={`Edit ${game.name}`} subtitle="Finished" style={{marginBottom: 30}}/>
                 <Card.Content>
-                    {/*TODO: extract*/}
                     <TextInput
                         style={styles.textInput}
                         label="Game name"

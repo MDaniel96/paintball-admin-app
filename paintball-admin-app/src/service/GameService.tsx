@@ -3,11 +3,13 @@ import Config from '../constants/Config';
 import {GameFilter} from '../model/util/GameFilter';
 import {Platform} from 'react-native';
 
+const GAME_API = `${Config.base_url}/api/game`;
+
 export class GameService {
 
     static async getGames(gameFilter: GameFilter): Promise<Game[]> {
         try {
-            let url = `${Config.base_url}/api/game${this.getQueryParams(gameFilter)}`;
+            let url = `${GAME_API}${this.getQueryParams(gameFilter)}`;
             let response = await fetch(url);
             return await response.json();
         } catch (error) {
@@ -18,7 +20,7 @@ export class GameService {
 
     static async getGame(id: number): Promise<Game> {
         try {
-            let url = `${Config.base_url}/api/game/${id}`;
+            let url = `${GAME_API}/${id}`;
             let response = await fetch(url);
             return await response.json();
         } catch (error) {
@@ -29,7 +31,7 @@ export class GameService {
 
     static async deleteGame(id: number): Promise<any> {
         try {
-            let url = `${Config.base_url}/api/game/${id}`;
+            let url = `${GAME_API}/${id}`;
             return await fetch(url, {method: 'DELETE'});
         } catch (error) {
             console.error('Deleting game', error);
@@ -39,7 +41,7 @@ export class GameService {
 
     static async editGame(id: number, game: Game): Promise<Game> {
         try {
-            let url = `${Config.base_url}/api/game/${id}`;
+            let url = `${GAME_API}/${id}`;
             let response = await fetch(url, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
