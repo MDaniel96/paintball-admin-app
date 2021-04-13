@@ -1,15 +1,19 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Picker, ScrollView, StyleSheet, View} from 'react-native';
+import {Image, Picker, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import SaveButton from './SaveButton';
 import Colors from '../../constants/Colors';
-import {TextInput} from 'react-native-paper';
+import {Button, TextInput} from 'react-native-paper';
 import {Location} from '../../model/Location';
 import {LocationService} from '../../service/LocationService';
+import * as ImagePicker from 'expo-image-picker';
+import {ImageInfo} from 'expo-image-picker/build/ImagePicker.types';
+import {MapService} from '../../service/MapService';
 
 const MapDetailsForm: FC = () => {
 
     const [isSaved, setSaved] = useState<boolean>(false);
 
+    const [image, setImage] = useState<ImageInfo>();
     const [name, setName] = useState<string>('');
     const [orientation, setOrientation] = useState<string>('');
     const [location, setLocation] = useState<Location>(new Location());
@@ -18,6 +22,7 @@ const MapDetailsForm: FC = () => {
 
     useEffect(() => {
         getLocations();
+        askGalleryPermission();
     }, []);
 
     const getLocations = () => {
@@ -26,10 +31,37 @@ const MapDetailsForm: FC = () => {
         });
     }
 
+    const selectImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            base64: true,
+            quality: 1,
+        });
+        if (!result.cancelled) {
+            setImage(result);
+        }
+    };
+
+    const askGalleryPermission = async () => {
+        if (Platform.OS !== 'web') {
+            const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+            }
+        }
+    }
+
     const save = () => {
-        if (name != '' && orientation != '' && location.name != '') {
-            setSaved(true);
-            console.log('selected location', location);
+        if (!isSaved && name != '' && orientation != '' && location.name != '' && image && image.base64) {
+            MapService.createMap({
+                locationId: location.id,
+                userId: 1,
+                name: name,
+                imageBase64: image.base64,
+                orientation: parseInt(orientation)
+            }).then(() =>
+                setSaved(true)
+            );
         } else {
             alert('Please fill out all details');
         }
@@ -39,6 +71,8 @@ const MapDetailsForm: FC = () => {
         <View style={styles.container}>
             <View style={styles.editContainer}>
                 <View style={styles.imageContainer}>
+                    <Button style={styles.pickButton} mode="contained" onPress={selectImage}>Select map image</Button>
+                    {image && <Image source={{uri: image.uri}} style={{width: '100%', height: '100%'}}/>}
                 </View>
                 <View style={styles.detailsContainer}>
                     <ScrollView>
@@ -85,7 +119,13 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: .5,
         backgroundColor: Colors.lightGrey,
-        padding: 15
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    pickButton: {
+        position: 'absolute',
+        zIndex: 100
     },
     detailsContainer: {
         flex: .5,
