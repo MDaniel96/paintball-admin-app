@@ -7,9 +7,10 @@ import {Location} from '../../model/Location';
 import {LocationService} from '../../service/LocationService';
 import * as ImagePicker from 'expo-image-picker';
 import {ImageInfo} from 'expo-image-picker/build/ImagePicker.types';
-import {MapService} from '../../service/MapService';
+import {MAP_API, MapService} from '../../service/MapService';
+import {MapConfigurationProps} from './MapConfigurationProps';
 
-const MapDetailsForm: FC = () => {
+const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
 
     const [isSaved, setSaved] = useState<boolean>(false);
 
@@ -22,6 +23,7 @@ const MapDetailsForm: FC = () => {
 
     useEffect(() => {
         getLocations();
+        initValues();
         askGalleryPermission();
     }, []);
 
@@ -29,6 +31,15 @@ const MapDetailsForm: FC = () => {
         LocationService.getLocations().then(data => {
             setLocations(data);
         });
+    }
+
+    const initValues = () => {
+        if (props.map.name) {
+            setName(props.map.name);
+            setOrientation(props.map.orientation.toString());
+            setLocation(props.map.location);
+            setSaved(true);
+        }
     }
 
     const selectImage = async () => {
@@ -59,9 +70,11 @@ const MapDetailsForm: FC = () => {
                 name: name,
                 imageBase64: image.base64,
                 orientation: parseInt(orientation)
-            }).then(() =>
-                setSaved(true)
-            );
+            }).then(() => {
+                setSaved(true);
+                setImage(undefined);
+                props.onDataSaved();
+            });
         } else {
             alert('Please fill out all details');
         }
@@ -73,6 +86,8 @@ const MapDetailsForm: FC = () => {
                 <View style={styles.imageContainer}>
                     <Button style={styles.pickButton} mode="contained" onPress={selectImage}>Select map image</Button>
                     {image && <Image source={{uri: image.uri}} style={{width: '100%', height: '100%'}}/>}
+                    {props.map.name !== '' &&
+                    <Image source={{uri: `${MAP_API}/${props.map.id}/image`}} style={{width: '100%', height: '100%'}}/>}
                 </View>
                 <View style={styles.detailsContainer}>
                     <ScrollView>
@@ -103,7 +118,10 @@ const MapDetailsForm: FC = () => {
                     </ScrollView>
                 </View>
             </View>
-            <SaveButton isSaved={isSaved} save={save}/>
+            <SaveButton
+                isSaved={isSaved}
+                save={save}
+                disabled={false}/>
         </View>
     );
 };

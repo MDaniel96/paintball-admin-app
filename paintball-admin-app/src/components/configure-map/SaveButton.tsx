@@ -6,6 +6,7 @@ import Colors from '../../constants/Colors';
 interface Props {
     isSaved: boolean;
     save: () => void;
+    disabled: boolean;
 }
 
 const SaveButton: FC<Props> = (props) => {
@@ -13,7 +14,8 @@ const SaveButton: FC<Props> = (props) => {
         <Button
             style={[styles.footer, props.isSaved ? styles.footerGreen : styles.footerRed]}
             mode="contained"
-            onPress={props.save}>
+            onPress={props.save}
+            disabled={props.disabled || props.isSaved}>
             {props.isSaved ? 'Saved' : 'Save'}
         </Button>
     );

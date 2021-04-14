@@ -25,6 +25,8 @@ const ConfigureMapScreen: FC = () => {
         getMapUnderCreation();
     }, [isFocused]);
 
+    const onDataChanged = () => getMapUnderCreation();
+
     const getMapUnderCreation = () => {
         UserService.getMapUnderCreation(1).then(data => {
             if (data) {
@@ -36,19 +38,19 @@ const ConfigureMapScreen: FC = () => {
     const segments = [
         {
             title: 'Details',
-            view: () => <MapDetailsForm/>
+            view: () => <MapDetailsForm map={map} onDataSaved={onDataChanged}/>
         },
         {
             title: 'Edges',
-            view: () => <MapEdgesForm/>
+            view: () => <MapEdgesForm map={map} onDataSaved={onDataChanged}/>
         },
         {
             title: 'Obstacles',
-            view: () => <MapObstaclesForm/>
+            view: () => <MapObstaclesForm map={map} onDataSaved={onDataChanged}/>
         },
         {
             title: 'Anchors',
-            view: () => <MapAnchorsForm/>
+            view: () => <MapAnchorsForm map={map} onDataSaved={onDataChanged}/>
         },
         {
             title: 'Finish',
@@ -58,7 +60,7 @@ const ConfigureMapScreen: FC = () => {
 
     const noMapView = (
         <View style={styles.noMapContainer}>
-            <Text>You have no map under creation</Text>
+            <Text>You have no map under configuration</Text>
             <Button mode="contained" onPress={() => setConfigStarted(true)}>Start map config</Button>
         </View>
     );

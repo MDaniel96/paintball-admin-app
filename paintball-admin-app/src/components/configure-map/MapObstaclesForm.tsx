@@ -1,17 +1,23 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import SaveButton from './SaveButton';
+import {MapConfigurationProps} from './MapConfigurationProps';
 
-const MapObstaclesForm: FC = () => {
+const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const [isSaved, setSaved] = useState<boolean>(false);
+
+    const isEditable = () => props.map.borderX !== -1;
 
     return (
         <View style={styles.container}>
             <View style={styles.editContainer}>
                 <Text>Map obstacles form</Text>
             </View>
-            <SaveButton isSaved={isSaved} save={() => setSaved(true)}/>
+            <SaveButton
+                isSaved={isSaved}
+                save={() => setSaved(true)}
+                disabled={!isEditable()}/>
         </View>
     );
 };
