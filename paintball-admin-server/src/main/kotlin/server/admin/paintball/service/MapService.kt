@@ -6,6 +6,8 @@ import server.admin.paintball.dto.request.CreateMapRequest
 
 interface MapService {
 
+    fun getAll(): List<MapDTO>
+
     fun save(createMapRequest: CreateMapRequest): MapDTO
 
     fun getImage(id: Long): ByteArray

@@ -1,6 +1,5 @@
 package server.admin.paintball.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import org.modelmapper.ModelMapper
 import org.modelmapper.TypeToken
 import server.admin.paintball.model.Location
@@ -8,10 +7,7 @@ import server.admin.paintball.model.Location
 class LocationDTO(
 
     val id: Long = -1L,
-    var name: String = "",
-
-    @JsonIgnore
-    var maps: MutableSet<MapDTO> = hashSetOf()
+    var name: String = ""
 )
 
 fun List<Location>.toDTO(mapper: ModelMapper): List<LocationDTO> {

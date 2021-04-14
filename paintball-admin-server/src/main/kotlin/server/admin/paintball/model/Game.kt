@@ -37,14 +37,4 @@ class Game(
         STARTED("STARTED"),
         FINISHED("FINISHED");
     }
-
-    fun addRedPlayer(user: User) {
-        redPlayers.add(user)
-        user.redGames.add(this)
-    }
-
-    fun addBluePlayer(user: User) {
-        bluePlayers.add(user)
-        user.blueGames.add(this)
-    }
 }

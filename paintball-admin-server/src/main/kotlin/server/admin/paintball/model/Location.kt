@@ -14,10 +14,4 @@ class Location(
 
     @OneToMany(mappedBy = "location")
     var maps: MutableSet<Map> = hashSetOf()
-) {
-
-    fun addMap(map: Map) {
-        maps.add(map)
-        map.location = this
-    }
-}
+)

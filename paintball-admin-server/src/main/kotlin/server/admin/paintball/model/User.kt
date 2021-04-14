@@ -1,6 +1,5 @@
 package server.admin.paintball.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -16,17 +15,9 @@ class User(
     @OneToMany(mappedBy = "creator")
     var mapsUnderCreation: MutableSet<Map> = hashSetOf(),
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "redPlayers")
     var redGames: MutableSet<Game> = hashSetOf(),
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "bluePlayers")
     var blueGames: MutableSet<Game> = hashSetOf()
-) {
-
-    fun addMapUnderCreation(map: Map) {
-        mapsUnderCreation.add(map)
-        map.creator = this
-    }
-}
+)

@@ -16,6 +16,11 @@ class MapController(private val mapService: MapService) {
         const val BASE_URL = "/api/map"
     }
 
+    @GetMapping
+    fun getMaps(): ResponseEntity<List<MapDTO>> {
+        return ok(mapService.getAll())
+    }
+
     @PostMapping
     fun save(@RequestBody createMapRequest: CreateMapRequest): ResponseEntity<MapDTO> {
         return ok(mapService.save(createMapRequest))

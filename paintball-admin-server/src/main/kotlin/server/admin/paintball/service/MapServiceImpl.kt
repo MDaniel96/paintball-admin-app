@@ -32,19 +32,24 @@ class MapServiceImpl(
     private val obstacleDetector: ObstacleDetector
 ) : MapService {
 
+    override fun getAll(): List<MapDTO> {
+        return mapRepository.findAll().toDTO(mapper)
+    }
+
     @Transactional
     override fun save(createMapRequest: CreateMapRequest): MapDTO {
         return createMapRequest.run {
+            val user = userService.getUserById(userId)
             val map = mapRepository.save(
                 Map(
                     name = name,
                     orientation = orientation,
-                    location = locationService.getLocationById(locationId)
+                    location = locationService.getLocationById(locationId),
+                    creator = user
                 )
             )
             saveImage(imageBase64, map.id)
-            val user = userService.getUserById(userId)
-            user.addMapUnderCreation(map)
+            user.mapsUnderCreation.add(map)
             map.toDTO(mapper)
         }
     }
@@ -71,8 +76,14 @@ class MapServiceImpl(
                 it.borderHeight = map.borderHeight
             }
         }.also {
-            it.addObstacles(obstacles.toSet())
-            it.addAnchors(anchors.toSet())
+            if (obstacles.isNotEmpty()) {
+                obstacles.forEach { obstacle -> obstacle.map = it }
+                it.obstacles.addAll(obstacles.toSet())
+            }
+            if (anchors.isNotEmpty()) {
+                anchors.forEach { anchor -> anchor.map = it }
+                it.anchors.addAll(anchors.toSet())
+            }
         }.run {
             toDTO(mapper)
         }

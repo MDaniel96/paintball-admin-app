@@ -70,21 +70,15 @@ class TestDataInitializer(
             )
         )
 
-        games[0].run {
-            addRedPlayer(users[0])
-            addRedPlayer(users[1])
-            addBluePlayer(users[2])
-        }
+        games[0].redPlayers.add(users[0])
+        games[0].redPlayers.add(users[1])
+        games[0].bluePlayers.add(users[2])
 
-        locations[0].run {
-            addMap(maps[0])
-            addMap(maps[1])
-        }
+        maps[0].location = locations[0]
+        maps[1].location = locations[0]
 
-        maps[0].run {
-            addGame(games[0])
-            addGame(games[1])
-        }
+        games[0].map = maps[0]
+        games[1].map = maps[0]
 
         gameRepository.saveAll(games)
         userRepository.saveAll(users)

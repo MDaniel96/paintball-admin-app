@@ -41,24 +41,4 @@ class Map(
 
     @ManyToOne
     var creator: User? = null
-) {
-
-    fun addGame(game: Game) {
-        games.add(game)
-        game.map = this
-    }
-
-    fun addObstacles(obstacleList: Set<Obstacle>) {
-        obstacleList.forEach {
-            obstacles.add(it)
-            it.map = this
-        }
-    }
-
-    fun addAnchors(anchorList: Set<Anchor>) {
-        anchorList.forEach {
-            anchors.add(it)
-            it.map = this
-        }
-    }
-}
+)

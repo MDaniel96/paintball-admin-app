@@ -1,6 +1,5 @@
 package server.admin.paintball.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import org.modelmapper.ModelMapper
 import org.modelmapper.TypeToken
 import server.admin.paintball.model.Anchor
@@ -10,10 +9,7 @@ class AnchorDTO(
     val id: Long = -1L,
     var x: Long = -1L,
     var y: Long = -1L,
-    var radius: Long = -1L,
-
-    @JsonIgnore
-    var map: MapDTO? = null
+    var radius: Long = -1L
 )
 
 fun Set<AnchorDTO>.toEntity(mapper: ModelMapper): Set<Anchor> {
