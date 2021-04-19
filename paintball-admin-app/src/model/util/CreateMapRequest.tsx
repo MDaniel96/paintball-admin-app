@@ -4,4 +4,6 @@ export class CreateMapRequest {
     name: string = '';
     imageBase64: string = '';
     orientation: number = -1;
+    width: number = -1;
+    height: number = -1;
 }

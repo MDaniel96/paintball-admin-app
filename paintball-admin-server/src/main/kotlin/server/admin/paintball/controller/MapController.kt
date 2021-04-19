@@ -1,5 +1,6 @@
 package server.admin.paintball.controller
 
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
@@ -28,6 +29,11 @@ class MapController(private val mapService: MapService) {
 
     @GetMapping("/{id}/image")
     fun getImage(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
+        return ok(mapService.getImage(id))
+    }
+
+    @GetMapping("/{id}/png", produces = [MediaType.IMAGE_PNG_VALUE])
+    fun getPng(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
         return ok(mapService.getImage(id))
     }
 

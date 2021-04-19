@@ -6,5 +6,7 @@ class CreateMapRequest(
     val userId: Long = -1L,
     val name: String = "",
     val imageBase64: String = "",
-    val orientation: Int = 0
+    val orientation: Int = 0,
+    val width: Long = 0,
+    val height: Long = 0
 )

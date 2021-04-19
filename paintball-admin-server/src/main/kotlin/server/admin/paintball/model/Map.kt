@@ -16,6 +16,12 @@ class Map(
     var orientation: Int = 0,
 
     @Column(nullable = false)
+    var width: Long = -1L,
+
+    @Column(nullable = false)
+    var height: Long = -1L,
+
+    @Column(nullable = false)
     var borderX: Long = -1L,
 
     @Column(nullable = false)

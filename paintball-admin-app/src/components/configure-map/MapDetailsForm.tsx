@@ -69,7 +69,9 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
                 userId: 1,
                 name: name,
                 imageBase64: image.base64,
-                orientation: parseInt(orientation)
+                orientation: parseInt(orientation),
+                width: image.width,
+                height: image.height
             }).then(() => {
                 setSaved(true);
                 setImage(undefined);
@@ -129,7 +131,9 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '100%'
+        width: '100%',
+        zIndex: 2000,
+        backgroundColor: Colors.white
     },
     editContainer: {
         flex: .83

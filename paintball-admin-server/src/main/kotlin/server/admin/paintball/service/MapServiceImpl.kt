@@ -45,7 +45,9 @@ class MapServiceImpl(
                     name = name,
                     orientation = orientation,
                     location = locationService.getLocationById(locationId),
-                    creator = user
+                    creator = user,
+                    width = width,
+                    height = height
                 )
             )
             saveImage(imageBase64, map.id)
