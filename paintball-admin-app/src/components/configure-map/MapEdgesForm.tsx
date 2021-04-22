@@ -26,7 +26,7 @@ const MapEdgesForm: FC<MapConfigurationProps> = (props) => {
 
     useEffect(() => {
         initValues();
-    }, [editHeight, editWidth])
+    }, [editHeight, editWidth]);
 
     const initValues = () => {
         if (props.map.borderX !== -1 && props.map.borderY !== -1) {
