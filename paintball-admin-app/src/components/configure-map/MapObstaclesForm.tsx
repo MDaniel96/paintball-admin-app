@@ -1,16 +1,16 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import SaveButton from './SaveButton';
 import {MapConfigurationProps} from './MapConfigurationProps';
-import SvgPanZoom from 'react-native-svg-pan-zoom';
 import Colors from '../../constants/Colors';
-import {ForeignObject, Rect} from 'react-native-svg';
-import {MAP_API, MapService} from '../../service/MapService';
+import {Rect} from 'react-native-svg';
+import {MapService} from '../../service/MapService';
 import {Button, Divider} from 'react-native-paper';
 import {Obstacle} from '../../model/Obstacle';
 import ObstacleEdit from './ObstacleEdit';
 // @ts-ignore
 import cloneDeep from 'lodash/cloneDeep';
+import MapPanel from './MapPanel';
 
 const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
@@ -31,7 +31,6 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const initValues = () => {
         if (props.map.obstacles.length !== 0) {
-            console.log('initial', props.map.obstacles);
             const obstaclesCopy: Obstacle[] = cloneDeep(props.map.obstacles);
             obstaclesCopy.forEach(o => {
                 o.x = Math.round(o.x * editWidth / props.map.width);
@@ -39,7 +38,6 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
                 o.width = Math.round(o.width * editWidth / props.map.width);
                 o.height = Math.round(o.height * editHeight / props.map.height);
             });
-            console.log('transfored', obstaclesCopy)
             setObstacles(obstaclesCopy);
             setSaved(true);
         }
@@ -54,7 +52,6 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const detectObstacles = () => {
         // TODO: detect objects
-        // TODO: extract svg panel to component
         setObstacles(
             [
                 {id: Math.floor(Math.random() * 1000), x: 50, y: 50, width: 50, height: 50, selected: false},
@@ -123,22 +120,10 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
                 }}>
                     {
                         props.map.borderX !== -1 &&
-                        <SvgPanZoom
-                            canvasHeight={editHeight}
-                            canvasWidth={editWidth}
-                            minScale={1.1}
-                            maxScale={3.0}
-                            initialZoom={1.5}
-                            onZoom={() => {
-                            }}
-                            canvasStyle={{backgroundColor: Colors.black}}
-                            viewStyle={{backgroundColor: Colors.lightGrey}}>
-                            <ForeignObject>
-                                <Image
-                                    source={{uri: `${MAP_API}/${props.map.id}/image`}}
-                                    style={{width: '100%', height: '100%'}}
-                                />
-                            </ForeignObject>
+                        <MapPanel
+                            editHeight={editHeight}
+                            editWidth={editWidth}
+                            mapId={props.map.id}>
                             {obstacles.map(obstacle => (
                                 <Rect key={obstacle.id}
                                       x={obstacle.x} y={obstacle.y}
@@ -146,7 +131,7 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
                                       stroke={obstacle.selected ? 'yellow' : 'red'} strokeWidth="2"
                                       onPress={() => selectObstacle(obstacle)}/>
                             ))}
-                        </SvgPanZoom>
+                        </MapPanel>
                     }
                 </View>
                 <View style={styles.detailsContainer}>

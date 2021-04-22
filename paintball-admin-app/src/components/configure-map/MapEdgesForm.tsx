@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Image, LogBox, ScrollView, StyleSheet, View} from 'react-native';
+import {LogBox, ScrollView, StyleSheet, View} from 'react-native';
 import SaveButton from './SaveButton';
 import {MapConfigurationProps} from './MapConfigurationProps';
 import Colors from '../../constants/Colors';
-import SvgPanZoom from 'react-native-svg-pan-zoom';
-import {MAP_API, MapService} from '../../service/MapService';
-import {ForeignObject, Rect} from 'react-native-svg';
+import {MapService} from '../../service/MapService';
+import {Rect} from 'react-native-svg';
 import RectEdit from './RectEdit';
+import MapPanel from './MapPanel';
 
 const MapEdgesForm: FC<MapConfigurationProps> = (props) => {
     LogBox.ignoreLogs(['componentWillMount has been renamed']);
@@ -61,25 +61,13 @@ const MapEdgesForm: FC<MapConfigurationProps> = (props) => {
                     setEditWidth(event.nativeEvent.layout.width);
                     setEditHeight(event.nativeEvent.layout.height);
                 }}>
-                    <SvgPanZoom
-                        canvasHeight={editHeight}
-                        canvasWidth={editWidth}
-                        minScale={1.1}
-                        maxScale={3.0}
-                        initialZoom={1.5}
-                        onZoom={() => {
-                        }}
-                        canvasStyle={{backgroundColor: Colors.black}}
-                        viewStyle={{backgroundColor: Colors.lightGrey}}>
-                        <ForeignObject>
-                            <Image
-                                source={{uri: `${MAP_API}/${props.map.id}/image`}}
-                                style={{width: '100%', height: '100%'}}
-                            />
-                        </ForeignObject>
+                    <MapPanel
+                        editHeight={editHeight}
+                        editWidth={editWidth}
+                        mapId={props.map.id}>
                         <Rect x={borderX} y={borderY} width={borderWidth} height={borderHeight} stroke="red"
                               strokeWidth="2"/>
-                    </SvgPanZoom>
+                    </MapPanel>
                 </View>
                 <View style={styles.detailsContainer}>
                     <ScrollView>
