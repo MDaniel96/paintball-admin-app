@@ -5,16 +5,19 @@ import {MapConfigurationProps} from './MapConfigurationProps';
 import Colors from '../../constants/Colors';
 import {Rect} from 'react-native-svg';
 import {MapService} from '../../service/MapService';
-import {Button, Divider} from 'react-native-paper';
+import {ActivityIndicator, Button, Divider} from 'react-native-paper';
 import {Obstacle} from '../../model/Obstacle';
 import ObstacleEdit from './ObstacleEdit';
 // @ts-ignore
 import cloneDeep from 'lodash/cloneDeep';
 import MapPanel from './MapPanel';
+import {ObstacleDetector} from '../../util/ObstacleDetector';
+import {ObstacleConverter} from '../../util/ObstacleConverter';
 
 const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const [isSaved, setSaved] = useState<boolean>(false);
+    const [isDetecting, setIsDetecting] = useState<boolean>(false);
 
     const [editWidth, setEditWidth] = useState<number>(-1);
     const [editHeight, setEditHeight] = useState<number>(-1);
@@ -31,14 +34,8 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const initValues = () => {
         if (props.map.obstacles.length !== 0) {
-            const obstaclesCopy: Obstacle[] = cloneDeep(props.map.obstacles);
-            obstaclesCopy.forEach(o => {
-                o.x = Math.round(o.x * editWidth / props.map.width);
-                o.y = Math.round(o.y * editHeight / props.map.height);
-                o.width = Math.round(o.width * editWidth / props.map.width);
-                o.height = Math.round(o.height * editHeight / props.map.height);
-            });
-            setObstacles(obstaclesCopy);
+            const obstacleConverter = new ObstacleConverter(props.map.width, props.map.height, editWidth, editHeight);
+            setObstacles(obstacleConverter.fromImageToScreen(props.map.obstacles));
             setSaved(true);
         }
     }
@@ -50,25 +47,20 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
         setObstacles([...obstaclesCopy]);
     }
 
-    const detectObstacles = () => {
-        // TODO: detect objects
-        setObstacles(
-            [
-                {id: Math.floor(Math.random() * 1000), x: 50, y: 50, width: 50, height: 50, selected: false},
-                {id: Math.floor(Math.random() * 1000), x: 150, y: 150, width: 70, height: 70, selected: false},
-                {id: Math.floor(Math.random() * 1000), x: 250, y: 250, width: 40, height: 40, selected: false}
-            ]
-        )
+    const detectObstacles = async () => {
+        setIsDetecting(true);
+        const detectedObstacles: Obstacle[] = await ObstacleDetector.detect(props.map.id);
+        console.log('Detected obstacles', detectedObstacles);
+        const obstacleConverter = new ObstacleConverter(props.map.width, props.map.height, editWidth, editHeight);
+        const screenObstacles = obstacleConverter.fromDetectionToScreen(detectedObstacles)
+        setObstacles(screenObstacles);
+        setIsDetecting(false);
     }
 
     const addObstacle = () => {
         const newObstacle = {
-            id: Math.floor(Math.random() * 1000),
-            x: 150,
-            y: 150,
-            width: 20,
-            height: 20,
-            selected: true
+            id: Math.floor(Math.random() * 1000), selected: true,
+            x: 150, y: 150, width: 20, height: 20
         };
         setSelectedObstacle(newObstacle);
         const obstaclesCopy = [...obstacles];
@@ -93,15 +85,10 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
 
     const save = () => {
         if (!isSaved && obstacles.length !== 0) {
-            const obstaclesCopy: Obstacle[] = cloneDeep(obstacles);
-            obstaclesCopy.forEach(o => {
-                o.x = o.x * props.map.width / editWidth;
-                o.y = o.y * props.map.height / editHeight;
-                o.width = o.width * props.map.width / editWidth;
-                o.height = o.height * props.map.height / editHeight;
-            });
+            const obstacleConverter = new ObstacleConverter(props.map.width, props.map.height, editWidth, editHeight);
+            const imageObstacles = obstacleConverter.fromScreenToImage(obstacles);
             MapService.editObstacles(props.map.id, {
-                obstacles: obstaclesCopy
+                obstacles: imageObstacles
             }).then(() => {
                 setSaved(true);
                 props.onDataSaved();
@@ -155,6 +142,7 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
                 isSaved={isSaved}
                 save={save}
                 disabled={!isEditable()}/>
+            {isDetecting && <ActivityIndicator size="large" color={Colors.lightGrey} style={styles.spinner}/>}
         </View>
     );
 };
@@ -182,6 +170,11 @@ const styles = StyleSheet.create({
     },
     button: {
         marginBottom: 8
+    },
+    spinner: {
+        position: 'absolute',
+        top: 170,
+        left: 170
     }
 });
 
