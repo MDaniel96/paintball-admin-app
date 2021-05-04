@@ -12,6 +12,8 @@ export class Map {
     borderY: number = -1;
     borderWidth: number = -1;
     borderHeight: number = -1;
+    anchorRadiusInMm: number = -1;
+    anchorRadiusInPixels: number = -1;
     location: Location = new Location();
     obstacles: Obstacle[] = [];
     anchors: Anchor[] = [];

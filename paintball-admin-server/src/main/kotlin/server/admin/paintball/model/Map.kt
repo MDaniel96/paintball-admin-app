@@ -33,6 +33,12 @@ class Map(
     @Column(nullable = false)
     var borderHeight: Long = -1L,
 
+    @Column(nullable = false)
+    var anchorRadiusInMm: Long = -1L,
+
+    @Column(nullable = false)
+    var anchorRadiusInPixels: Long = -1L,
+
     @ManyToOne
     var location: Location? = null,
 

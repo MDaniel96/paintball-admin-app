@@ -105,20 +105,19 @@ const MapObstaclesForm: FC<MapConfigurationProps> = (props) => {
                     setEditWidth(event.nativeEvent.layout.width);
                     setEditHeight(event.nativeEvent.layout.height);
                 }}>
-                    {
-                        props.map.borderX !== -1 &&
-                        <MapPanel
-                            editHeight={editHeight}
-                            editWidth={editWidth}
-                            mapId={props.map.id}>
-                            {obstacles.map(obstacle => (
-                                <Rect key={obstacle.id}
-                                      x={obstacle.x} y={obstacle.y}
-                                      width={obstacle.width} height={obstacle.height}
-                                      stroke={obstacle.selected ? 'yellow' : 'red'} strokeWidth="2"
-                                      onPress={() => selectObstacle(obstacle)}/>
-                            ))}
-                        </MapPanel>
+                    {isEditable() &&
+                    <MapPanel
+                        editHeight={editHeight}
+                        editWidth={editWidth}
+                        mapId={props.map.id}>
+                        {obstacles.map(obstacle => (
+                            <Rect key={obstacle.id}
+                                  x={obstacle.x} y={obstacle.y}
+                                  width={obstacle.width} height={obstacle.height}
+                                  stroke={obstacle.selected ? 'yellow' : 'red'} strokeWidth="2"
+                                  onPress={() => selectObstacle(obstacle)}/>
+                        ))}
+                    </MapPanel>
                     }
                 </View>
                 <View style={styles.detailsContainer}>

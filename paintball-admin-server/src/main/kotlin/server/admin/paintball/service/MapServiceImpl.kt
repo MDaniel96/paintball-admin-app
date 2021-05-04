@@ -85,6 +85,12 @@ class MapServiceImpl(
                 anchors.forEach { anchor -> anchor.map = it }
                 it.anchors.addAll(anchors.toSet())
             }
+            if (map.anchorRadiusInPixels != -1L) {
+                it.anchorRadiusInPixels = map.anchorRadiusInPixels
+            }
+            if (map.anchorRadiusInMm != -1L) {
+                it.anchorRadiusInMm = map.anchorRadiusInMm
+            }
         }.run {
             toDTO(mapper)
         }
