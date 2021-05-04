@@ -7,6 +7,8 @@ import {Circle} from 'react-native-svg';
 import {Button, TextInput} from 'react-native-paper';
 import Colors from '../../constants/Colors';
 import {Anchor} from '../../model/Anchor';
+import {MapService} from '../../service/MapService';
+import {AnchorConverter} from '../../util/AnchorConverter';
 
 const MapAnchorsForm: FC<MapConfigurationProps> = (props) => {
 
@@ -23,13 +25,10 @@ const MapAnchorsForm: FC<MapConfigurationProps> = (props) => {
     const isEditable = () => props.map.obstacles.length !== 0;
 
     const calculateAnchors = () => {
-        setAnchors(
-            [
-                {id: Math.floor(Math.random() * 1000), x: 100, y: 100, radius: 20},
-                {id: Math.floor(Math.random() * 1000), x: 150, y: 150, radius: 40},
-                {id: Math.floor(Math.random() * 1000), x: 250, y: 250, radius: 50}
-            ]
-        );
+        MapService.calculateAnchors(props.map.id, parseInt(radiusPx)).then(data => {
+            const anchorConverter = new AnchorConverter(props.map.width, props.map.height, editWidth, editHeight);
+            setAnchors(anchorConverter.fromImageToScreen(data));
+        });
     }
 
     return (
@@ -44,8 +43,12 @@ const MapAnchorsForm: FC<MapConfigurationProps> = (props) => {
                         editWidth={editWidth}
                         mapId={props.map.id}>
                         {anchors.map(anchor => (
-                            <Circle key={anchor.id} cx={anchor.x} cy={anchor.y} r={anchor.radius}
-                                    stroke="yellow" strokeWidth="2"/>
+                            <View>
+                                <Circle key={anchor.id} cx={anchor.x} cy={anchor.y} r={anchor.radius}
+                                        stroke="yellow" strokeWidth="1.8"/>
+                                <Circle key={anchor.id + 1} cx={anchor.x} cy={anchor.y}
+                                        r="5" stroke="red" fill="red" strokeWidth="1"/>
+                            </View>
                         ))}
                     </MapPanel>
                 </View>

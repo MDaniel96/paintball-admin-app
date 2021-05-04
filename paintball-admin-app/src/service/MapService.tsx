@@ -3,6 +3,7 @@ import Config from '../constants/Config';
 import {CreateMapRequest} from '../model/util/CreateMapRequest';
 import {EditBordersRequest} from '../model/util/EditBordersRequest';
 import {EditObstaclesRequest} from '../model/util/EditObstaclesRequest';
+import {Anchor} from '../model/Anchor';
 
 export const MAP_API = `${Config.base_url}/api/map`;
 
@@ -47,6 +48,17 @@ export class MapService {
         } catch (error) {
             console.error('Editing map obstacles', error);
             return new Map();
+        }
+    }
+
+    static async calculateAnchors(id: number, anchorRadius: number): Promise<Anchor[]> {
+        try {
+            let url = `${MAP_API}/${id}/calculate-anchors/${anchorRadius}`;
+            let response = await fetch(url);
+            return await response.json();
+        } catch (error) {
+            console.error('Calculating anchors', error);
+            return [];
         }
     }
 }

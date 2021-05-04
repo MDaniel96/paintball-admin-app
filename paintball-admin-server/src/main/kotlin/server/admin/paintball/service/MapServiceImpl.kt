@@ -4,15 +4,13 @@ import org.modelmapper.ModelMapper
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import server.admin.paintball.config.AppConfig
-import server.admin.paintball.dto.MapDTO
-import server.admin.paintball.dto.ObstacleDTO
+import server.admin.paintball.dto.*
 import server.admin.paintball.dto.request.CreateMapRequest
-import server.admin.paintball.dto.toDTO
-import server.admin.paintball.dto.toEntity
 import server.admin.paintball.model.Map
 import server.admin.paintball.repository.AnchorRepository
 import server.admin.paintball.repository.MapRepository
 import server.admin.paintball.repository.ObstacleRepository
+import server.admin.paintball.util.detectors.AnchorCalculator
 import server.admin.paintball.util.detectors.ObstacleDetector
 import server.admin.paintball.util.exceptions.BadRequestException
 import server.admin.paintball.util.exceptions.EntityNotFoundException
@@ -29,7 +27,8 @@ class MapServiceImpl(
     private val mapper: ModelMapper,
     private val locationService: LocationService,
     private val userService: UserService,
-    private val obstacleDetector: ObstacleDetector
+    private val obstacleDetector: ObstacleDetector,
+    private val anchorCalculator: AnchorCalculator
 ) : MapService {
 
     override fun getAll(): List<MapDTO> {
@@ -97,6 +96,14 @@ class MapServiceImpl(
             throw BadRequestException("Map border is not set")
         }
         return obstacleDetector.detectObstacles(map.toDTO(mapper))
+    }
+
+    override fun calculateAnchors(id: Long, anchorRadius: Int): List<AnchorDTO> {
+        val map = getMapById(id)
+        if (map.borderX == -1L) {
+            throw BadRequestException("Map border is not set")
+        }
+        return anchorCalculator.calculateAnchors(map.toDTO(mapper), anchorRadius)
     }
 
     private fun saveImage(imageBase64: String, id: Long) {

@@ -4,6 +4,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
+import server.admin.paintball.dto.AnchorDTO
 import server.admin.paintball.dto.MapDTO
 import server.admin.paintball.dto.ObstacleDTO
 import server.admin.paintball.dto.request.CreateMapRequest
@@ -33,7 +34,7 @@ class MapController(private val mapService: MapService) {
     }
 
     @GetMapping("/{id}/jpeg", produces = [MediaType.IMAGE_JPEG_VALUE])
-    fun getPng(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
+    fun getImageJpeg(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
         return ok(mapService.getImage(id))
     }
 
@@ -45,5 +46,13 @@ class MapController(private val mapService: MapService) {
     @GetMapping("/{id}/detect-obstacles")
     fun detectObstacles(@PathVariable("id") id: Long): ResponseEntity<List<ObstacleDTO>> {
         return ok(mapService.detectObstacles(id))
+    }
+
+    @GetMapping("/{id}/calculate-anchors/{anchorRadius}")
+    fun calculateAnchors(
+        @PathVariable("id") id: Long,
+        @PathVariable("anchorRadius") anchorRadius: Int
+    ): ResponseEntity<List<AnchorDTO>> {
+        return ok(mapService.calculateAnchors(id, anchorRadius))
     }
 }
