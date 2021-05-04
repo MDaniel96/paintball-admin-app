@@ -66,6 +66,19 @@ export class MapService {
         }
     }
 
+    static async finishEdit(id: number): Promise<Map> {
+        try {
+            let response = await fetch(`${MAP_API}/${id}/finish-edit`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Finish editing map', error);
+            return new Map();
+        }
+    }
+
     static async calculateAnchors(id: number, anchorRadius: number): Promise<Anchor[]> {
         try {
             let url = `${MAP_API}/${id}/calculate-anchors/${anchorRadius}`;

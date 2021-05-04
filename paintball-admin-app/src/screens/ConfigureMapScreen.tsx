@@ -11,6 +11,7 @@ import {useIsFocused} from "@react-navigation/native";
 import {Map} from '../model/Map';
 import Colors from '../constants/Colors';
 import {Button} from 'react-native-paper';
+import {MapService} from '../service/MapService';
 
 const ConfigureMapScreen: FC = () => {
     LogBox.ignoreLogs(['Animated.event now requires']);
@@ -31,7 +32,17 @@ const ConfigureMapScreen: FC = () => {
         UserService.getMapUnderCreation(1).then(data => {
             if (data) {
                 setMap(data);
+            } else {
+                setMap(new Map());
             }
+        });
+    }
+
+    const finishMap = () => {
+        MapService.finishEdit(map.id).then(() => {
+            getMapUnderCreation();
+            setConfigStarted(false);
+            alert('Succesfully configured this map, now you can add it to new games');
         });
     }
 
@@ -54,7 +65,7 @@ const ConfigureMapScreen: FC = () => {
         },
         {
             title: 'Finish',
-            view: () => <Text>finish editing</Text>
+            view: () => finishMapView
         }
     ];
 
@@ -62,6 +73,13 @@ const ConfigureMapScreen: FC = () => {
         <View style={styles.noMapContainer}>
             <Text>You have no map under configuration</Text>
             <Button mode="contained" onPress={() => setConfigStarted(true)}>Start map config</Button>
+        </View>
+    );
+
+    const finishMapView = (
+        <View style={styles.finishMapContainer}>
+            <Text>Finish configuring this map by pressing the button below</Text>
+            <Button mode="contained" onPress={finishMap}>Finish map</Button>
         </View>
     );
 
@@ -88,6 +106,14 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.lightGrey,
         borderRadius: 10,
         justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    finishMapContainer: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        backgroundColor: Colors.white,
+        justifyContent: 'space-evenly',
         alignItems: 'center'
     }
 });

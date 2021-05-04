@@ -15,6 +15,8 @@ interface MapService {
 
     fun edit(id: Long, map: MapDTO): MapDTO
 
+    fun finishEdit(id: Long): MapDTO
+
     fun detectObstacles(id: Long): List<ObstacleDTO>
 
     fun calculateAnchors(id: Long, anchorRadius: Int): List<AnchorDTO>

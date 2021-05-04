@@ -43,6 +43,11 @@ class MapController(private val mapService: MapService) {
         return ok(mapService.edit(id, map))
     }
 
+    @PostMapping("{id}/finish-edit")
+    fun finishEdit(@PathVariable id: Long): ResponseEntity<MapDTO> {
+        return ok(mapService.finishEdit(id))
+    }
+
     @GetMapping("/{id}/detect-obstacles")
     fun detectObstacles(@PathVariable("id") id: Long): ResponseEntity<List<ObstacleDTO>> {
         return ok(mapService.detectObstacles(id))

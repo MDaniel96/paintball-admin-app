@@ -96,6 +96,20 @@ class MapServiceImpl(
         }
     }
 
+    @Transactional
+    override fun finishEdit(id: Long): MapDTO {
+        return getMapById(id).also { map ->
+            if (map.name == "" || map.borderX == -1L || map.obstacles.size == 0 || map.anchors.size == 0) {
+                throw BadRequestException("Map can't be finished yet, there are unset fields")
+            }
+        }.also { map ->
+            map.creator?.mapsUnderCreation = hashSetOf()
+            map.creator = null
+        }.run {
+            this.toDTO(mapper)
+        }
+    }
+
     override fun detectObstacles(id: Long): List<ObstacleDTO> {
         val map = getMapById(id)
         if (map.borderX == -1L) {
