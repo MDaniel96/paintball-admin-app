@@ -3,6 +3,7 @@ package server.admin.paintball.controller
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import server.admin.paintball.dto.AnchorDTO
 import server.admin.paintball.dto.MapDTO
@@ -24,6 +25,7 @@ class MapController(private val mapService: MapService) {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     fun save(@RequestBody createMapRequest: CreateMapRequest): ResponseEntity<MapDTO> {
         return ok(mapService.save(createMapRequest))
     }
@@ -39,21 +41,25 @@ class MapController(private val mapService: MapService) {
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun edit(@PathVariable id: Long, @RequestBody map: MapDTO): ResponseEntity<MapDTO> {
         return ok(mapService.edit(id, map))
     }
 
     @PostMapping("{id}/finish-edit")
+    @PreAuthorize("hasRole('ADMIN')")
     fun finishEdit(@PathVariable id: Long): ResponseEntity<MapDTO> {
         return ok(mapService.finishEdit(id))
     }
 
     @GetMapping("/{id}/detect-obstacles")
+    @PreAuthorize("hasRole('ADMIN')")
     fun detectObstacles(@PathVariable("id") id: Long): ResponseEntity<List<ObstacleDTO>> {
         return ok(mapService.detectObstacles(id))
     }
 
     @GetMapping("/{id}/calculate-anchors/{anchorRadius}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun calculateAnchors(
         @PathVariable("id") id: Long,
         @PathVariable("anchorRadius") anchorRadius: Int

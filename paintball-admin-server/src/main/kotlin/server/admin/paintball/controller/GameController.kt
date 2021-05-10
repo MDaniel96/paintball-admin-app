@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.noContent
 import org.springframework.http.ResponseEntity.ok
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import server.admin.paintball.dto.GameDTO
 import server.admin.paintball.dto.util.GameFilter
@@ -41,12 +42,14 @@ class GameController(private val gameService: GameService) {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteGame(@PathVariable id: Long): ResponseEntity<Any> {
         gameService.deleteGame(id)
         return noContent().build()
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun editGame(@PathVariable id: Long, @RequestBody game: GameDTO): ResponseEntity<GameDTO> {
         return ok(gameService.editGame(id, game))
     }
