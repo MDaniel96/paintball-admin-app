@@ -38,7 +38,7 @@ class MapServiceImpl(
     @Transactional
     override fun save(createMapRequest: CreateMapRequest): MapDTO {
         return createMapRequest.run {
-            val user = userService.getUserById(userId)
+            val user = userService.getLoggedInUser()
             val map = mapRepository.save(
                 Map(
                     name = name,

@@ -17,6 +17,11 @@ class UserController(private val userService: UserService) {
         const val BASE_URL = "/api/user"
     }
 
+    @GetMapping("/current")
+    fun getCurrentUser(): ResponseEntity<UserDTO> {
+        return ok(userService.getCurrentUser())
+    }
+
     @GetMapping("{id}")
     fun getUser(@PathVariable id: Long): ResponseEntity<UserDTO> {
         return ok(userService.getById(id))

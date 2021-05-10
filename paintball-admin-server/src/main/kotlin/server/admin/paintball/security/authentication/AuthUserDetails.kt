@@ -3,7 +3,7 @@ package server.admin.paintball.security.authentication
 import org.springframework.security.core.userdetails.UserDetails
 import server.admin.paintball.model.User
 
-class AuthUserDetails(private val user: User) : UserDetails {
+class AuthUserDetails(val user: User) : UserDetails {
 
     override fun getAuthorities() = user.roles.map { it.grantedAuthority }
 

@@ -26,5 +26,5 @@ class User(
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles")
-    var roles: MutableSet<Role> = hashSetOf(),
+    var roles: MutableSet<Role> = hashSetOf()
 )

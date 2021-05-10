@@ -5,7 +5,9 @@ import server.admin.paintball.model.User
 
 interface UserService {
 
+    fun getCurrentUser(): UserDTO
+
     fun getById(id: Long): UserDTO
 
-    fun getUserById(id: Long): User
+    fun getLoggedInUser(): User
 }

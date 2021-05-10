@@ -8,6 +8,7 @@ class UserDTO(
     val id: Long = -1L,
     var username: String = "",
     var mapsUnderCreation: MutableSet<MapDTO> = hashSetOf(),
+    var roles: MutableSet<RoleDTO> = hashSetOf()
 )
 
 fun User.toDTO(mapper: ModelMapper): UserDTO =
