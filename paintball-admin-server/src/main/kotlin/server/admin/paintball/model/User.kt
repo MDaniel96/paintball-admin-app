@@ -9,8 +9,11 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = -1L,
 
+    @Column(nullable = false, unique = true)
+    var username: String = "",
+
     @Column(nullable = false)
-    var name: String = "",
+    var password: String = "",
 
     @OneToMany(mappedBy = "creator")
     var mapsUnderCreation: MutableSet<Map> = hashSetOf(),
@@ -19,5 +22,9 @@ class User(
     var redGames: MutableSet<Game> = hashSetOf(),
 
     @ManyToMany(mappedBy = "bluePlayers")
-    var blueGames: MutableSet<Game> = hashSetOf()
+    var blueGames: MutableSet<Game> = hashSetOf(),
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles")
+    var roles: MutableSet<Role> = hashSetOf(),
 )

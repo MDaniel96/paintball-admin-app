@@ -10,4 +10,7 @@ class AppConfig {
 
     @Value("\${map.images.location}")
     val mapImagesLocation: String = ""
+
+    @Value("\${api.protected}")
+    val isApiProtected: Boolean = true
 }

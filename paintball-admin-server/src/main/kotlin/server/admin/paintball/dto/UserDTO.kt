@@ -6,7 +6,7 @@ import server.admin.paintball.model.User
 class UserDTO(
 
     val id: Long = -1L,
-    var name: String = "",
+    var username: String = "",
     var mapsUnderCreation: MutableSet<MapDTO> = hashSetOf(),
 )
 

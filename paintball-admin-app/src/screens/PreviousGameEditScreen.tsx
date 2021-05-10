@@ -94,14 +94,14 @@ const PreviousGameEditScreen: FC = (props: any) => {
                             title="Red team players"
                             left={() => <List.Icon {...props} color={Colors.red} icon="circle"/>}>
                             {game.redPlayers.map(player => (
-                                <List.Item key={player.id} title={player.name}/>
+                                <List.Item key={player.id} title={player.username}/>
                             ))}
                         </List.Accordion>
                         <List.Accordion
                             title="Blue team players"
                             left={() => <List.Icon {...props} color={Colors.blue} icon="circle"/>}>
                             {game.redPlayers.map(player => (
-                                <List.Item key={player.id} title={player.name}/>
+                                <List.Item key={player.id} title={player.username}/>
                             ))}
                         </List.Accordion>
                     </Card.Content>

@@ -3,7 +3,9 @@ package server.admin.paintball.config
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import server.admin.paintball.model.Game
 import server.admin.paintball.model.Location
 import server.admin.paintball.model.Map
@@ -12,6 +14,7 @@ import server.admin.paintball.repository.GameRepository
 import server.admin.paintball.repository.LocationRepository
 import server.admin.paintball.repository.MapRepository
 import server.admin.paintball.repository.UserRepository
+import server.admin.paintball.security.authorization.RoleService
 import java.time.LocalDate
 
 @Component
@@ -20,7 +23,9 @@ class TestDataInitializer(
     private val gameRepository: GameRepository,
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository,
-    private val mapRepository: MapRepository
+    private val mapRepository: MapRepository,
+    private val roleService: RoleService,
+    private val passwordEncoder: PasswordEncoder
 ) : ApplicationRunner {
 
     companion object {
@@ -28,6 +33,7 @@ class TestDataInitializer(
         val YESTERDAY: LocalDate = LocalDate.now().minusDays(1)
     }
 
+    @Transactional
     override fun run(args: ApplicationArguments?) {
         val games = gameRepository.saveAll(
             listOf(
@@ -48,9 +54,26 @@ class TestDataInitializer(
 
         val users = userRepository.saveAll(
             listOf(
-                User(name = "User1"),
-                User(name = "User2"),
-                User(name = "User3")
+                User(
+                    username = "User1",
+                    password = passwordEncoder.encode("player"),
+                    roles = mutableSetOf(roleService.player)
+                ),
+                User(
+                    username = "User2",
+                    password = passwordEncoder.encode("player"),
+                    roles = mutableSetOf(roleService.player)
+                ),
+                User(
+                    username = "User3",
+                    password = passwordEncoder.encode("player"),
+                    roles = mutableSetOf(roleService.player)
+                ),
+                User(
+                    username = "admin",
+                    password = passwordEncoder.encode("admin"),
+                    roles = mutableSetOf(roleService.admin)
+                )
             )
         )
 
