@@ -1,14 +1,14 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Card, List, TextInput} from 'react-native-paper';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Card, List, TextInput} from 'react-native-paper';
 import Colors from '../constants/Colors';
 import {Game} from '../model/Game';
 import {GameService} from '../service/GameService';
 import PlayerListItem from '../components/PlayerListItem';
 import {User} from '../model/User';
-import AudioRecordPanel from '../components/AudoRecordPanel';
 import {Audio} from 'expo-av';
 import * as FileSystem from 'expo-file-system';
+import AudioRecordPanel from '../components/AudioRecordPanel';
 
 const RunningGamesEditScreen: FC = (props: any) => {
 
@@ -101,10 +101,10 @@ const RunningGamesEditScreen: FC = (props: any) => {
                 allowsRecordingIOS: true,
                 playsInSilentModeIOS: true,
             });
-            const recording = new Audio.Recording();
-            await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-            await recording.startAsync();
-            setRecording(recording);
+            const audioRecording = new Audio.Recording();
+            await audioRecording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+            await audioRecording.startAsync();
+            setRecording(audioRecording);
         } catch (err) {
             console.error('Failed to start recording', err);
         }
@@ -114,7 +114,7 @@ const RunningGamesEditScreen: FC = (props: any) => {
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
         const uri = recording.getURI();
-        let fileBase64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64'  });
+        let fileBase64 = await FileSystem.readAsStringAsync(uri, {encoding: 'base64'});
         setBase64(fileBase64);
     };
 
@@ -133,15 +133,11 @@ const RunningGamesEditScreen: FC = (props: any) => {
             <View style={styles.container}>
                 <Card>
                     <Card.Title
-                        title={`Edit ${game.name}`}
-                        subtitle={
-                            <View style={styles.subtitle}>
-                                <Text>{game.state}</Text>
-                                <List.Icon icon="circle" color={getStateColor()}/>
-                            </View>
-                        }
-                        style={{marginBottom: 30}}
-                    />
+                        title={`Edit ${game.name}`}/>
+                    <View style={styles.subtitle}>
+                        <Text>{game.state}</Text>
+                        <List.Icon icon="circle" color={getStateColor()}/>
+                    </View>
                     <Card.Content>
                         <TextInput
                             style={styles.textInput}
@@ -155,22 +151,25 @@ const RunningGamesEditScreen: FC = (props: any) => {
                             value={typeInput}/>
                         <TextInput
                             style={styles.textInput}
-                            label="Connection mode"
+                            label="Localization mode"
                             onChangeText={(text) => setTypeInput(text)}
-                            value={game.connectionMode}
+                            value={game.localizationMode}
                             disabled/>
-                        <Button
-                            onPress={saveGame}
-                            title={'Save'}/>
+                        <Button style={styles.button} mode="outlined"
+                                onPress={saveGame}>
+                            Save
+                        </Button>
                         {
                             game.state !== 'FINISHED' &&
                             <View>
-                                <Button
-                                    onPress={changeState}
-                                    title={`${getNextState()} game`}/>
-                                <Button
-                                    onPress={openVoiceMessagePanel}
-                                    title={'Send voice message'}/>
+                                <Button style={styles.button} mode="contained"
+                                        onPress={changeState}>
+                                    {`${getNextState()} game`}
+                                </Button>
+                                <Button style={styles.button} mode="outlined"
+                                        onPress={openVoiceMessagePanel}>
+                                    Send voice message
+                                </Button>
                             </View>
                         }
                     </Card.Content>
@@ -180,20 +179,22 @@ const RunningGamesEditScreen: FC = (props: any) => {
                         <List.Accordion
                             title="Map"
                             left={() => <List.Icon {...props} color={Colors.black} icon="map"/>}>
-                            <List.Item title="Map TODO"/>
+                            <List.Item title={game.map?.name}/>
                         </List.Accordion>
                         <List.Accordion
                             title="Red team players"
                             left={() => <List.Icon {...props} color={Colors.red} icon="circle"/>}>
                             {game.redPlayers.map(player => (
-                                <PlayerListItem player={player} dead={isPlayerDead(player)} kickPlayer={kickPlayer}/>
+                                <PlayerListItem key={player.id} player={player} dead={isPlayerDead(player)}
+                                                kickPlayer={kickPlayer}/>
                             ))}
                         </List.Accordion>
                         <List.Accordion
                             title="Blue team players"
                             left={() => <List.Icon {...props} color={Colors.blue} icon="circle"/>}>
                             {game.bluePlayers.map(player => (
-                                <PlayerListItem player={player} dead={isPlayerDead(player)} kickPlayer={kickPlayer}/>
+                                <PlayerListItem key={player.id} player={player} dead={isPlayerDead(player)}
+                                                kickPlayer={kickPlayer}/>
                             ))}
                         </List.Accordion>
                     </Card.Content>
@@ -222,7 +223,12 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: 30,
+        paddingLeft: 20
+    },
+    button: {
+        marginBottom: 10
     }
 });
 

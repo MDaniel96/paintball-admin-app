@@ -37,17 +37,41 @@ class TestDataInitializer(
     override fun run(args: ApplicationArguments?) {
         val games = gameRepository.saveAll(
             listOf(
-                Game(name = "TDM game1", type = "TDM", state = Game.State.FINISHED, date = TODAY, connectionMode = Game.ConnectionMode.UWB),
-                Game(name = "TDM game2", type = "TDM", state = Game.State.STARTED, date = TODAY, connectionMode = Game.ConnectionMode.UWB),
+                Game(
+                    name = "TDM game1",
+                    type = "TDM",
+                    state = Game.State.FINISHED,
+                    date = TODAY,
+                    localizationMode = Game.LocalizationMode.UWB
+                ),
+                Game(
+                    name = "TDM game2",
+                    type = "TDM",
+                    state = Game.State.STARTED,
+                    date = TODAY,
+                    localizationMode = Game.LocalizationMode.UWB
+                ),
                 Game(name = "DM game3", type = "DM", state = Game.State.FINISHED, date = TODAY),
                 Game(name = "DM game4", type = "DM", state = Game.State.CREATED, date = TODAY),
                 Game(name = "DM game5", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "DM game6", type = "CTF", state = Game.State.CREATED, date = YESTERDAY),
-                Game(name = "DM game7", type = "DM", state = Game.State.CREATED, date = YESTERDAY, connectionMode = Game.ConnectionMode.UWB),
+                Game(
+                    name = "DM game7",
+                    type = "DM",
+                    state = Game.State.CREATED,
+                    date = YESTERDAY,
+                    localizationMode = Game.LocalizationMode.UWB
+                ),
                 Game(name = "DM game8", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "TDM game9", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "TDM game10", type = "TDM", state = Game.State.STARTED, date = YESTERDAY),
-                Game(name = "TDM game11", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY, connectionMode = Game.ConnectionMode.UWB),
+                Game(
+                    name = "TDM game11",
+                    type = "TDM",
+                    state = Game.State.FINISHED,
+                    date = YESTERDAY,
+                    localizationMode = Game.LocalizationMode.UWB
+                ),
                 Game(name = "TDM game12", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
             )
         )

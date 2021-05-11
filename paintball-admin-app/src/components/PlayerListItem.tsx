@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Button, StyleSheet, View, Text} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {Card} from 'react-native-paper';
 import {User} from '../model/User';
 
@@ -16,10 +16,11 @@ const PlayerListItem: FC<Props> = (props) => {
     };
 
     return (
-        <Card style={styles.card} key={props.player.id}>
+        <Card style={styles.card}>
             <View style={styles.inline}>
-                <Text style={props.dead ? styles.red : styles.green}>{props.player.name} {props.dead ? '(dead)': ''}</Text>
-                <Button title={'Kick'} onPress={onKickPlayer} />
+                <Text
+                    style={props.dead ? styles.red : styles.green}>{props.player.username} {props.dead ? '(dead)' : ''}</Text>
+                <Button title={'Kick'} onPress={onKickPlayer}/>
             </View>
         </Card>
     );

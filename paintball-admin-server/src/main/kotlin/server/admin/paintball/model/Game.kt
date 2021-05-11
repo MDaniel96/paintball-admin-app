@@ -20,7 +20,7 @@ class Game(
     var state: State = State.CREATED,
 
     @Column(nullable = false)
-    var connectionMode: ConnectionMode = ConnectionMode.BLUETOOTH,
+    var localizationMode: LocalizationMode = LocalizationMode.GPS,
 
     @Column(nullable = false)
     var date: LocalDate = LocalDate.now(),
@@ -44,8 +44,8 @@ class Game(
         FINISHED("FINISHED");
     }
 
-    enum class ConnectionMode(val value: String) {
-        BLUETOOTH("BLUETOOTH"),
+    enum class LocalizationMode(val value: String) {
+        GPS("GPS"),
         UWB("UWB")
     }
 }

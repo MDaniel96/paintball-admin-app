@@ -3,29 +3,28 @@ import {Button, Modal, Portal, TextInput, Title} from 'react-native-paper';
 import {StyleSheet, View} from 'react-native';
 import DropDown from 'react-native-paper-dropdown';
 import {MapService} from '../service/MapService';
-import {Map} from '../model/Map';
 
 interface Props {
     show: boolean;
     onCancel: () => void;
-    onCreate: (name: string, type: string, mapId: number, connectionMode: string) => void;
+    onCreate: (name: string, type: string, mapId: number, localizationMode: string) => void;
 }
 
 const NewGamePanel: FC<Props> = (props) => {
 
     const [nameInput, setNameInput] = useState<string>('');
     const [typeInput, setTypeInput] = useState<string>('');
-    const [mapList, setMapList] = useState<{label: string, value: number}[]>([]);
+    const [mapList, setMapList] = useState<{ label: string, value: number }[]>([]);
     const [mapIdInput, setMapIdInput] = useState<number>(-1);
 
-    const connectionModeList = [
-        {label: 'BLUETOOTH', value: 'BLUETOOTH'},
+    const localizationModeList = [
+        {label: 'GPS', value: 'GPS'},
         {label: 'UWB', value: 'UWB'}
     ];
-    const [connectionMode, setConnectionMode] = useState<string>(connectionModeList[0].label);
+    const [localizationMode, setLocalizationMode] = useState<string>(localizationModeList[0].label);
 
     const [showDropDownMap, setShowDropDownMap] = useState<boolean>(false);
-    const [showDropDownConnection, setShowDropDownConnection] = useState<boolean>(false);
+    const [showDropDownLocalization, setShowDropDownLocalization] = useState<boolean>(false);
 
     useEffect(() => {
         getMaps();
@@ -46,11 +45,11 @@ const NewGamePanel: FC<Props> = (props) => {
     };
 
     const create = () => {
-        props.onCreate(nameInput, typeInput, mapIdInput, connectionMode);
+        props.onCreate(nameInput, typeInput, mapIdInput, localizationMode);
         setNameInput('');
         setTypeInput('');
         setMapIdInput(-1);
-        setConnectionMode(connectionModeList[0].label);
+        setLocalizationMode(localizationModeList[0].label);
     }
 
     const cancel = () => {
@@ -58,7 +57,7 @@ const NewGamePanel: FC<Props> = (props) => {
         setNameInput('');
         setTypeInput('');
         setMapIdInput(-1);
-        setConnectionMode(connectionModeList[0].label);
+        setLocalizationMode(localizationModeList[0].label);
     }
 
     return (
@@ -76,16 +75,16 @@ const NewGamePanel: FC<Props> = (props) => {
                     onChangeText={(text) => setTypeInput(text)}
                     value={typeInput}/>
                 <DropDown
-                    label={'Connection Mode'}
+                    label={'Localization mode'}
                     mode={'outlined'}
-                    value={connectionMode}
-                    setValue={setConnectionMode}
-                    list={connectionModeList}
-                    visible={showDropDownConnection}
-                    showDropDown={() => setShowDropDownConnection(true)}
-                    onDismiss={() => setShowDropDownConnection(false)}
+                    value={localizationMode}
+                    setValue={setLocalizationMode}
+                    list={localizationModeList}
+                    visible={showDropDownLocalization}
+                    showDropDown={() => setShowDropDownLocalization(true)}
+                    onDismiss={() => setShowDropDownLocalization(false)}
                     inputProps={{
-                        right:  <TextInput.Icon name={'menu-down'}  />
+                        right: <TextInput.Icon name={'menu-down'}/>
                     }}
                 />
                 <DropDown
@@ -98,7 +97,7 @@ const NewGamePanel: FC<Props> = (props) => {
                     showDropDown={() => setShowDropDownMap(true)}
                     onDismiss={() => setShowDropDownMap(false)}
                     inputProps={{
-                        right:  <TextInput.Icon name={'menu-down'}  />
+                        right: <TextInput.Icon name={'menu-down'}/>
                     }}
                 />
                 <View style={styles.buttonContainer}>

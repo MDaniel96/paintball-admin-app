@@ -22,9 +22,6 @@ const RunningGamesScreen: FC = (props: any) => {
 
     useEffect(() => {
         getGames();
-    }, []);
-
-    useEffect(() => {
         props.navigation.setOptions(headerOptions);
     }, []);
 
@@ -60,9 +57,9 @@ const RunningGamesScreen: FC = (props: any) => {
         setCreateGameShown(false);
     };
 
-    const createGame = (name: string, type: string, mapId: number, connectionMode: string) => {
+    const createGame = (name: string, type: string, mapId: number, localizationMode: string) => {
         setCreateGameShown(false);
-        GameService.createGame(name, type, mapId, connectionMode).then(() => {
+        GameService.createGame(name, type, mapId, localizationMode).then(() => {
             getGames();
         });
     };

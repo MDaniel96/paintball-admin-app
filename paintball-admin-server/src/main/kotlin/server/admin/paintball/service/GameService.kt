@@ -23,7 +23,7 @@ interface GameService {
 
     fun changeGameState(id: Long, newState: Game.State): GameDTO
 
-    fun kickPlayerFromGame(gameId: Long, playerId: Long, color: String): GameDTO
+    fun kickPlayerFromGame(gameId: Long, playerId: Long): GameDTO
 
     fun sendVoiceMessageToTeam(gameId: Long, target: String, message: String)
 }

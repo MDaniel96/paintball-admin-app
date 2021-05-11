@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
-import {Button, StyleSheet} from 'react-native';
-import {Modal, Portal, TextInput, Title} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+import {Button, Modal, Portal, TextInput, Title} from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 
 interface Props {
@@ -24,23 +24,23 @@ const AudioRecordPanel: FC<Props> = (props) => {
 
     const [isRecording, setIsRecording] = useState<boolean>(false);
 
-    const sendRecording = async () => {
-        await props.onSend(target);
+    const sendRecording = () => {
+        props.onSend(target);
     };
 
-    const startRecording = async () => {
+    const startRecording = () => {
         setIsRecording(true);
-        await props.startRecording();
+        props.startRecording();
     }
 
-    const stopRecording = async () => {
+    const stopRecording = () => {
         setIsRecording(false);
-        await props.stopRecording()
+        props.stopRecording()
     }
 
-    const onCancel = async () => {
+    const onCancel = () => {
         setIsRecording(false);
-        await props.onCancel()
+        props.onCancel()
     }
 
     return (
@@ -62,21 +62,15 @@ const AudioRecordPanel: FC<Props> = (props) => {
                         right: <TextInput.Icon name={'menu-down'}/>
                     }}
                 />
-                <Button
-                    title={isRecording ? 'Stop Recording' : 'Start Recording'}
-                    onPress={isRecording ? stopRecording : startRecording}
-                />
+                <Button mode={props.hasRecording ? 'outlined' : 'contained'} style={styles.button}
+                        onPress={isRecording ? stopRecording : startRecording}>{isRecording ? 'Stop Recording' : 'Start Recording'}</Button>
                 {
                     props.hasRecording &&
-                    <Button
-                        title={'Send Recording'}
-                        onPress={sendRecording}
-                    />
+                    <Button mode="contained" style={styles.button}
+                            onPress={sendRecording}>Send Recording</Button>
                 }
-                <Button
-                    title={'Cancel'}
-                    onPress={onCancel}
-                />
+                <Button mode="outlined" style={styles.button}
+                        onPress={onCancel}>Cancel</Button>
             </Modal>
         </Portal>
     );
@@ -96,6 +90,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'space-around'
+    },
+    button: {
+        marginTop: 12
     }
 });
 

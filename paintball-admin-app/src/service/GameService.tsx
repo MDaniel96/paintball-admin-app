@@ -54,14 +54,14 @@ export class GameService {
         }
     }
 
-    static async createGame(name: string, type: string, mapId: number, connectionMode: string): Promise<Game> {
+    static async createGame(name: string, type: string, mapId: number, localizationMode: string): Promise<Game> {
         try {
             let url = `${GAME_API}`;
             let response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    name, type, mapId, connectionMode
+                    name, type, mapId, localizationMode
                 })
             });
             return await response.json();

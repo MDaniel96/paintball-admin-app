@@ -46,7 +46,7 @@ class GameServiceImpl(
             type = game.type
             state = game.state
             date = game.date
-            connectionMode = game.connectionMode
+            localizationMode = game.localizationMode
         }.run {
             toDTO(mapper)
         }
@@ -57,12 +57,12 @@ class GameServiceImpl(
         return createGameRequest.run {
             val map = mapService.getMapById(createGameRequest.mapId)
             val game = gameRepository.save(
-                    Game(
-                            name = name,
-                            type = type,
-                            map = map,
-                            connectionMode = connectionMode
-                    )
+                Game(
+                    name = name,
+                    type = type,
+                    map = map,
+                    localizationMode = localizationMode
+                )
             )
             game.toDTO(mapper)
         }
@@ -78,17 +78,23 @@ class GameServiceImpl(
     }
 
     @Transactional
-    override fun kickPlayerFromGame(gameId: Long, playerId: Long, color: String): GameDTO {
+    override fun kickPlayerFromGame(gameId: Long, playerId: Long): GameDTO {
         return getGameById(gameId).apply {
             val player = userService.getUserById(playerId)
             deadPlayers.add(player)
-            gameRepository.save(this)
         }.run {
             toDTO(mapper)
         }
     }
 
     override fun sendVoiceMessageToTeam(gameId: Long, target: String, message: String) {
+        println(
+            ("""
+            gameId: $gameId,
+            target: $target,
+            message: ${message.length}
+        """.trimIndent())
+        )
         getGameById(gameId).run {
             // TODO("Not yet implemented")
             when (target) {

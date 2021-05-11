@@ -18,15 +18,6 @@ class User(
     @OneToMany(mappedBy = "creator")
     var mapsUnderCreation: MutableSet<Map> = hashSetOf(),
 
-    @ManyToMany(mappedBy = "redPlayers")
-    var redGames: MutableSet<Game> = hashSetOf(),
-
-    @ManyToMany(mappedBy = "bluePlayers")
-    var blueGames: MutableSet<Game> = hashSetOf(),
-
-    @ManyToMany(mappedBy = "deadPlayers")
-    var deadGames: MutableSet<Game> = hashSetOf(),
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles")
     var roles: MutableSet<Role> = hashSetOf()

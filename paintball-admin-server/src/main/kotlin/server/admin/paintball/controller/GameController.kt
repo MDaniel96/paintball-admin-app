@@ -65,39 +65,37 @@ class GameController(private val gameService: GameService) {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     fun createGame(@RequestBody createGameRequest: CreateGameRequest): ResponseEntity<GameDTO> {
         return ok(gameService.createGame(createGameRequest))
     }
 
     @PatchMapping("/{id}/changeState")
+    @PreAuthorize("hasRole('ADMIN')")
     fun changeState(
-            @PathVariable id: Long,
-            @RequestParam(required = true) newState: Game.State
+        @PathVariable id: Long,
+        @RequestParam(required = true) newState: Game.State
     ): ResponseEntity<GameDTO> {
         return ok(gameService.changeGameState(id, newState))
     }
 
-    @PatchMapping("/{gameId}/kickPlayer")
+    @PatchMapping("/{id}/kickPlayer")
+    @PreAuthorize("hasRole('ADMIN')")
     fun kickPlayerFromGame(
-            @PathVariable gameId: Long,
-            @RequestParam(required = true) playerId: Long,
-            @RequestParam(required = true) color: String,
+        @PathVariable id: Long,
+        @RequestParam(required = true) playerId: Long
     ): ResponseEntity<GameDTO> {
-        return ok(gameService.kickPlayerFromGame(gameId, playerId, color))
+        return ok(gameService.kickPlayerFromGame(id, playerId))
     }
 
-    @PostMapping("/{gameId}/sendVoiceMessage")
+    @PostMapping("/{id}/sendVoiceMessage")
+    @PreAuthorize("hasRole('ADMIN')")
     fun sendVoiceMessageToTeam(
-            @PathVariable gameId: Long,
-            @RequestParam(required = true) target: String,
-            @RequestBody message: String
+        @PathVariable id: Long,
+        @RequestParam(required = true) target: String,
+        @RequestBody message: String
     ): ResponseEntity<Unit> {
-        println(("""
-            gameId: $gameId,
-            target: $target,
-            message: ${message.length}
-        """.trimIndent()))
-        gameService.sendVoiceMessageToTeam(gameId, target, message)
+        gameService.sendVoiceMessageToTeam(id, target, message)
         return ok(Unit)
     }
 }
