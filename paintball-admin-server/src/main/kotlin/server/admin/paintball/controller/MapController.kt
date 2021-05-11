@@ -30,12 +30,12 @@ class MapController(private val mapService: MapService) {
         return ok(mapService.save(createMapRequest))
     }
 
-    @GetMapping("/{id}/image")
+    @GetMapping("/image/{id}")
     fun getImage(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
         return ok(mapService.getImage(id))
     }
 
-    @GetMapping("/{id}/jpeg", produces = [MediaType.IMAGE_JPEG_VALUE])
+    @GetMapping("/image/{id}/jpeg", produces = [MediaType.IMAGE_JPEG_VALUE])
     fun getImageJpeg(@PathVariable("id") id: Long): ResponseEntity<ByteArray> {
         return ok(mapService.getImage(id))
     }

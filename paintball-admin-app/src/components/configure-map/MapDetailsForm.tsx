@@ -66,7 +66,6 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
         if (!isSaved && name != '' && orientation != '' && location.name != '' && image && image.base64) {
             MapService.createMap({
                 locationId: location.id,
-                userId: 1,
                 name: name,
                 imageBase64: image.base64,
                 orientation: parseInt(orientation),
@@ -89,7 +88,7 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
                     <Button style={styles.pickButton} mode="contained" onPress={selectImage}>Select map image</Button>
                     {image && <Image source={{uri: image.uri}} style={{width: '100%', height: '100%'}}/>}
                     {props.map.name !== '' &&
-                    <Image source={{uri: `${MAP_API}/${props.map.id}/image`}} style={{width: '100%', height: '100%'}}/>}
+                    <Image source={{uri: `${MAP_API}/image/${props.map.id}`}} style={{width: '100%', height: '100%'}}/>}
                 </View>
                 <View style={styles.detailsContainer}>
                     <ScrollView>

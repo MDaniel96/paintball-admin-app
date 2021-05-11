@@ -12,6 +12,7 @@ import {Map} from '../model/Map';
 import Colors from '../constants/Colors';
 import {Button} from 'react-native-paper';
 import {MapService} from '../service/MapService';
+import {User} from '../model/User';
 
 const ConfigureMapScreen: FC = () => {
     LogBox.ignoreLogs(['Animated.event now requires']);
@@ -29,9 +30,10 @@ const ConfigureMapScreen: FC = () => {
     const onDataChanged = () => getMapUnderCreation();
 
     const getMapUnderCreation = () => {
-        UserService.getMapUnderCreation(1).then(data => {
-            if (data) {
-                setMap(data);
+        UserService.getLoggedInUser().then((data: User) => {
+            const mapUnderCreation = data.mapsUnderCreation[0];
+            if (mapUnderCreation) {
+                setMap(mapUnderCreation);
             } else {
                 setMap(new Map());
             }

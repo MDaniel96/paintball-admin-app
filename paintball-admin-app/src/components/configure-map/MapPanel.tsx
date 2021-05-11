@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image} from 'react-native';
 import Colors from '../../constants/Colors';
 import {ForeignObject} from 'react-native-svg';
 import {MAP_API} from '../../service/MapService';
@@ -26,15 +26,13 @@ const MapPanel: FC<Props> = (props) => {
             viewStyle={{backgroundColor: Colors.lightGrey}}>
             <ForeignObject>
                 <Image
-                    source={{uri: `${MAP_API}/${props.mapId}/image`}}
+                    source={{uri: `${MAP_API}/image/${props.mapId}`}}
                     style={{width: '100%', height: '100%'}}/>
             </ForeignObject>
             {props.children}
         </SvgPanZoom>
     );
 }
-
-const styles = StyleSheet.create({});
 
 export default MapPanel;
 

@@ -15,7 +15,7 @@ export class ObstacleDetector {
         console.log('Detection started');
         const model = await cocossd.load();
 
-        const response = await fetch(`${MAP_API}/${mapId}/jpeg`, {}, {isBinary: true});
+        const response = await fetch(`${MAP_API}/image/${mapId}/jpeg`, {}, {isBinary: true});
         const imageData = await response.arrayBuffer();
 
         const imageTensor = this.imageToTensor(imageData);
