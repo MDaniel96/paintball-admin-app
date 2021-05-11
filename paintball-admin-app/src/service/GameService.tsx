@@ -54,6 +54,67 @@ export class GameService {
         }
     }
 
+    static async createGame(name: string, type: string, mapId: number, connectionMode: string): Promise<Game> {
+        try {
+            let url = `${GAME_API}`;
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name, type, mapId, connectionMode
+                })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Creating game', error);
+            return new Game();
+        }
+    }
+
+    static async changeGameState(id: number, newState: string): Promise<Game> {
+        try {
+            let url = `${GAME_API}/${id}/changeState?newState=${newState}`;
+            let response = await fetch(url, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({})
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Creating game', error);
+            return new Game();
+        }
+    }
+
+    static async kickPlayerFromGame(gameId: number, playerId: number, color: string): Promise<Game> {
+        try {
+            let url = `${GAME_API}/${gameId}/kickPlayer?playerId=${playerId}&color=${color}`;
+            let response = await fetch(url, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({})
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Creating game', error);
+            return new Game();
+        }
+    }
+
+    static async sendVoiceMessage(gameId: number, targetTeam: string, message: string): Promise<void> {
+        try {
+            let url = `${GAME_API}/${gameId}/sendVoiceMessage?target=${targetTeam}`;
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(message)
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Creating game', error);
+        }
+    }
+
     private static getQueryParams(gameFilter: GameFilter): string {
         let query = gameFilter.state ? '?&state=' + gameFilter.state : '';
         query += gameFilter.name ? '&name=' + gameFilter.name : '';

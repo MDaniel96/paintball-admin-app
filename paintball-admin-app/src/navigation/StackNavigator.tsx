@@ -8,6 +8,8 @@ import MapsScreen from '../screens/MapsScreen';
 import PreviousGameEditScreen from '../screens/PreviousGameEditScreen';
 import ConfigureMapScreen from '../screens/ConfigureMapScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import RunningGamesScreen from '../screens/RunningGamesScreen';
+import RunningGamesEditScreen from '../screens/RunningGameEditScreen';
 
 const toggleHeaderOptions = ({navigation}: { navigation: any }) => {
     return {
@@ -63,6 +65,16 @@ export const ConfigureMapStack: FC = () => {
         <Stack.Navigator>
             <Stack.Screen name="Configure map" component={ConfigureMapScreen}
                           options={({navigation}) => (toggleHeaderOptions({navigation}))}/>
+        </Stack.Navigator>
+    );
+}
+
+export const RunningGamesStack: FC = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Running games" component={RunningGamesScreen}
+                          options={({navigation}) => (toggleHeaderOptions({navigation}))}/>
+            <Stack.Screen name="Game settings" component={RunningGamesEditScreen}/>
         </Stack.Navigator>
     );
 }

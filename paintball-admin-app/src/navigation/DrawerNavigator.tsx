@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
-import {createDrawerNavigator, DrawerItemList} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
-import {ConfigureMapStack, MapsStack, PreviousGamesStack, ProfileStack} from './StackNavigator';
 import {User} from '../model/User';
 import {Button} from 'react-native-paper';
 import {StyleSheet, View} from 'react-native';
 import {AuthService} from '../service/AuthService';
+import {createDrawerNavigator, DrawerItemList} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
+import {ConfigureMapStack, MapsStack, PreviousGamesStack, ProfileStack, RunningGamesStack} from './StackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -42,6 +42,7 @@ const DrawerNavigator: FC<Props> = (props) => {
                 <Drawer.Screen name="Previous games" component={PreviousGamesStack}/>
                 {isAdmin() && <Drawer.Screen name="Maps" component={MapsStack}/>}
                 {isAdmin() && <Drawer.Screen name="Configure new map" component={ConfigureMapStack}/>}
+                <Drawer.Screen name="Running games" component={RunningGamesStack}/>
             </Drawer.Navigator>
         </NavigationContainer>
     );

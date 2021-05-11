@@ -63,6 +63,12 @@ const PreviousGameEditScreen: FC = (props: any) => {
                             setDateEditable(false);
                         }}
                         value={dateInput.toLocaleDateString()}/>
+                    <TextInput
+                        style={styles.textInput}
+                        label="Connection mode"
+                        onChangeText={(text) => setTypeInput(text)}
+                        value={game.connectionMode}
+                        disabled/>
                     <Button
                         onPress={saveGame}
                         title={'Save'}/>

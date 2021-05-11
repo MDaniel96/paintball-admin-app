@@ -89,4 +89,15 @@ export class MapService {
             return [];
         }
     }
+
+    static async getMaps(): Promise<Map[]> {
+        try {
+            let url = `${MAP_API}`;
+            let response = await fetch(url);
+            return await response.json();
+        } catch (error) {
+            console.log('Getting maps', error);
+            return [];
+        }
+    }
 }
