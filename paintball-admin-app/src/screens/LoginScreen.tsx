@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {AuthService} from '../service/AuthService';
+import {UserService} from '../service/UserService';
 
 interface Props {
     onLogin: () => void;
@@ -23,7 +24,13 @@ const LoginScreen: FC<Props> = (props) => {
     }
 
     const register = () => {
-        // TODO: register
+        UserService.registerUser({username: username, password: password}).then((data: any) => {
+            if (data.httpStatus === 'BAD_REQUEST') {
+                alert(data.message);
+            } else {
+                alert('Registration successful');
+            }
+        });
     }
 
     return (

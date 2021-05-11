@@ -2,11 +2,9 @@ package server.admin.paintball.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import server.admin.paintball.dto.UserDTO
+import server.admin.paintball.dto.request.RegisterUserRequest
 import server.admin.paintball.service.UserService
 
 @RestController
@@ -20,6 +18,11 @@ class UserController(private val userService: UserService) {
     @GetMapping("/current")
     fun getCurrentUser(): ResponseEntity<UserDTO> {
         return ok(userService.getCurrentUser())
+    }
+
+    @PostMapping("/register")
+    fun registerUser(@RequestBody registerUserRequest: RegisterUserRequest): ResponseEntity<UserDTO> {
+        return ok(userService.registerUser(registerUserRequest))
     }
 
     @GetMapping("{id}")

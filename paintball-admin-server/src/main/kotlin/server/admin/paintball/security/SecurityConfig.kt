@@ -49,14 +49,14 @@ class SecurityConfig(
         http
             .cors().and().csrf().disable()
             .exceptionHandling()
-            .authenticationEntryPoint { httpServletRequest, httpServletResponse, authenticationException ->
+            .authenticationEntryPoint { _, httpServletResponse, authenticationException ->
                 authenticationException?.let {
                     httpServletResponse.status = HttpServletResponse.SC_UNAUTHORIZED
                 }
             }
             .and()
             .authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
+            .antMatchers("/auth/**", "/api/user/register").permitAll()
             .antMatchers(*unAuthorized).permitAll()
             .anyRequest().authenticated()
             .and()
