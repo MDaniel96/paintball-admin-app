@@ -17,4 +17,15 @@ export class UserService {
             return new Map();
         }
     }
+
+    static async getLoggedInUser(): Promise<User> {
+        try {
+            let url = `${USER_API}/current`;
+            let response = await fetch(url);
+            return await response.json();
+        } catch (error) {
+            console.log('Getting logged in user', error);
+            return new User();
+        }
+    }
 }
