@@ -38,6 +38,7 @@ const LoginScreen: FC<Props> = (props) => {
             <TextInput
                 style={styles.input}
                 label="Password"
+                secureTextEntry={true}
                 mode="outlined"
                 onChangeText={(text) => setPassword(text)}
                 value={password}/>
