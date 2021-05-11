@@ -4,6 +4,7 @@ import server.admin.paintball.dto.AnchorDTO
 import server.admin.paintball.dto.MapDTO
 import server.admin.paintball.dto.ObstacleDTO
 import server.admin.paintball.dto.request.CreateMapRequest
+import server.admin.paintball.model.Map
 
 interface MapService {
 
@@ -20,4 +21,6 @@ interface MapService {
     fun detectObstacles(id: Long): List<ObstacleDTO>
 
     fun calculateAnchors(id: Long, anchorRadius: Int): List<AnchorDTO>
+
+    fun getMapById(id: Long): Map
 }

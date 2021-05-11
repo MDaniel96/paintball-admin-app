@@ -52,7 +52,7 @@ class UserServiceImpl(
         }
     }
 
-    private fun getUserById(id: Long): User {
+    override fun getUserById(id: Long): User {
         return userRepository.findByIdOrNull(id)
             ?: throw EntityNotFoundException("User not found")
     }

@@ -3,7 +3,9 @@ package server.admin.paintball.service
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import server.admin.paintball.dto.GameDTO
+import server.admin.paintball.dto.request.CreateGameRequest
 import server.admin.paintball.dto.util.GameFilter
+import server.admin.paintball.model.Game
 
 interface GameService {
 
@@ -16,4 +18,12 @@ interface GameService {
     fun editGame(id: Long, game: GameDTO): GameDTO
 
     fun getGamesPage(pageable: Pageable): Page<GameDTO>
+
+    fun createGame(createGameRequest: CreateGameRequest): GameDTO
+
+    fun changeGameState(id: Long, newState: Game.State): GameDTO
+
+    fun kickPlayerFromGame(gameId: Long, playerId: Long, color: String): GameDTO
+
+    fun sendVoiceMessageToTeam(gameId: Long, target: String, message: String)
 }

@@ -11,9 +11,11 @@ class GameDTO(
     var name: String = "",
     var type: String = "",
     var state: Game.State = Game.State.CREATED,
+    val connectionMode: Game.ConnectionMode = Game.ConnectionMode.BLUETOOTH,
     var date: LocalDate = LocalDate.now(),
     var redPlayers: MutableSet<UserDTO> = hashSetOf(),
     var bluePlayers: MutableSet<UserDTO> = hashSetOf(),
+    var deadPlayers: MutableSet<UserDTO> = hashSetOf(),
     var map: MapDTO? = null
 )
 

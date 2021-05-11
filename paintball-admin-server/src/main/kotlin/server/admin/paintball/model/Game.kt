@@ -20,6 +20,9 @@ class Game(
     var state: State = State.CREATED,
 
     @Column(nullable = false)
+    var connectionMode: ConnectionMode = ConnectionMode.BLUETOOTH,
+
+    @Column(nullable = false)
     var date: LocalDate = LocalDate.now(),
 
     @ManyToMany
@@ -27,6 +30,9 @@ class Game(
 
     @ManyToMany
     var bluePlayers: MutableSet<User> = hashSetOf(),
+
+    @ManyToMany
+    var deadPlayers: MutableSet<User> = hashSetOf(),
 
     @ManyToOne
     var map: Map? = null
@@ -36,5 +42,10 @@ class Game(
         CREATED("CREATED"),
         STARTED("STARTED"),
         FINISHED("FINISHED");
+    }
+
+    enum class ConnectionMode(val value: String) {
+        BLUETOOTH("BLUETOOTH"),
+        UWB("UWB")
     }
 }

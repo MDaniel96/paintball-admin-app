@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity.ok
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import server.admin.paintball.dto.GameDTO
+import server.admin.paintball.dto.request.CreateGameRequest
 import server.admin.paintball.dto.util.GameFilter
 import server.admin.paintball.model.Game
 import server.admin.paintball.service.GameService
@@ -61,5 +62,42 @@ class GameController(private val gameService: GameService) {
         pageable: Pageable, sort: Sort
     ): Page<GameDTO> {
         return gameService.getGamesPage(pageable)
+    }
+
+    @PostMapping
+    fun createGame(@RequestBody createGameRequest: CreateGameRequest): ResponseEntity<GameDTO> {
+        return ok(gameService.createGame(createGameRequest))
+    }
+
+    @PatchMapping("/{id}/changeState")
+    fun changeState(
+            @PathVariable id: Long,
+            @RequestParam(required = true) newState: Game.State
+    ): ResponseEntity<GameDTO> {
+        return ok(gameService.changeGameState(id, newState))
+    }
+
+    @PatchMapping("/{gameId}/kickPlayer")
+    fun kickPlayerFromGame(
+            @PathVariable gameId: Long,
+            @RequestParam(required = true) playerId: Long,
+            @RequestParam(required = true) color: String,
+    ): ResponseEntity<GameDTO> {
+        return ok(gameService.kickPlayerFromGame(gameId, playerId, color))
+    }
+
+    @PostMapping("/{gameId}/sendVoiceMessage")
+    fun sendVoiceMessageToTeam(
+            @PathVariable gameId: Long,
+            @RequestParam(required = true) target: String,
+            @RequestBody message: String
+    ): ResponseEntity<Unit> {
+        println(("""
+            gameId: $gameId,
+            target: $target,
+            message: ${message.length}
+        """.trimIndent()))
+        gameService.sendVoiceMessageToTeam(gameId, target, message)
+        return ok(Unit)
     }
 }

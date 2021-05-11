@@ -37,17 +37,17 @@ class TestDataInitializer(
     override fun run(args: ApplicationArguments?) {
         val games = gameRepository.saveAll(
             listOf(
-                Game(name = "TDM game1", type = "TDM", state = Game.State.FINISHED, date = TODAY),
-                Game(name = "TDM game2", type = "TDM", state = Game.State.FINISHED, date = TODAY),
+                Game(name = "TDM game1", type = "TDM", state = Game.State.FINISHED, date = TODAY, connectionMode = Game.ConnectionMode.UWB),
+                Game(name = "TDM game2", type = "TDM", state = Game.State.STARTED, date = TODAY, connectionMode = Game.ConnectionMode.UWB),
                 Game(name = "DM game3", type = "DM", state = Game.State.FINISHED, date = TODAY),
                 Game(name = "DM game4", type = "DM", state = Game.State.CREATED, date = TODAY),
                 Game(name = "DM game5", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
-                Game(name = "DM game6", type = "CTF", state = Game.State.FINISHED, date = YESTERDAY),
-                Game(name = "DM game7", type = "DM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "DM game6", type = "CTF", state = Game.State.CREATED, date = YESTERDAY),
+                Game(name = "DM game7", type = "DM", state = Game.State.CREATED, date = YESTERDAY, connectionMode = Game.ConnectionMode.UWB),
                 Game(name = "DM game8", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "TDM game9", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
-                Game(name = "TDM game10", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
-                Game(name = "TDM game11", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
+                Game(name = "TDM game10", type = "TDM", state = Game.State.STARTED, date = YESTERDAY),
+                Game(name = "TDM game11", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY, connectionMode = Game.ConnectionMode.UWB),
                 Game(name = "TDM game12", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
             )
         )
@@ -96,6 +96,18 @@ class TestDataInitializer(
         games[0].redPlayers.add(users[0])
         games[0].redPlayers.add(users[1])
         games[0].bluePlayers.add(users[2])
+
+        games[3].redPlayers.add(users[0])
+        games[3].redPlayers.add(users[1])
+        games[3].bluePlayers.add(users[2])
+
+        games[5].redPlayers.add(users[0])
+        games[5].redPlayers.add(users[1])
+        games[5].bluePlayers.add(users[2])
+
+        games[9].redPlayers.add(users[0])
+        games[9].redPlayers.add(users[1])
+        games[9].bluePlayers.add(users[2])
 
         maps[0].location = locations[0]
         maps[1].location = locations[0]

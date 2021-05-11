@@ -126,14 +126,14 @@ class MapServiceImpl(
         return anchorCalculator.calculateAnchors(map.toDTO(mapper), anchorRadius)
     }
 
+    override fun getMapById(id: Long): Map {
+        return mapRepository.findByIdOrNull(id)
+                ?: throw EntityNotFoundException("Map not found")
+    }
+
     private fun saveImage(imageBase64: String, id: Long) {
         val imageByteArray = Base64.getDecoder().decode(imageBase64)
         File("${appConfig.mapImagesLocation}/$id.png")
             .writeBytes(imageByteArray)
-    }
-
-    private fun getMapById(id: Long): Map {
-        return mapRepository.findByIdOrNull(id)
-            ?: throw EntityNotFoundException("Map not found")
     }
 }

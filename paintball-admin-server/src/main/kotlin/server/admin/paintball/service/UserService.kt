@@ -13,4 +13,6 @@ interface UserService {
     fun getLoggedInUser(): User
 
     fun registerUser(registerUserRequest: RegisterUserRequest): UserDTO
+
+    fun getUserById(id: Long): User
 }
