@@ -7,6 +7,7 @@ import PreviousGamesScreen from '../screens/PreviousGamesScreen';
 import MapsScreen from '../screens/MapsScreen';
 import PreviousGameEditScreen from '../screens/PreviousGameEditScreen';
 import ConfigureMapScreen from '../screens/ConfigureMapScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const toggleHeaderOptions = ({navigation}: { navigation: any }) => {
     return {
@@ -28,6 +29,15 @@ const toggleHeaderOptions = ({navigation}: { navigation: any }) => {
 };
 
 const Stack = createStackNavigator();
+
+export const ProfileStack: FC = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Profile" component={ProfileScreen}
+                          options={({navigation}) => (toggleHeaderOptions({navigation}))}/>
+        </Stack.Navigator>
+    );
+}
 
 export const PreviousGamesStack: FC = () => {
     return (

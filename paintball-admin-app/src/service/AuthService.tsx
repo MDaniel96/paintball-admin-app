@@ -22,4 +22,15 @@ export class AuthService {
             return null;
         }
     }
+
+    static async logout(): Promise<any> {
+        try {
+            let url = `${AUTH_API}/logout`;
+            let response = await fetch(url, {method: 'POST'});
+            return await response.json();
+        } catch (error) {
+            console.error('Logout', error);
+            return null;
+        }
+    }
 }

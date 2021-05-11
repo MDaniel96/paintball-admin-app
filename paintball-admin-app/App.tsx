@@ -23,7 +23,7 @@ const App: React.FC = () => {
         <PaperProvider>
             {loggedInUser.id === 0 ?
                 <LoginScreen onLogin={getLoggedInUser}/> :
-                <DrawerNavigator loggedInUser={loggedInUser}/>
+                <DrawerNavigator loggedInUser={loggedInUser} onLogout={getLoggedInUser}/>
             }
         </PaperProvider>
     );
