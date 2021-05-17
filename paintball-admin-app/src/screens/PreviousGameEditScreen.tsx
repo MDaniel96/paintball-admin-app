@@ -5,6 +5,7 @@ import {Game} from '../model/Game';
 import {GameService} from '../service/GameService';
 import {Card, List, TextInput} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {EditGameRequest} from '../model/util/EditGameRequest';
 
 const PreviousGameEditScreen: FC = (props: any) => {
 
@@ -29,7 +30,7 @@ const PreviousGameEditScreen: FC = (props: any) => {
     }, [gameId]);
 
     const saveGame = () => {
-        let newGame = new Game();
+        let newGame = new EditGameRequest();
         newGame.name = nameInput;
         newGame.type = typeInput;
         newGame.state = game.state;
