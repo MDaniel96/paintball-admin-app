@@ -2,6 +2,7 @@ import {Game} from '../model/Game';
 import Config from '../constants/Config';
 import {GameFilter} from '../model/util/GameFilter';
 import {Platform} from 'react-native';
+import {EditGameRequest} from '../model/util/EditGameRequest';
 
 const GAME_API = `${Config.base_url}/api/game`;
 
@@ -39,13 +40,13 @@ export class GameService {
         }
     }
 
-    static async editGame(id: number, game: Game): Promise<Game> {
+    static async editGame(id: number, editGameRequest: EditGameRequest): Promise<Game> {
         try {
             let url = `${GAME_API}/${id}`;
             let response = await fetch(url, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(game)
+                body: JSON.stringify(editGameRequest)
             });
             return await response.json();
         } catch (error) {

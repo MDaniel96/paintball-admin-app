@@ -1,7 +1,6 @@
 import {RefreshControl, ScrollView, StyleSheet} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {Dispatch, FC, useEffect, useState} from 'react';
 import {Game} from '../model/Game';
-import {GameService} from '../service/GameService';
 import {List} from 'react-native-paper';
 import Colors from '../constants/Colors';
 import {GameFilter} from '../model/util/GameFilter';
@@ -9,20 +8,25 @@ import PreviousGameItem from '../components/PreviousGameItem';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
 import PreviousGameFilterPanel from '../components/PreviousGameFilterPanel';
+import {useDispatch, useSelector} from 'react-redux';
+import {GameState} from '../store/reducers/GameReducer';
+import {deleteGameAction, getGamesAction} from '../store/actions/GameActions';
 
 const PreviousGamesScreen: FC = (props: any) => {
+    const dispatch: Dispatch<any> = useDispatch()
 
     const FINISHED: string = 'FINISHED';
 
-    const [games, setGames] = useState<Game[]>([]);
+    const games: readonly Game[] = useSelector((state: { games: GameState }) => state.games.games);
+
     const [gameFilter, setGameFilter] = useState<GameFilter>(new GameFilter({state: FINISHED}));
 
     const [isRefreshing, setRefreshing] = useState<boolean>(false);
     const [isFilterShown, setFilterShown] = useState<boolean>(false);
 
     useEffect(() => {
-        getGames();
-    }, [gameFilter]);
+        dispatch(getGamesAction(gameFilter));
+    }, [dispatch, gameFilter]);
 
     useEffect(() => {
         props.navigation.setOptions(headerOptions);
@@ -30,19 +34,13 @@ const PreviousGamesScreen: FC = (props: any) => {
 
     const getGames = () => {
         setRefreshing(true);
-        GameService.getGames(gameFilter).then(data => {
-            setGames(data);
-            setRefreshing(false);
-        })
+        dispatch(getGamesAction(gameFilter))
+            // @ts-ignore
+            .then(() => setRefreshing(false));
     }
 
     const deleteGame = (id: number) => {
-        setGames(
-            games.filter(game => game.id !== id)
-        )
-        GameService.deleteGame(id).then(() => {
-            getGames();
-        });
+        dispatch(deleteGameAction(id));
     }
 
     const selectGame = (id: number) => {
