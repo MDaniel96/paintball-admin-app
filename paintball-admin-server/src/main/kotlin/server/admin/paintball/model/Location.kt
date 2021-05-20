@@ -11,7 +11,4 @@ class Location(
 
     @Column(nullable = false)
     var name: String = "",
-
-    @OneToMany(mappedBy = "location")
-    var maps: MutableSet<Map> = hashSetOf()
 )

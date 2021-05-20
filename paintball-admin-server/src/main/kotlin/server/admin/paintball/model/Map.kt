@@ -48,9 +48,6 @@ class Map(
     @OneToMany(mappedBy = "map")
     var anchors: MutableSet<Anchor> = hashSetOf(),
 
-    @OneToMany(mappedBy = "map")
-    var games: MutableSet<Game> = hashSetOf(),
-
     @ManyToOne
     var creator: User? = null
 )
