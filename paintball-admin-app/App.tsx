@@ -8,9 +8,11 @@ import DrawerNavigator from './src/navigation/DrawerNavigator';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import gameReducer from './src/store/reducers/GameReducer';
 import thunk from 'redux-thunk';
+import userReducer from './src/store/reducers/UserReducer';
 
 const rootReducer = combineReducers({
-    games: gameReducer
+    games: gameReducer,
+    users: userReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

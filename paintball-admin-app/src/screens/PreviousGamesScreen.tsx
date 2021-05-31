@@ -13,7 +13,7 @@ import {GameState} from '../store/reducers/GameReducer';
 import {deleteGameAction, getGamesAction} from '../store/actions/GameActions';
 
 const PreviousGamesScreen: FC = (props: any) => {
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch: Dispatch<any> = useDispatch();
 
     const FINISHED: string = 'FINISHED';
 

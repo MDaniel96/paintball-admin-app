@@ -1,22 +1,19 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {Dispatch, FC, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Card, Paragraph, Title} from 'react-native-paper';
 import {User} from '../model/User';
-import {UserService} from '../service/UserService';
+import {useDispatch, useSelector} from 'react-redux';
+import {UserState} from '../store/reducers/UserReducer';
+import {getLoggedInUserAction} from '../store/actions/UserActions';
 
 const ProfileScreen: FC = () => {
+    const dispatch: Dispatch<any> = useDispatch();
 
-    const [loggedInUser, setLoggedInUser] = useState<User>(new User());
+    const loggedInUser: User = useSelector((state: { users: UserState }) => state.users.loggedInUser);
 
     useEffect(() => {
-        getLoggedInUser();
+        dispatch(getLoggedInUserAction());
     }, []);
-
-    const getLoggedInUser = () => {
-        UserService.getLoggedInUser().then(data => {
-            setLoggedInUser(data);
-        });
-    }
 
     return (
         <View style={styles.container}>

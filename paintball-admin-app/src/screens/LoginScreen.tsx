@@ -1,14 +1,16 @@
-import React, {FC, useState} from 'react';
+import React, {Dispatch, FC, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {AuthService} from '../service/AuthService';
-import {UserService} from '../service/UserService';
+import {useDispatch} from 'react-redux';
+import {registerUserAction} from '../store/actions/UserActions';
 
 interface Props {
     onLogin: () => void;
 }
 
 const LoginScreen: FC<Props> = (props) => {
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [username, setUsername] = useState<string>('admin');
     const [password, setPassword] = useState<string>('admin');
@@ -20,16 +22,6 @@ const LoginScreen: FC<Props> = (props) => {
     const login = () => {
         AuthService.login(username, password).then(() => {
             props.onLogin();
-        });
-    }
-
-    const register = () => {
-        UserService.registerUser({username: username, password: password}).then((data: any) => {
-            if (data.httpStatus === 'BAD_REQUEST') {
-                alert(data.message);
-            } else {
-                alert('Registration successful');
-            }
         });
     }
 
@@ -56,7 +48,9 @@ const LoginScreen: FC<Props> = (props) => {
                 </Button>
                 <Button
                     style={styles.button} disabled={!isFilled()}
-                    mode="contained" onPress={register}>Register
+                    mode="contained"
+                    onPress={() => dispatch(registerUserAction({username: username, password: password}))}>
+                    Register
                 </Button>
             </View>
         </View>
