@@ -1,17 +1,20 @@
 import {Button, ScrollView, StyleSheet, View} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {Dispatch, FC, useEffect, useState} from 'react';
 import Colors from '../constants/Colors';
 import {Game} from '../model/Game';
-import {GameService} from '../service/GameService';
 import {Card, List, TextInput} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {EditGameRequest} from '../model/util/EditGameRequest';
+import {useDispatch, useSelector} from 'react-redux';
+import {GameState} from '../store/reducers/GameReducer';
+import {editGameAction, getGameAction} from '../store/actions/GameActions';
 
 const PreviousGameEditScreen: FC = (props: any) => {
+    const dispatch: Dispatch<any> = useDispatch();
 
     const gameId = props.route.params.gameId;
 
-    const [game, setGame] = useState<Game>(new Game());
+    const game: Game = useSelector((state: { games: GameState }) => state.games.selectedGame);
 
     const [nameInput, setNameInput] = useState<string>('');
     const [typeInput, setTypeInput] = useState<string>('');
@@ -21,13 +24,14 @@ const PreviousGameEditScreen: FC = (props: any) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false);
 
     useEffect(() => {
-        GameService.getGame(gameId).then((data) => {
-            setGame(data);
-            setNameInput(data.name);
-            setTypeInput(data.type);
-            setDateInput(new Date(data.date));
-        });
+        dispatch(getGameAction(gameId));
     }, [gameId]);
+
+    useEffect(() => {
+        setNameInput(game.name);
+        setTypeInput(game.type);
+        setDateInput(new Date(game.date));
+    }, [game]);
 
     const saveGame = () => {
         let newGame = new EditGameRequest();
@@ -35,9 +39,7 @@ const PreviousGameEditScreen: FC = (props: any) => {
         newGame.type = typeInput;
         newGame.state = game.state;
         newGame.date = dateInput;
-        GameService.editGame(game.id, newGame).then((data) => {
-            setGame(data)
-        });
+        dispatch(editGameAction(game.id, newGame));
     }
 
     return (

@@ -19,7 +19,7 @@ const userReducer = (state: UserState = {loggedInUser: new User()}, action: User
                 alert('Registration successful');
             }
             return {
-                loggedInUser: new User()
+                loggedInUser: state.loggedInUser
             };
         }
     }
