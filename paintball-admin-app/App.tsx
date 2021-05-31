@@ -9,10 +9,12 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import gameReducer from './src/store/reducers/GameReducer';
 import thunk from 'redux-thunk';
 import userReducer from './src/store/reducers/UserReducer';
+import locationReducer from './src/store/reducers/LocationReducer';
 
 const rootReducer = combineReducers({
     games: gameReducer,
-    users: userReducer
+    users: userReducer,
+    locations: locationReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

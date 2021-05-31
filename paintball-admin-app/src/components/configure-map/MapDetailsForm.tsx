@@ -1,16 +1,19 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {Dispatch, FC, useEffect, useState} from 'react';
 import {Image, Picker, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import SaveButton from './SaveButton';
 import Colors from '../../constants/Colors';
 import {Button, TextInput} from 'react-native-paper';
 import {Location} from '../../model/Location';
-import {LocationService} from '../../service/LocationService';
 import * as ImagePicker from 'expo-image-picker';
 import {ImageInfo} from 'expo-image-picker/build/ImagePicker.types';
 import {MAP_API, MapService} from '../../service/MapService';
 import {MapConfigurationProps} from './MapConfigurationProps';
+import {useDispatch, useSelector} from 'react-redux';
+import {getLocationsAction} from '../../store/actions/LocationActions';
+import {LocationState} from '../../store/reducers/LocationReducer';
 
 const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [isSaved, setSaved] = useState<boolean>(false);
 
@@ -19,19 +22,13 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
     const [orientation, setOrientation] = useState<string>('');
     const [location, setLocation] = useState<Location>(new Location());
 
-    const [locations, setLocations] = useState<Location[]>([]);
+    const locations: readonly Location[] = useSelector((state: { locations: LocationState }) => state.locations.locations);
 
     useEffect(() => {
-        getLocations();
+        dispatch(getLocationsAction());
         initValues();
         askGalleryPermission();
     }, []);
-
-    const getLocations = () => {
-        LocationService.getLocations().then(data => {
-            setLocations(data);
-        });
-    }
 
     const initValues = () => {
         if (props.map.name) {
