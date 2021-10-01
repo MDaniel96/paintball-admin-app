@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="end|bottom">
+
+    <FrameLayout
+        android:id="@+id/mainButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|bottom">
+
+        <LinearLayout
+            android:id="@+id/fabLayoutSpying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/fabTextViewSpying"
+                style="@style/buttonHint"
+                android:text="@string/spy_on_enemy" />
+
+            <LinearLayout
+                android:layout_width="@dimen/fab_inner_layout_size"
+                android:layout_height="@dimen/fab_inner_layout_size"
+                android:gravity="center">
+
+                <view
+                    android:id="@+id/fabSpying"
+                    class="mbanje.kurt.fabbutton.FabButton"
+                    android:layout_width="@dimen/fab_spying_size"
+                    android:layout_height="@dimen/fab_spying_size"
+                    android:color="@color/primaryLightColor"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:src="@drawable/ic_spyglass"
+                    android:visibility="visible"
+                    app:fbb_autoStart="true"
+                    app:fbb_hideProgressOnComplete="true"
+                    app:fbb_progressColor="@color/white"
+                    app:fbb_progressWidthRatio="0.11"
+                    app:fbb_showEndBitmap="false"
+                    app:fbb_showShadow="true" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fabLayoutLeaveGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/fabTextViewLeaveGame"
+                style="@style/buttonHint"
+                android:text="@string/i_m_shoot" />
+
+            <LinearLayout
+                android:layout_width="@dimen/fab_inner_layout_size"
+                android:layout_height="@dimen/fab_inner_layout_size"
+                android:gravity="center">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabLeaveGame"
+                    android:layout_width="@dimen/fab_size"
+                    android:layout_height="@dimen/fab_size"
+                    android:rotation="-120"
+                    android:src="@drawable/ic_man_shot"
+                    app:backgroundTint="@color/primaryLightColor"
+                    app:fabCustomSize="@dimen/fab_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

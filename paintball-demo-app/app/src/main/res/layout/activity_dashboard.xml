@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DashboardActivity">
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="@dimen/gif_icon_width"
+        android:layout_height="@dimen/gif_icon_width"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/img_icon"
+        app:layout_constraintBottom_toTopOf="@id/btnCreateGame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCreateGame"
+        style="@style/button"
+        android:layout_marginTop="200dp"
+        android:text="@string/create_game"
+        app:layout_constraintBottom_toTopOf="@+id/btnJoinGame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/btnJoinGame"
+        style="@style/button"
+        android:layout_marginTop="50dp"
+        android:text="@string/join_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnConnectTag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCreateGame" />
+
+    <Button
+        android:id="@+id/btnConnectTag"
+        style="@style/button"
+        android:layout_marginTop="50dp"
+        android:text="@string/select_your_tag"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJoinGame" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

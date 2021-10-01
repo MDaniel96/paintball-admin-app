@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.JoinGameActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/card"
+        android:layout_width="@dimen/players_expansion_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="30dp"
+        app:cardBackgroundColor="@color/lighterTransparentGray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tvGameName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:text="@string/game_name"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/primaryLightColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvGameType"
+                style="@style/tvGameInfo"
+                android:text="@string/type_dm" />
+
+            <TextView
+                android:id="@+id/tvGameAdmin"
+                style="@style/tvGameInfo"
+                android:text="@string/admin_user" />
+
+            <TextView
+                android:id="@+id/tvGamePlayerCnt"
+                style="@style/tvGameInfo"
+                android:text="@string/players_8" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.github.florent37.expansionpanel.viewgroup.ExpansionsViewGroupLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:expansion_openOnlyOne="true">
+
+        <com.github.florent37.expansionpanel.ExpansionHeader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            app:expansion_layout="@id/redExpansionLayout"
+            app:expansion_toggleOnClick="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnJoinRed"
+                    style="@style/buttonJoinTeam"
+                    android:text="@string/join_red"
+                    android:textColor="@color/redTeam"
+                    app:strokeColor="@color/redTeam" />
+
+                <Button
+                    android:id="@+id/btnViewRed"
+                    style="@style/buttonViewPlayers"
+                    android:text="@string/view_players" />
+
+            </LinearLayout>
+
+
+        </com.github.florent37.expansionpanel.ExpansionHeader>
+
+        <com.github.florent37.expansionpanel.ExpansionLayout
+            android:id="@+id/redExpansionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout style="@style/expansionLayout">
+
+                <ListView
+                    android:id="@+id/lsRedPlayers"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/players_expansion_height" />
+
+            </LinearLayout>
+
+        </com.github.florent37.expansionpanel.ExpansionLayout>
+
+        <com.github.florent37.expansionpanel.ExpansionHeader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            app:expansion_layout="@id/blueExpansionLayout"
+            app:expansion_toggleOnClick="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnJoinBlue"
+                    style="@style/buttonJoinTeam"
+                    android:text="@string/join_blue"
+                    android:textColor="@color/blueTeam"
+                    app:strokeColor="@color/blueTeam" />
+
+                <Button
+                    android:id="@+id/btnViewBlue"
+                    style="@style/buttonViewPlayers"
+                    android:text="@string/view_players" />
+
+            </LinearLayout>
+
+
+        </com.github.florent37.expansionpanel.ExpansionHeader>
+
+        <com.github.florent37.expansionpanel.ExpansionLayout
+            android:id="@+id/blueExpansionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout style="@style/expansionLayout">
+
+                <ListView
+                    android:id="@+id/lsBluePlayers"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/players_expansion_height" />
+
+            </LinearLayout>
+
+        </com.github.florent37.expansionpanel.ExpansionLayout>
+
+    </com.github.florent37.expansionpanel.viewgroup.ExpansionsViewGroupLinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btnStartGame"
+            style="@style/button"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:text="@string/start_game" />
+
+    </LinearLayout>
+
+</LinearLayout>

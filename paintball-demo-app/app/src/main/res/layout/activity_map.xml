@@ -1,0 +1,81 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <demo.app.paintball.map.rendering.MapViewImpl
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/buttonsPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end">
+
+        <fragment
+            android:id="@+id/chatButtonsFragment"
+            class="demo.app.paintball.fragments.buttons.ChatButtonsFragmentImpl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <fragment
+            android:id="@+id/mainButtonsFragment"
+            class="demo.app.paintball.fragments.buttons.MainButtonsFragmentImpl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/fabLayoutActivateButtons"
+            android:layout_width="@dimen/fab_inner_layout_size"
+            android:layout_height="@dimen/fab_inner_layout_size"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:gravity="center">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabActivateButtons"
+                android:layout_width="@dimen/fab_activate_size"
+                android:layout_height="@dimen/fab_activate_size"
+                android:rotation="-180"
+                android:src="@drawable/ic_unfold_more"
+                app:backgroundTint="@color/lightGreen"
+                app:fabCustomSize="@dimen/fab_activate_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonsPagingLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="-10dp"
+            android:weightSum="2"
+            android:layout_gravity="center_vertical|end">
+
+            <Button
+                android:id="@+id/btnPagingMain"
+                style="@style/buttonPaging"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_paging_circle"
+                android:backgroundTint="@color/transparentWhite" />
+
+            <Button
+                android:id="@+id/btnPagingChat"
+                style="@style/buttonPaging"
+                android:layout_weight="1"
+                android:background="@drawable/shape_paging_circle"
+                android:backgroundTint="@color/lightTransparentGray" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/statsPanelFragment"
+        class="demo.app.paintball.fragments.panels.MapStatsPanelFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

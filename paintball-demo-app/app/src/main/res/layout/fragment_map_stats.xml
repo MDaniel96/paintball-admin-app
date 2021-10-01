@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/statsLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/statsDetailLayout"
+        android:layout_width="@dimen/stat_details_layout_width"
+        android:layout_height="match_parent"
+        android:background="@color/darkTransparentGray"
+        android:orientation="vertical">
+        <!--TODO: Draw player stats here-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/darkTransparentGray">
+
+        <ImageView
+            android:id="@+id/btnDrag"
+            android:layout_width="@dimen/stat_drag_button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_drag_right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mainStatsLayout"
+        android:layout_width="@dimen/stats_layout_width"
+        android:layout_height="match_parent"
+        android:background="@color/darkTransparentGray"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBlueTeam"
+                style="@style/playerCount"
+                android:text="10/12"
+                android:textColor="@color/blueTeam" />
+
+            <TextView
+                style="@style/gameDetailText"
+                android:text="@string/players" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/gameDetailText"
+                android:text="@string/time" />
+
+            <TextView
+                android:id="@+id/tvRemainingTime"
+                style="@style/playerCount"
+                android:text="4:45"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRedTeam"
+                style="@style/playerCount"
+                android:text="9/12"
+                android:textColor="@color/redTeam" />
+
+            <TextView
+                style="@style/gameDetailText"
+                android:text="@string/players" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

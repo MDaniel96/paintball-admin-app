@@ -1,0 +1,238 @@
+[
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_img_flag.jpg.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\img_flag.jpg"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_img_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\img_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_arrow_green.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_arrow_green.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_volumeup.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_volumeup.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_ble_devices.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\list_item_ble_devices.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_unfold_less.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_unfold_less.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_teamspeak.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_teamspeak.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_create_game.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_create_game.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_bluetooth.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_bluetooth.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_shape_rounded_corner_box.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\shape_rounded_corner_box.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_anchor.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_anchor.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_player.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\list_item_player.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_spyglass_original.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_spyglass_original.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_background.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\background.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_shape_paging_circle.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\shape_paging_circle.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_sprite_pulse_gr.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\sprite_pulse_gr.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_red_player.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_red_player.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_join_game.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_join_game.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_spyglass.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_spyglass.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_launcher_background.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_connect_tag.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_connect_tag.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_drag_right.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_drag_right.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_volumeoff.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_volumeoff.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_man_shot.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_man_shot.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_stop.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_stop.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_sprite_pulse_red.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\sprite_pulse_red.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_img_icon.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\img_icon.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_dashboard.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\activity_dashboard.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_sprite_pulse_blue.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\sprite_pulse_blue.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_refresh.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_refresh.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_map_gyenes.jpg.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\map_gyenes.jpg"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_join_game.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\activity_join_game.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_chat_buttons.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_chat_buttons.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_main_buttons.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_main_buttons.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_unfold_more.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_unfold_more.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_map_garden.jpg.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\map_garden.jpg"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_map.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\activity_map.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_arrow_white.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_arrow_white.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable_gif_icon.gif.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable\\gif_icon.gif"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_launcher_background.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_launcher_background.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_map_stats.xml.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\layout\\fragment_map_stats.xml"
+    },
+    {
+        "merged": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_blue_player.png.flat",
+        "source": "C:\\DANI\\dev\\projects\\paintball-admin-app\\paintball-demo-app\\app\\src\\main\\res\\drawable-v24\\ic_blue_player.png"
+    }
+]
