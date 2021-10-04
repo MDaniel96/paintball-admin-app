@@ -7,7 +7,7 @@
     <bool name="mapOnlyMode">false</bool>
 
     <!-- Ucp | LinkSys: 192.168.0.105 | 192.168.1.100 -->
-    <string name="serverURL">192.168.0.105</string>
+    <string name="serverURL">192.168.0.17</string>
 
     <!-- garden | gyenes | test -->
     <string name="map">gyenes</string>

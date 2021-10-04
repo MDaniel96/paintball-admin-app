@@ -12,8 +12,6 @@ interface RestService {
 
     fun getGame()
 
-    fun createGame(game: Game)
-
     fun deleteGame()
 
     fun addRedPlayer(player: Player)
@@ -22,7 +20,6 @@ interface RestService {
 
     interface SuccessListener {
         fun getGameSuccess(response: Response<Game>)
-        fun createGameSuccess()
         fun addRedPlayerSuccess()
         fun addBluePlayerSuccess()
     }

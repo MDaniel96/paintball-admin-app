@@ -12,7 +12,6 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
-import demo.app.paintball.fragments.dialogs.CreateGameFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
 import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.checkPermissions
@@ -22,7 +21,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
-    JoinGameFragment.JoinGameListener, CreateGameFragment.CreateGameListener, ConnectTagFragment.ConnectTagListener {
+    JoinGameFragment.JoinGameListener, ConnectTagFragment.ConnectTagListener {
 
     companion object {
         val permissionsNeeded = listOf(
@@ -36,15 +35,12 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     @Inject
     lateinit var restService: RestService
 
-    private lateinit var playerName: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
         restService = services.rest().apply { listener = this@DashboardActivity; errorListener = ErrorHandler }
 
-        btnCreateGame.setOnClickListener { CreateGameFragment().show(supportFragmentManager, "TAG") }
         btnJoinGame.setOnClickListener { JoinGameFragment().show(supportFragmentManager, "TAG") }
         btnConnectTag.setOnClickListener { ConnectTagFragment().show(supportFragmentManager, "TAG") }
         checkTagsEnabled()
@@ -55,7 +51,6 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
 
     private fun checkTagsEnabled() {
         if (resources.getBoolean(R.bool.tagsEnabled)) {
-            btnCreateGame.isEnabled = false
             btnJoinGame.isEnabled = false
         } else {
             btnConnectTag.isEnabled = false
@@ -68,18 +63,7 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
         startActivity(intent)
     }
 
-    override fun onCreateGame(playerName: String, game: Game) {
-        this.playerName = playerName
-        restService.createGame(game)
-    }
-
     override fun getGameSuccess(response: Response<Game>) {
-    }
-
-    override fun createGameSuccess() {
-        player = Player(name = playerName, isAdmin = true)
-        val intent = Intent(this, JoinGameActivity::class.java)
-        startActivity(intent)
     }
 
     override fun addRedPlayerSuccess() {
@@ -89,7 +73,6 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     }
 
     override fun onTagConnected() {
-        btnCreateGame.isEnabled = true
         btnJoinGame.isEnabled = true
         btnConnectTag.isEnabled = false
     }
@@ -103,7 +86,6 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     }
 
     private fun initAnimations() {
-        btnCreateGame.fadeIn(800)
         btnJoinGame.fadeIn(800)
         btnConnectTag.fadeIn(800)
         imgIcon.animate()

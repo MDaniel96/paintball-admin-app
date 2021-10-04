@@ -34,14 +34,20 @@ class JoinGameFragment : DialogFragment() {
 
         btnDone.setOnClickListener {
             val name = etPlayerName.text.toString()
+            val password = etPlayerPassword.text.toString()
             val errorMsg = getString(R.string.fill_out)
 
-            if (name != "") {
-                listener.onJoinGame(etPlayerName.text.toString())
-                dismiss()
-            } else {
+            if (name == "") {
                 etPlayerName.error = errorMsg
+                return@setOnClickListener
             }
+            if (password == "") {
+                etPlayerPassword.error = errorMsg
+                return@setOnClickListener
+            }
+
+            listener.onJoinGame(etPlayerName.text.toString())
+            dismiss()
         }
     }
 

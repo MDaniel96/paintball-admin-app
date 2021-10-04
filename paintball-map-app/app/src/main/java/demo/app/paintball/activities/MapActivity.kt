@@ -162,9 +162,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
             ?.forEach { map.addPlayer(it) }
     }
 
-    override fun createGameSuccess() {
-    }
-
     override fun addRedPlayerSuccess() {
     }
 

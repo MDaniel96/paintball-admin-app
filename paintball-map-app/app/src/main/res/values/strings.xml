@@ -45,4 +45,6 @@
     <string name="type_dm">Type: DM</string>
     <string name="admin_user">Admin: User</string>
     <string name="players_8">Players: 8</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="your_password">Your password</string>
 </resources>

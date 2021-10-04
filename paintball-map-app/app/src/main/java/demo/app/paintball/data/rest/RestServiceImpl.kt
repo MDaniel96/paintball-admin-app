@@ -30,18 +30,6 @@ class RestServiceImpl @Inject constructor() : RestService {
         })
     }
 
-    override fun createGame(game: Game) {
-        gameApi.createGame(game).enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                listener.createGameSuccess()
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                errorListener.handleError(t)
-            }
-        })
-    }
-
     override fun deleteGame() {
         gameApi.deleteGame().enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {

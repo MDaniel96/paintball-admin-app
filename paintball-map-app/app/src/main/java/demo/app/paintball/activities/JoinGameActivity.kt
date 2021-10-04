@@ -112,9 +112,6 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }
     }
 
-    override fun createGameSuccess() {
-    }
-
     override fun addRedPlayerSuccess() {
         restService.getGame()
         player.team = Player.Team.RED

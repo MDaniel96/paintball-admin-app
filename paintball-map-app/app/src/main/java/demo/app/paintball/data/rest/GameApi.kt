@@ -17,9 +17,6 @@ interface GameApi {
     @GET("/api/game")
     fun getGame(): Call<Game>
 
-    @POST("/api/game")
-    fun createGame(@Body game: Game): Call<Any>
-
     @DELETE("/api/game")
     fun deleteGame(): Call<Any>
 
