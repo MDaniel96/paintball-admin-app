@@ -1,23 +1,25 @@
 package demo.app.paintball.data.rest.models
 
 class Game(
+    val id: Long = -1L,
     var name: String = "",
     var type: String = "",
-    var time: Int = 0,
-    var admin: String = "",
-    var redTeam: MutableList<Player> = mutableListOf(),
-    var blueTeam: MutableList<Player> = mutableListOf(),
-    val playerCnt: Int = 0
+    var state: State = State.CREATED,
+    val localizationMode: LocalizationMode = LocalizationMode.GPS,
+    var redPlayers: MutableSet<User> = hashSetOf(),
+    var bluePlayers: MutableSet<User> = hashSetOf(),
+    var deadPlayers: MutableSet<User> = hashSetOf(),
+    var map: Map? = null
 ) {
 
-    fun leave(playerName: String) {
-        redTeam.leave(playerName)
-        blueTeam.leave(playerName)
+    enum class State(val value: String) {
+        CREATED("CREATED"),
+        STARTED("STARTED"),
+        FINISHED("FINISHED");
+    }
+
+    enum class LocalizationMode(val value: String) {
+        GPS("GPS"),
+        UWB("UWB")
     }
 }
-
-fun MutableList<Player>.leave(name: String) {
-    this.filter { it.name == name }.forEach { it.hasLeft = true }
-}
-
-fun MutableList<Player>.getRemainingPlayers() = this.filter { !it.hasLeft }.count()

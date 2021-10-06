@@ -47,23 +47,27 @@ class SecurityConfig(
         }
 
         http
-            .cors().and().csrf().disable()
-            .exceptionHandling()
-            .authenticationEntryPoint { _, httpServletResponse, authenticationException ->
-                authenticationException?.let {
-                    httpServletResponse.status = HttpServletResponse.SC_UNAUTHORIZED
+                .cors().and().csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint { _, httpServletResponse, authenticationException ->
+                    authenticationException?.let {
+                        httpServletResponse.status = HttpServletResponse.SC_UNAUTHORIZED
+                    }
                 }
-            }
-            .and()
-            .authorizeRequests()
-            .antMatchers("/auth/**", "/api/user/register", "/api/map/image/**").permitAll()
-            .antMatchers(*unAuthorized).permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin().loginProcessingUrl("/auth/login").permitAll()
-            .and()
-            .logout().logoutUrl("/auth/logout").permitAll().clearAuthentication(true).invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/auth/**",
+                        "/api/user/register",
+                        "/api/map/image/**",
+                        "/api/game/**"
+                ).permitAll()
+                .antMatchers(*unAuthorized).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginProcessingUrl("/auth/login").permitAll()
+                .and()
+                .logout().logoutUrl("/auth/logout").permitAll().clearAuthentication(true).invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
     }
 
     override fun configure(web: WebSecurity) {

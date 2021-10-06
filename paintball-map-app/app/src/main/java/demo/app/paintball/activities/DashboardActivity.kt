@@ -10,6 +10,7 @@ import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
+import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
@@ -63,7 +64,10 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
         startActivity(intent)
     }
 
-    override fun getGameSuccess(response: Response<Game>) {
+    override fun getGameSuccess(response: Response<OldGame>) {
+    }
+
+    override fun onGetCreatedGames(games: List<Game>) {
     }
 
     override fun addRedPlayerSuccess() {

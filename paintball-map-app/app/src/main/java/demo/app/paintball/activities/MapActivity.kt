@@ -16,6 +16,7 @@ import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
+import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.panels.MapStatsPanelFragment
@@ -44,7 +45,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     @Inject
     lateinit var bleService: BleService
 
-    private var game: Game? = null
+    private var oldGame: OldGame? = null
     private var isMapButtonsOpen = false
 
     private lateinit var map: MapView
@@ -147,17 +148,20 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         map.setPlayerOrientation(radian.toDegree())
     }
 
-    override fun getGameSuccess(response: Response<Game>) {
-        game = response.body()
-        statsPanel.refresh(game = response.body())
+    override fun getGameSuccess(response: Response<OldGame>) {
+        oldGame = response.body()
+        statsPanel.refresh(oldGame = response.body())
         addPlayersToMap()
     }
 
+    override fun onGetCreatedGames(games: List<Game>) {
+    }
+
     private fun addPlayersToMap() {
-        game?.redTeam
+        oldGame?.redTeam
             ?.filter { it.name != player.name }
             ?.forEach { map.addPlayer(it) }
-        game?.blueTeam
+        oldGame?.blueTeam
             ?.filter { it.name != player.name }
             ?.forEach { map.addPlayer(it) }
     }
@@ -182,7 +186,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun gameMessageArrived(message: GameMessage) {
-        game?.let {
+        oldGame?.let {
             if (message.type == GameMessage.Type.LEAVE) {
                 it.leave(message.playerName)
                 statsPanel.refresh(it)

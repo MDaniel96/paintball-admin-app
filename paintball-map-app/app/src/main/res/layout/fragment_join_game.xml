@@ -20,20 +20,6 @@
         android:hint="@string/your_name"
         android:inputType="text" />
 
-    <TextView
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:text="@string/enter_your_password" />
-
-    <EditText
-        android:id="@+id/etPlayerPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/your_password"
-        android:inputType="textPassword" />
-
     <Button
         android:id="@+id/btnDone"
         style="@style/button"

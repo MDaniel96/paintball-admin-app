@@ -15,6 +15,7 @@ import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
+import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.setBackgroundTint
@@ -37,7 +38,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     @Inject
     lateinit var mqttService: MqttService
 
-    private var game: Game? = null
+    private var oldGame: OldGame? = null
 
     private val timer = Timer()
 
@@ -52,11 +53,11 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }, 0, GAME_REFRESH_PERIOD)
     }
 
-    override fun getGameSuccess(response: Response<Game>) {
+    override fun getGameSuccess(response: Response<OldGame>) {
         if (response.code() == 404) {
             toast("No game found")
         } else {
-            game = response.body()
+            oldGame = response.body()
             initTexts()
             initStartGameButton()
             initTeamButtons()
@@ -64,8 +65,11 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }
     }
 
+    override fun onGetCreatedGames(games: List<Game>) {
+    }
+
     private fun initTexts() {
-        game?.let {
+        oldGame?.let {
             tvGameName.text = it.name
             tvGameType.text = String.format(getString(R.string.type_is), it.type)
             tvGameAdmin.text = String.format(getString(R.string.admin_is), it.admin)
@@ -102,7 +106,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     private fun initTeamLists() {
-        game?.let { game ->
+        oldGame?.let { game ->
             game.blueTeam.map { it.name }.run {
                 lsBluePlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, this)
             }
@@ -150,7 +154,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
 
     override fun onBackPressed() {
         when {
-            game == null -> super.onBackPressed()
+            oldGame == null -> super.onBackPressed()
             player.isAdmin -> showDeleteGameAlert()
         }
     }
