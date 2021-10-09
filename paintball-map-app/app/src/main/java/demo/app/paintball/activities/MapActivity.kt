@@ -81,7 +81,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mqttService = services.mqtt().apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
 
         if (!resources.getBoolean(R.bool.mapOnlyMode)) {
-            restService.getGame()
+            //restService.getGame()
             bleService.startPositionSending()
             mqttService.subscribe(playerTopics.teamChat)
             mqttService.subscribe(playerTopics.positions)
@@ -149,10 +149,10 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         map.setPlayerOrientation(radian.toDegree())
     }
 
-    override fun getGameSuccess(response: Response<OldGame>) {
-        oldGame = response.body()
-        statsPanel.refresh(oldGame = response.body())
-        addPlayersToMap()
+    override fun onGetGame(game: Game) {
+//        oldGame = response.body()
+//        statsPanel.refresh(oldGame = response.body())
+//        addPlayersToMap()
     }
 
     override fun onGetCreatedGames(games: List<Game>) {

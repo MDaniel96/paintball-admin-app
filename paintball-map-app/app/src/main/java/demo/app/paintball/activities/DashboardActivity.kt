@@ -61,10 +61,11 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
 
     override fun onJoinGame(selectedGameId: Long) {
         val intent = Intent(this, JoinGameActivity::class.java)
+        intent.putExtra("SELECTED_GAME_ID", selectedGameId)
         startActivity(intent)
     }
 
-    override fun getGameSuccess(response: Response<OldGame>) {
+    override fun onGetGame(game: Game) {
     }
 
     override fun onGetCreatedGames(games: List<Game>) {

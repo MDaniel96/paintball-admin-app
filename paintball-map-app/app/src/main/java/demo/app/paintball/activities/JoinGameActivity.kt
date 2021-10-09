@@ -15,14 +15,11 @@ import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.setBackgroundTint
-import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.activity_join_game.*
-import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.timerTask
@@ -39,31 +36,28 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     @Inject
     lateinit var mqttService: MqttService
 
-    private var oldGame: OldGame? = null
+    private lateinit var game: Game
 
     private val timer = Timer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_game)
+        initStartGameButton()
+        val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
 
         restService = services.rest().apply { listener = this@JoinGameActivity; errorListener = ErrorHandler }
         mqttService = services.mqtt().apply { gameListener = this@JoinGameActivity }
         timer.schedule(timerTask {
-            runOnUiThread { restService.getGame() }
+            runOnUiThread { restService.getGame(selectedGameId) }
         }, 0, GAME_REFRESH_PERIOD)
     }
 
-    override fun getGameSuccess(response: Response<OldGame>) {
-        if (response.code() == 404) {
-            toast("No game found")
-        } else {
-            oldGame = response.body()
-            initTexts()
-            initStartGameButton()
-            initTeamButtons()
-            initTeamLists()
-        }
+    override fun onGetGame(game: Game) {
+        this.game = game
+        initTexts()
+        initTeamButtons()
+        initTeamLists()
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
@@ -73,34 +67,30 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     private fun initTexts() {
-        oldGame?.let {
-            tvGameName.text = it.name
-            tvGameType.text = String.format(getString(R.string.type_is), it.type)
-            tvGameAdmin.text = String.format(getString(R.string.admin_is), it.admin)
-            tvGamePlayerCnt.text = String.format(getString(R.string.player_cnt), it.playerCnt)
-            btnViewRed.text = String.format(getString(R.string.view_players_), it.redTeam.size)
-            btnViewBlue.text = String.format(getString(R.string.view_players_), it.blueTeam.size)
+        game.run {
+            tvGameName.text = name
+            tvGameType.text = String.format(getString(R.string.type_is), type)
+            tvLocalizationMode.text = String.format(getString(R.string.localization_mode_is), localizationMode)
+            tvGamePlayerCnt.text = String.format(getString(R.string.player_cnt), playerCount)
+            tvMapName.text = String.format(getString(R.string.map_name_is), map?.name)
+            btnViewRed.text = String.format(getString(R.string.view_players_), redPlayers.size)
+            btnViewBlue.text = String.format(getString(R.string.view_players_), bluePlayers.size)
         }
     }
 
     private fun initStartGameButton() {
-        if (!player.isAdmin) {
-            btnStartGame.isEnabled = false
-            btnStartGame.text = getString(R.string.waiting_for_admin)
-        } else {
-            btnStartGame.setOnClickListener {
-                GameMessage(type = GameMessage.Type.START).publish(mqttService)
-            }
-        }
+        btnStartGame.isEnabled = false
+        btnStartGame.text = getString(R.string.waiting_for_admin)
     }
 
     private fun initTeamButtons() {
-        btnJoinRed.setOnClickListener {
-            restService.addRedPlayer(player)
-        }
-        btnJoinBlue.setOnClickListener {
-            restService.addBluePlayer(player)
-        }
+        // TODO handle join game buttons
+//        btnJoinRed.setOnClickListener {
+//            restService.addRedPlayer(player)
+//        }
+//        btnJoinBlue.setOnClickListener {
+//            restService.addBluePlayer(player)
+//        }
         btnViewRed.setOnClickListener {
             redExpansionLayout.toggle(true)
         }
@@ -110,18 +100,19 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     private fun initTeamLists() {
-        oldGame?.let { game ->
-            game.blueTeam.map { it.name }.run {
-                lsBluePlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, this)
+        game.run {
+            bluePlayers.map { it.username }.also { playerNames ->
+                lsBluePlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
             }
-            game.redTeam.map { it.name }.run {
-                lsRedPlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, this)
+            redPlayers.map { it.username }.also { playerNames ->
+                lsRedPlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
             }
         }
     }
 
     override fun addRedPlayerSuccess() {
-        restService.getGame()
+        // TODO add player callback
+        // restService.getGame()
         player.team = Player.Team.RED
 
         btnJoinRed.setBackgroundTint(R.color.redTeam)
@@ -133,7 +124,8 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     override fun addBluePlayerSuccess() {
-        restService.getGame()
+        // TODO add player callback
+        // restService.getGame()
         player.team = Player.Team.BLUE
 
         btnJoinBlue.setBackgroundTint(R.color.blueTeam)
@@ -154,27 +146,6 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    override fun onBackPressed() {
-        when {
-            oldGame == null -> super.onBackPressed()
-            player.isAdmin -> showDeleteGameAlert()
-        }
-    }
-
-    private fun showDeleteGameAlert() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Exit game")
-        builder.setMessage("If you exit, the game will be deleted. Are you sure?")
-        builder.setPositiveButton("Yes") { _, _ ->
-            super.onBackPressed()
-            restService.deleteGame()
-        }
-        builder.setNeutralButton("Cancel") { _, _ ->
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 
     override fun onDestroy() {

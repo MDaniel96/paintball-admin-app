@@ -38,14 +38,19 @@
                 android:text="@string/type_dm" />
 
             <TextView
-                android:id="@+id/tvGameAdmin"
+                android:id="@+id/tvLocalizationMode"
                 style="@style/tvGameInfo"
-                android:text="@string/admin_user" />
+                android:text="@string/localization_mode_UWB" />
 
             <TextView
                 android:id="@+id/tvGamePlayerCnt"
                 style="@style/tvGameInfo"
                 android:text="@string/players_8" />
+
+            <TextView
+                android:id="@+id/tvMapName"
+                style="@style/tvGameInfo"
+                android:text="@string/map_name_gyenes" />
 
         </LinearLayout>
 
@@ -161,7 +166,7 @@
             style="@style/button"
             android:layout_gravity="bottom"
             android:layout_marginBottom="15dp"
-            android:text="@string/start_game" />
+            android:text="@string/waiting_for_admin" />
 
     </LinearLayout>
 

@@ -3,16 +3,12 @@ package demo.app.paintball.data.rest
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface GameApi {
 
@@ -22,8 +18,8 @@ interface GameApi {
     @GET("/paintball-admin/api/user")
     fun getUsers(): Call<List<User>>
 
-    @GET("/api/game")
-    fun getGame(): Call<OldGame>
+    @GET("/paintball-admin/api/game/{gameId}")
+    fun getGame(@Path("gameId") gameId: Long): Call<Game>
 
     @DELETE("/api/game")
     fun deleteGame(): Call<Any>

@@ -1,7 +1,6 @@
 package demo.app.paintball.data.rest
 
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.toast
@@ -44,13 +43,13 @@ class RestServiceImpl @Inject constructor() : RestService {
         })
     }
 
-    override fun getGame() {
-        gameApi.getGame().enqueue(object : Callback<OldGame> {
-            override fun onResponse(call: Call<OldGame>, response: Response<OldGame>) {
-                listener.getGameSuccess(response)
+    override fun getGame(gameId: Long) {
+        gameApi.getGame(gameId).enqueue(object : Callback<Game> {
+            override fun onResponse(call: Call<Game>, response: Response<Game>) {
+                listener.onGetGame(response.body())
             }
 
-            override fun onFailure(call: Call<OldGame>, t: Throwable) {
+            override fun onFailure(call: Call<Game>, t: Throwable) {
                 errorListener.handleError(t)
             }
         })

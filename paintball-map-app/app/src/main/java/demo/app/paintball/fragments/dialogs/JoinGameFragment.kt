@@ -75,7 +75,7 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
         }
     }
 
-    override fun getGameSuccess(response: Response<OldGame>) {
+    override fun onGetGame(game: Game) {
     }
 
     override fun onGetCreatedGames(games: List<Game>) {

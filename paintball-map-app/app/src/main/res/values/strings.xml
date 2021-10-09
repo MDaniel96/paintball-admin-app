@@ -9,7 +9,6 @@
     <string name="join_red">Join red</string>
     <string name="view_players">View players</string>
     <string name="join_blue">Join blue</string>
-    <string name="start_game">Start game</string>
     <string name="refresh">refresh</string>
     <string name="enter_the_game_name">Enter the game name</string>
     <string name="game_name">Game name</string>
@@ -19,9 +18,10 @@
     <string name="create">Create</string>
     <string name="fill_out">Please fill out this part</string>
     <string name="username_not_found">Username not found</string>
-    <string name="waiting_for_admin">Waiting for admin</string>
+    <string name="waiting_for_admin">Waiting for admin to start game</string>
     <string name="type_is">Type: %1$s</string>
-    <string name="admin_is">Admin: %1$s</string>
+    <string name="localization_mode_is">Localization mode: %1$s</string>
+    <string name="map_name_is">Map name: %1$s</string>
     <string name="player_cnt">Players: %1$d</string>
     <string name="view_players_">View players (%1$d)</string>
     <string name="joined_blue">Joined blue</string>
@@ -44,8 +44,9 @@
     <string name="remaining_players">%1$d/%2$d</string>
     <string name="player_left_the_game">%1$s left the game</string>
     <string name="type_dm">Type: DM</string>
-    <string name="admin_user">Admin: User</string>
+    <string name="localization_mode_UWB">Localization mode: UWB</string>
     <string name="players_8">Players: 8</string>
+    <string name="map_name_gyenes">Map name: Gyenes</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="your_password">Your password</string>
     <string name="select_game_to_join">Select game to join</string>

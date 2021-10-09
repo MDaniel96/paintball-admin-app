@@ -16,7 +16,7 @@ interface RestService {
 
     fun getUsers()
 
-    fun getGame()
+    fun getGame(gameId: Long)
 
     fun deleteGame()
 
@@ -25,7 +25,7 @@ interface RestService {
     fun addBluePlayer(player: Player)
 
     interface SuccessListener {
-        fun getGameSuccess(response: Response<OldGame>)
+        fun onGetGame(game: Game)
         fun onGetCreatedGames(games: List<Game>)
         fun onGetUsers(users: List<User>)
         fun addRedPlayerSuccess()

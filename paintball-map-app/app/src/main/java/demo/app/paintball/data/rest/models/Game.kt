@@ -12,6 +12,9 @@ class Game(
     var map: Map? = null
 ) {
 
+    val playerCount: Int
+        get() = redPlayers.size + bluePlayers.size
+
     enum class State(val value: String) {
         CREATED("CREATED"),
         STARTED("STARTED"),
