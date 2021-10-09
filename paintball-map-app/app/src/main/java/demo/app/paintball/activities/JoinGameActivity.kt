@@ -3,22 +3,22 @@ package demo.app.paintball.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.user
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.setBackgroundTint
+import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.activity_join_game.*
 import java.util.*
 import javax.inject.Inject
@@ -37,6 +37,8 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     lateinit var mqttService: MqttService
 
     private lateinit var game: Game
+
+    private var joinedTeam: Game.Team? = null
 
     private val timer = Timer()
 
@@ -84,13 +86,16 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     private fun initTeamButtons() {
-        // TODO handle join game buttons
-//        btnJoinRed.setOnClickListener {
-//            restService.addRedPlayer(player)
-//        }
-//        btnJoinBlue.setOnClickListener {
-//            restService.addBluePlayer(player)
-//        }
+        btnJoinRed.setOnClickListener {
+            if (joinedTeam == null){
+                restService.addUserToTeam(game.id, user.id, Game.Team.RED)
+            }
+        }
+        btnJoinBlue.setOnClickListener {
+            if (joinedTeam == null) {
+                restService.addUserToTeam(game.id, user.id, Game.Team.BLUE)
+            }
+        }
         btnViewRed.setOnClickListener {
             redExpansionLayout.toggle(true)
         }
@@ -110,11 +115,15 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }
     }
 
-    override fun addRedPlayerSuccess() {
-        // TODO add player callback
-        // restService.getGame()
-        player.team = Player.Team.RED
+    override fun onAddUserToTeam(team: Game.Team) {
+        joinedTeam = team
+        when (team) {
+            Game.Team.RED -> displayAddRedPlayer()
+            Game.Team.BLUE -> displayAddBluePlayer()
+        }
+    }
 
+    private fun displayAddRedPlayer() {
         btnJoinRed.setBackgroundTint(R.color.redTeam)
         btnJoinRed.setTextColor(ContextCompat.getColor(this, R.color.white))
         btnJoinBlue.setBackgroundTint(R.color.transparent)
@@ -123,11 +132,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         btnJoinBlue.isEnabled = true
     }
 
-    override fun addBluePlayerSuccess() {
-        // TODO add player callback
-        // restService.getGame()
-        player.team = Player.Team.BLUE
-
+    private fun displayAddBluePlayer() {
         btnJoinBlue.setBackgroundTint(R.color.blueTeam)
         btnJoinBlue.setTextColor(ContextCompat.getColor(this, R.color.white))
         btnJoinRed.setBackgroundTint(R.color.transparent)
@@ -146,6 +151,10 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        toast("Can't turn back")
     }
 
     override fun onDestroy() {

@@ -91,10 +91,7 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
         this.users = users
     }
 
-    override fun addRedPlayerSuccess() {
-    }
-
-    override fun addBluePlayerSuccess() {
+    override fun onAddUserToTeam(team: Game.Team) {
     }
 
     interface JoinGameListener {

@@ -74,10 +74,7 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     override fun onGetUsers(users: List<User>) {
     }
 
-    override fun addRedPlayerSuccess() {
-    }
-
-    override fun addBluePlayerSuccess() {
+    override fun onAddUserToTeam(team: Game.Team) {
     }
 
     override fun onTagConnected() {

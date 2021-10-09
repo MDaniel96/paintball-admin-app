@@ -21,6 +21,13 @@ interface GameApi {
     @GET("/paintball-admin/api/game/{gameId}")
     fun getGame(@Path("gameId") gameId: Long): Call<Game>
 
+    @POST("/paintball-admin/api/game/{gameId}/{userId}/{team}")
+    fun addUserToTeam(
+        @Path("gameId") gameId: Long,
+        @Path("userId") userId: Long,
+        @Path("team") team: Game.Team,
+    ): Call<Game.Team>
+
     @DELETE("/api/game")
     fun deleteGame(): Call<Any>
 

@@ -21,6 +21,11 @@ class Game(
         FINISHED("FINISHED");
     }
 
+    enum class Team(val value: String) {
+        BLUE("BLUE"),
+        RED("RED");
+    }
+
     enum class LocalizationMode(val value: String) {
         GPS("GPS"),
         UWB("UWB")

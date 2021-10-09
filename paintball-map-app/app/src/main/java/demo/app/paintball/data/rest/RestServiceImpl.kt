@@ -55,37 +55,13 @@ class RestServiceImpl @Inject constructor() : RestService {
         })
     }
 
-    override fun deleteGame() {
-        gameApi.deleteGame().enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                toast("Game deleted")
+    override fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team) {
+        gameApi.addUserToTeam(gameId, userId, team).enqueue(object : Callback<Game.Team> {
+            override fun onResponse(call: Call<Game.Team>, response: Response<Game.Team>) {
+                listener.onAddUserToTeam(response.body())
             }
 
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                errorListener.handleError(t)
-            }
-        })
-    }
-
-    override fun addRedPlayer(player: Player) {
-        gameApi.addRedPlayer(player).enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                listener.addRedPlayerSuccess()
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                errorListener.handleError(t)
-            }
-        })
-    }
-
-    override fun addBluePlayer(player: Player) {
-        gameApi.addBluePlayer(player).enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                listener.addBluePlayerSuccess()
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
+            override fun onFailure(call: Call<Game.Team>, t: Throwable) {
                 errorListener.handleError(t)
             }
         })

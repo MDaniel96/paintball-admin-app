@@ -161,6 +161,9 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     override fun onGetUsers(users: List<User>) {
     }
 
+    override fun onAddUserToTeam(team: Game.Team) {
+    }
+
     private fun addPlayersToMap() {
         oldGame?.redTeam
             ?.filter { it.name != player.name }
@@ -168,12 +171,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         oldGame?.blueTeam
             ?.filter { it.name != player.name }
             ?.forEach { map.addPlayer(it) }
-    }
-
-    override fun addRedPlayerSuccess() {
-    }
-
-    override fun addBluePlayerSuccess() {
     }
 
     override fun onTagConnected() {
