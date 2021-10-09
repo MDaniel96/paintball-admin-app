@@ -19,7 +19,7 @@ interface GameService {
 
     fun getGamesPage(pageable: Pageable): Page<GameDTO>
 
-    fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team): GameDTO
+    fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team): Game.Team
 
     fun createGame(createGameRequest: CreateGameRequest): GameDTO
 

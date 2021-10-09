@@ -69,7 +69,7 @@ class GameController(private val gameService: GameService) {
         @PathVariable gameId: Long,
         @PathVariable userId: Long,
         @PathVariable team: Game.Team
-    ): ResponseEntity<GameDTO> {
+    ): ResponseEntity<Game.Team> {
         return ok(gameService.addUserToTeam(gameId, userId, team))
     }
 

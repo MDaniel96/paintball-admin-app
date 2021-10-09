@@ -121,16 +121,15 @@ class GameServiceImpl(
     }
 
     @Transactional
-    override fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team): GameDTO {
+    override fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team): Game.Team {
         val user = userService.getUserById(userId)
-        return getGameById(gameId).apply {
+        getGameById(gameId).apply {
             when (team) {
                 Game.Team.RED -> redPlayers.add(user)
                 Game.Team.BLUE -> bluePlayers.add(user)
             }
-        }.run {
-            toDTO(mapper)
         }
+        return team
     }
 
     private fun getGameById(id: Long): Game {
