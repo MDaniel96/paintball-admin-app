@@ -12,6 +12,7 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
 import demo.app.paintball.util.ErrorHandler
@@ -58,8 +59,7 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
         }
     }
 
-    override fun onJoinGame(playerName: String) {
-        player = Player(name = playerName, isAdmin = false)
+    override fun onJoinGame(selectedGameId: Long) {
         val intent = Intent(this, JoinGameActivity::class.java)
         startActivity(intent)
     }
@@ -68,6 +68,9 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
+    }
+
+    override fun onGetUsers(users: List<User>) {
     }
 
     override fun addRedPlayerSuccess() {

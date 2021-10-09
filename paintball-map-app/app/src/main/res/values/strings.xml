@@ -18,6 +18,7 @@
     <string name="game_time">Game time</string>
     <string name="create">Create</string>
     <string name="fill_out">Please fill out this part</string>
+    <string name="username_not_found">Username not found</string>
     <string name="waiting_for_admin">Waiting for admin</string>
     <string name="type_is">Type: %1$s</string>
     <string name="admin_is">Admin: %1$s</string>
@@ -47,4 +48,5 @@
     <string name="players_8">Players: 8</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="your_password">Your password</string>
+    <string name="select_game_to_join">Select game to join</string>
 </resources>

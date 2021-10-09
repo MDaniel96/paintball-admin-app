@@ -3,6 +3,7 @@ package demo.app.paintball.data.rest
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +27,18 @@ class RestServiceImpl @Inject constructor() : RestService {
             }
 
             override fun onFailure(call: Call<List<Game>>, t: Throwable) {
+                errorListener.handleError(t)
+            }
+        })
+    }
+
+    override fun getUsers() {
+        gameApi.getUsers().enqueue(object : Callback<List<User>> {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                listener.onGetUsers(response.body())
+            }
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
                 errorListener.handleError(t)
             }
         })

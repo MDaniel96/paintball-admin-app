@@ -17,6 +17,7 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.setBackgroundTint
 import demo.app.paintball.util.toast
@@ -66,6 +67,9 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
+    }
+
+    override fun onGetUsers(users: List<User>) {
     }
 
     private fun initTexts() {

@@ -7,7 +7,6 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
@@ -19,6 +18,19 @@
         android:layout_height="wrap_content"
         android:hint="@string/your_name"
         android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:text="@string/select_game_to_join" />
+
+    <Spinner
+        android:id="@+id/spGames"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnDone"

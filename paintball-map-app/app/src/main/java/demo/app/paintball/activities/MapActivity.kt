@@ -17,6 +17,7 @@ import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.OldGame
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.panels.MapStatsPanelFragment
@@ -155,6 +156,9 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
+    }
+
+    override fun onGetUsers(users: List<User>) {
     }
 
     private fun addPlayersToMap() {

@@ -3,6 +3,7 @@ package demo.app.paintball.data.rest
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import retrofit2.Response
 
 interface RestService {
@@ -12,6 +13,8 @@ interface RestService {
     var errorListener: ErrorListener
 
     fun getCreatedGames()
+
+    fun getUsers()
 
     fun getGame()
 
@@ -24,6 +27,7 @@ interface RestService {
     interface SuccessListener {
         fun getGameSuccess(response: Response<OldGame>)
         fun onGetCreatedGames(games: List<Game>)
+        fun onGetUsers(users: List<User>)
         fun addRedPlayerSuccess()
         fun addBluePlayerSuccess()
     }
