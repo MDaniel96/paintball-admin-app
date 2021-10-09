@@ -64,6 +64,15 @@ class GameController(private val gameService: GameService) {
         return gameService.getGamesPage(pageable)
     }
 
+    @PostMapping("/{gameId}/{userId}/{team}")
+    fun addUserToTeam(
+        @PathVariable gameId: Long,
+        @PathVariable userId: Long,
+        @PathVariable team: Game.Team
+    ): ResponseEntity<GameDTO> {
+        return ok(gameService.addUserToTeam(gameId, userId, team))
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     fun createGame(@RequestBody createGameRequest: CreateGameRequest): ResponseEntity<GameDTO> {

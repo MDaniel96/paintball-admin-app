@@ -120,6 +120,19 @@ class GameServiceImpl(
             .map(gameToDTO)
     }
 
+    @Transactional
+    override fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team): GameDTO {
+        val user = userService.getUserById(userId)
+        return getGameById(gameId).apply {
+            when (team) {
+                Game.Team.RED -> redPlayers.add(user)
+                Game.Team.BLUE -> bluePlayers.add(user)
+            }
+        }.run {
+            toDTO(mapper)
+        }
+    }
+
     private fun getGameById(id: Long): Game {
         return gameRepository.findByIdOrNull(id)
             ?: throw EntityNotFoundException("Game not found")
