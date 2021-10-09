@@ -59,7 +59,8 @@ class SecurityConfig(
                 .antMatchers("/auth/**",
                         "/api/user/register",
                         "/api/map/image/**",
-                        "/api/game/**"
+                        "/api/game/**",
+                        "/api/user"
                 ).permitAll()
                 .antMatchers(*unAuthorized).permitAll()
                 .anyRequest().authenticated()

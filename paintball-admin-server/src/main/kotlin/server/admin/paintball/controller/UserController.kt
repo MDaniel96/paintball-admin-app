@@ -25,6 +25,11 @@ class UserController(private val userService: UserService) {
         return ok(userService.registerUser(registerUserRequest))
     }
 
+    @GetMapping
+    fun getUsers(): ResponseEntity<List<UserDTO>> {
+        return ok(userService.getUsers())
+    }
+
     @GetMapping("{id}")
     fun getUser(@PathVariable id: Long): ResponseEntity<UserDTO> {
         return ok(userService.getById(id))

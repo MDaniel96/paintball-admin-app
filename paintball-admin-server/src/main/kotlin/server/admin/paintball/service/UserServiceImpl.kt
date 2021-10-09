@@ -52,6 +52,10 @@ class UserServiceImpl(
         }
     }
 
+    override fun getUsers(): List<UserDTO> {
+        return userRepository.findAll().toDTO(mapper)
+    }
+
     override fun getUserById(id: Long): User {
         return userRepository.findByIdOrNull(id)
             ?: throw EntityNotFoundException("User not found")
