@@ -13,4 +13,10 @@ class AppConfig {
 
     @Value("\${api.protected}")
     val isApiProtected: Boolean = true
+
+    @Value("\${mqtt.enabled}")
+    val isMqttEnabled: Boolean = true
+
+    @Value("\${mqtt.broker.url}")
+    val mqttBrokerUrl = ""
 }
