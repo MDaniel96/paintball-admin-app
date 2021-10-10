@@ -146,7 +146,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     }
 
     override fun gameMessageArrived(message: GameMessage) {
-        if (message.type == GameMessage.Type.START && player.team != null) {
+        if (message.type == GameMessage.Type.START && joinedTeam != null) {
             timer.cancel()
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)

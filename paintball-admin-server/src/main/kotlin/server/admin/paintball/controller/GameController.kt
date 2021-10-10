@@ -82,7 +82,8 @@ class GameController(private val gameService: GameService) {
     @PatchMapping("/{id}/changeState")
     @PreAuthorize("hasRole('ADMIN')")
     fun changeState(
-        @PathVariable id: Long, @RequestParam(required = true) newState: Game.State
+        @PathVariable id: Long,
+        @RequestParam(required = true) newState: Game.State
     ): ResponseEntity<GameDTO> {
         return ok(gameService.changeGameState(id, newState))
     }
@@ -90,7 +91,8 @@ class GameController(private val gameService: GameService) {
     @PatchMapping("/{id}/kickPlayer")
     @PreAuthorize("hasRole('ADMIN')")
     fun kickPlayerFromGame(
-        @PathVariable id: Long, @RequestParam(required = true) playerId: Long
+        @PathVariable id: Long,
+        @RequestParam(required = true) playerId: Long
     ): ResponseEntity<GameDTO> {
         return ok(gameService.kickPlayerFromGame(id, playerId))
     }

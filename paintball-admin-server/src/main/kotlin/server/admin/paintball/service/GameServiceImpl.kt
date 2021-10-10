@@ -19,6 +19,7 @@ class GameServiceImpl(
     private val gameRepository: GameRepository,
     private val mapService: MapService,
     private val userService: UserService,
+    private val mqttService: MqttService,
     private val mapper: ModelMapper
 ) : GameService {
 
@@ -70,6 +71,11 @@ class GameServiceImpl(
 
     @Transactional
     override fun changeGameState(id: Long, newState: Game.State): GameDTO {
+        if (newState == Game.State.STARTED) {
+            val adminName = userService.getCurrentUser().username
+            mqttService.publish("game", "$adminName|START")
+        }
+
         return getGameById(id).apply {
             state = newState
         }.run {
