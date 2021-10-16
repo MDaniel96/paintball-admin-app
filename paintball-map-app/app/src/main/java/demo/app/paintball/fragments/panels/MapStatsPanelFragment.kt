@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import demo.app.paintball.R
-import demo.app.paintball.data.rest.models.OldGame
-import demo.app.paintball.data.rest.models.getRemainingPlayers
+import demo.app.paintball.data.rest.models.Game
 import kotlinx.android.synthetic.main.fragment_map_stats.*
 
 class MapStatsPanelFragment : Fragment() {
@@ -62,9 +61,9 @@ class MapStatsPanelFragment : Fragment() {
         }
     }
 
-    fun refresh(oldGame: OldGame) {
-        tvBlueTeam.text = getString(R.string.remaining_players, oldGame.blueTeam.getRemainingPlayers(), oldGame.blueTeam.size)
-        tvRedTeam.text = getString(R.string.remaining_players, oldGame.redTeam.getRemainingPlayers(), oldGame.redTeam.size)
+    fun refresh(game: Game) {
+        tvBlueTeam.text = getString(R.string.remaining_players, game.getRemainingPlayers(Game.Team.BLUE), game.bluePlayers.size)
+        tvRedTeam.text = getString(R.string.remaining_players, game.getRemainingPlayers(Game.Team.RED), game.redPlayers.size)
     }
 
     fun show() {

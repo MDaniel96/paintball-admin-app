@@ -151,8 +151,8 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     override fun onGetGame(game: Game) {
         this.game = game
         mapViewElement.initMap(game.map!!)
+        statsPanel.refresh(game)
         // TODO
-//        statsPanel.refresh(game)
 //        addPlayersToMap()
     }
 

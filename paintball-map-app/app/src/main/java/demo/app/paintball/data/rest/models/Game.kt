@@ -15,6 +15,11 @@ class Game(
     val playerCount: Int
         get() = redPlayers.size + bluePlayers.size
 
+    fun getRemainingPlayers(team: Team) =
+        (if (team == Team.BLUE) bluePlayers else redPlayers)
+            .count { user -> !deadPlayers.map { it.id }.contains(user.id) }
+
+
     enum class State(val value: String) {
         CREATED("CREATED"),
         STARTED("STARTED"),

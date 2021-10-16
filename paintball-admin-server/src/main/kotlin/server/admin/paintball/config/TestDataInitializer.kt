@@ -93,6 +93,16 @@ class TestDataInitializer(
                     password = passwordEncoder.encode("player"),
                     roles = mutableSetOf(roleService.player)
                 ),
+                    User(
+                    username = "User4",
+                    password = passwordEncoder.encode("player"),
+                    roles = mutableSetOf(roleService.player)
+                ),
+                    User(
+                    username = "User5",
+                    password = passwordEncoder.encode("player"),
+                    roles = mutableSetOf(roleService.player)
+                ),
                 User(
                     username = "admin",
                     password = passwordEncoder.encode("admin"),
@@ -139,7 +149,15 @@ class TestDataInitializer(
 
         games[0].map = maps[0]
         games[1].map = maps[0]
-        games[6].map = maps[0]
+
+        games[6].apply {
+            map = maps[0]
+            redPlayers.add(users[1])
+            redPlayers.add(users[2])
+            bluePlayers.add(users[3])
+            bluePlayers.add(users[4])
+            deadPlayers.add(users[3])
+        }
 
         gameRepository.saveAll(games)
         userRepository.saveAll(users)
