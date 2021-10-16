@@ -1,5 +1,7 @@
 package demo.app.paintball.data.rest.models
 
+import demo.app.paintball.data.rest.enums.Team
+
 class Game(
     val id: Long = -1L,
     var name: String = "",
@@ -24,11 +26,6 @@ class Game(
         CREATED("CREATED"),
         STARTED("STARTED"),
         FINISHED("FINISHED");
-    }
-
-    enum class Team(val value: String) {
-        BLUE("BLUE"),
-        RED("RED");
     }
 
     enum class LocalizationMode(val value: String) {

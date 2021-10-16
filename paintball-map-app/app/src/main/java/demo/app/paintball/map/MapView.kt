@@ -1,8 +1,9 @@
 package demo.app.paintball.map
 
 import android.view.View
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Map
-import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 
 interface MapView {
 
@@ -14,7 +15,7 @@ interface MapView {
 
     fun setMovablePosition(playerName: String, posX: Int, posY: Int)
 
-    fun addPlayer(player: Player)
+    fun addUser(user: User, team: Team)
 
     fun removePlayer(playerName: String)
 

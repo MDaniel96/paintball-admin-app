@@ -3,7 +3,9 @@ package demo.app.paintball.map.renderables.movables
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.SystemClock
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.map.renderables.MapElement
 import demo.app.paintball.map.renderables.RenderableElement
 import demo.app.paintball.map.renderables.UserElement
@@ -14,10 +16,9 @@ abstract class MovableElement(val name: String) : RenderableElement() {
         const val SIZE = 3
         const val MAX_TIME_BETWEEN_POSITION_UPDATES = 1_500
 
-        fun create(player: Player) = when (player.team) {
-            Player.Team.RED -> RedPlayerElement(player.name)
-            Player.Team.BLUE -> BluePlayerElement(player.name)
-            else -> RedPlayerElement(player.name)
+        fun create(user: User, team: Team) = when (team) {
+            Team.RED -> RedPlayerElement(user.username)
+            Team.BLUE -> BluePlayerElement(user.username)
         }
     }
 

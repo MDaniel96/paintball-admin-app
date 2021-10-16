@@ -1,8 +1,9 @@
 package demo.app.paintball.map.rendering
 
 import android.graphics.Canvas
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Map
-import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.map.renderables.AnchorElement
 import demo.app.paintball.map.renderables.MapElement
 import demo.app.paintball.map.renderables.UserElement
@@ -50,10 +51,10 @@ class Renderer(private val width: Int, private val height: Int) {
             }
     }
 
-    fun addPlayer(newPlayer: Player) {
-        val player = MovableElement.create(newPlayer)
-        player.setSize(width, height)
-        movables.add(player)
+    fun addUser(newUser: User, team: Team) {
+        val user = MovableElement.create(newUser, team)
+        user.setSize(width, height)
+        movables.add(user)
     }
 
     fun removePlayer(playerName: String) {

@@ -11,13 +11,11 @@ import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.ErrorHandler
-import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.fragment_join_game.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
@@ -91,7 +89,7 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
         this.users = users
     }
 
-    override fun onAddUserToTeam(team: Game.Team) {
+    override fun onAddUserToTeam(team: Team) {
     }
 
     interface JoinGameListener {

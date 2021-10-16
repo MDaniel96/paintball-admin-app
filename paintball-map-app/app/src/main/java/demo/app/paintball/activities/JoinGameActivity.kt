@@ -14,6 +14,7 @@ import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.rest.RestService
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.util.ErrorHandler
@@ -38,7 +39,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
 
     private lateinit var game: Game
 
-    private var joinedTeam: Game.Team? = null
+    private var joinedTeam: Team? = null
 
     private val timer = Timer()
 
@@ -88,12 +89,12 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     private fun initTeamButtons() {
         btnJoinRed.setOnClickListener {
             if (joinedTeam == null){
-                restService.addUserToTeam(game.id, user.id, Game.Team.RED)
+                restService.addUserToTeam(game.id, user.id, Team.RED)
             }
         }
         btnJoinBlue.setOnClickListener {
             if (joinedTeam == null) {
-                restService.addUserToTeam(game.id, user.id, Game.Team.BLUE)
+                restService.addUserToTeam(game.id, user.id, Team.BLUE)
             }
         }
         btnViewRed.setOnClickListener {
@@ -115,11 +116,11 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }
     }
 
-    override fun onAddUserToTeam(team: Game.Team) {
+    override fun onAddUserToTeam(team: Team) {
         joinedTeam = team
         when (team) {
-            Game.Team.RED -> displayAddRedPlayer()
-            Game.Team.BLUE -> displayAddBluePlayer()
+            Team.RED -> displayAddRedPlayer()
+            Team.BLUE -> displayAddBluePlayer()
         }
     }
 

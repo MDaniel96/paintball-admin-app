@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.user
 import demo.app.paintball.R
 import demo.app.paintball.config.Config
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
@@ -14,6 +15,7 @@ import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
@@ -152,8 +154,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         this.game = game
         mapViewElement.initMap(game.map!!)
         statsPanel.refresh(game)
-        // TODO
-//        addPlayersToMap()
+        addUsersToMap()
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
@@ -162,17 +163,16 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     override fun onGetUsers(users: List<User>) {
     }
 
-    override fun onAddUserToTeam(team: Game.Team) {
+    override fun onAddUserToTeam(team: Team) {
     }
 
-    private fun addPlayersToMap() {
-        // TODO
-//        oldGame?.redTeam
-//            ?.filter { it.name != player.name }
-//            ?.forEach { mapViewElement.addPlayer(it) }
-//        oldGame?.blueTeam
-//            ?.filter { it.name != player.name }
-//            ?.forEach { mapViewElement.addPlayer(it) }
+    private fun addUsersToMap() {
+        game.redPlayers
+            .filter { it.id != user.id }
+            .forEach { mapViewElement.addUser(it, Team.RED) }
+        game.bluePlayers
+            .filter { it.id != user.id }
+            .forEach { mapViewElement.addUser(it, Team.BLUE) }
     }
 
     override fun onTagConnected() {

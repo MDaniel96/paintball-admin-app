@@ -1,9 +1,8 @@
 package demo.app.paintball.data.rest
 
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.util.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,13 +54,13 @@ class RestServiceImpl @Inject constructor() : RestService {
         })
     }
 
-    override fun addUserToTeam(gameId: Long, userId: Long, team: Game.Team) {
-        gameApi.addUserToTeam(gameId, userId, team).enqueue(object : Callback<Game.Team> {
-            override fun onResponse(call: Call<Game.Team>, response: Response<Game.Team>) {
+    override fun addUserToTeam(gameId: Long, userId: Long, team: Team) {
+        gameApi.addUserToTeam(gameId, userId, team).enqueue(object : Callback<Team> {
+            override fun onResponse(call: Call<Team>, response: Response<Team>) {
                 listener.onAddUserToTeam(response.body())
             }
 
-            override fun onFailure(call: Call<Game.Team>, t: Throwable) {
+            override fun onFailure(call: Call<Team>, t: Throwable) {
                 errorListener.handleError(t)
             }
         })

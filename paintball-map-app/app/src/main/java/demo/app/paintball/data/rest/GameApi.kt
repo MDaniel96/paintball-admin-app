@@ -2,6 +2,7 @@ package demo.app.paintball.data.rest
 
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.R
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
@@ -25,8 +26,8 @@ interface GameApi {
     fun addUserToTeam(
         @Path("gameId") gameId: Long,
         @Path("userId") userId: Long,
-        @Path("team") team: Game.Team,
-    ): Call<Game.Team>
+        @Path("team") team: Team,
+    ): Call<Team>
 
     @DELETE("/api/game")
     fun deleteGame(): Call<Any>

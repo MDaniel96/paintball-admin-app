@@ -9,8 +9,8 @@ import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
+import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
@@ -19,7 +19,6 @@ import demo.app.paintball.util.ErrorHandler
 import demo.app.paintball.util.checkPermissions
 import demo.app.paintball.util.fadeIn
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
@@ -74,7 +73,7 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     override fun onGetUsers(users: List<User>) {
     }
 
-    override fun onAddUserToTeam(team: Game.Team) {
+    override fun onAddUserToTeam(team: Team) {
     }
 
     override fun onTagConnected() {
