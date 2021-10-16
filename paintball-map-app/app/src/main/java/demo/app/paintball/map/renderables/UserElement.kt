@@ -10,7 +10,7 @@ import demo.app.paintball.util.xToMapPx
 import demo.app.paintball.util.yToMapPx
 
 
-class User : Renderable() {
+class UserElement : RenderableElement() {
 
     companion object {
         const val SIZE = 3

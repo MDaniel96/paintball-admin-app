@@ -3,7 +3,7 @@ package demo.app.paintball.map.renderables
 import android.graphics.Bitmap
 import android.graphics.Canvas
 
-abstract class Renderable {
+abstract class RenderableElement {
 
     protected var screenWidth = 0
     protected var screenHeight = 0

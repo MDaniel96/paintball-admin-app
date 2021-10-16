@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.R
 
-class BluePlayer(name: String) : Movable(name) {
+class RedPlayerElement(name: String) : MovableElement(name) {
 
-    override val image: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_blue_player)
+    override val image: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_red_player)
 }

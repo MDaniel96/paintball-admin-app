@@ -5,7 +5,7 @@ import android.graphics.drawable.BitmapDrawable
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.config.Config
 
-class Map : Renderable() {
+class MapElement : RenderableElement() {
 
     companion object {
         val MIN_ZOOM = Config.mapConfig.minZoom
@@ -28,8 +28,8 @@ class Map : Renderable() {
     }
 
     override fun render(canvas: Canvas) {
-        val translateX = (screenWidth / 2 - User.posX / zoom).toInt()
-        val translateY = (screenHeight / 2 - User.posY / zoom).toInt()
+        val translateX = (screenWidth / 2 - UserElement.posX / zoom).toInt()
+        val translateY = (screenHeight / 2 - UserElement.posY / zoom).toInt()
 
         val src = Rect(0, 0, image.width, image.height)
         val dst = Rect(

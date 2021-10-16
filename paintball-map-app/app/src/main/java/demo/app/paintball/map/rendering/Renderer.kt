@@ -1,41 +1,46 @@
 package demo.app.paintball.map.rendering
 
 import android.graphics.Canvas
+import demo.app.paintball.data.rest.models.Map
 import demo.app.paintball.data.rest.models.Player
-import demo.app.paintball.map.renderables.Anchor
-import demo.app.paintball.map.renderables.Map
-import demo.app.paintball.map.renderables.User
-import demo.app.paintball.map.renderables.movables.Movable
+import demo.app.paintball.map.renderables.AnchorElement
+import demo.app.paintball.map.renderables.MapElement
+import demo.app.paintball.map.renderables.UserElement
+import demo.app.paintball.map.renderables.movables.MovableElement
 import demo.app.paintball.util.clear
 
 class Renderer(private val width: Int, private val height: Int) {
 
-    private val movables = mutableListOf<Movable>()
-    private val anchors = mutableListOf<Anchor>()
+    private val movables = mutableListOf<MovableElement>()
+    private val anchors = mutableListOf<AnchorElement>()
 
-    private val map = Map()
-    private val user = User()
+    private val mapElement = MapElement()
+    private val userElement = UserElement()
 
     init {
-        map.setSize(width, height)
-        user.setSize(width, height)
+        mapElement.setSize(width, height)
+        userElement.setSize(width, height)
+    }
+
+    fun setMap(map: Map) {
+
     }
 
     fun draw(canvas: Canvas) {
         canvas.clear()
-        map.render(canvas)
+        mapElement.render(canvas)
         anchors.forEach { it.render(canvas) }
         movables.forEach { it.render(canvas) }
-        user.render(canvas)
+        userElement.render(canvas)
     }
 
     fun setPlayerPosition(posX: Int, posY: Int) {
-        User.posX = posX
-        User.posY = posY
+        UserElement.posX = posX
+        UserElement.posY = posY
     }
 
     fun setPlayerOrientation(degree: Float) {
-        user.setOrientation(degree)
+        userElement.setOrientation(degree)
     }
 
     fun setMovablePosition(movableName: String, posX: Int, posY: Int) {
@@ -47,7 +52,7 @@ class Renderer(private val width: Int, private val height: Int) {
     }
 
     fun addPlayer(newPlayer: Player) {
-        val player = Movable.create(newPlayer)
+        val player = MovableElement.create(newPlayer)
         player.setSize(width, height)
         movables.add(player)
     }
@@ -59,11 +64,11 @@ class Renderer(private val width: Int, private val height: Int) {
     }
 
     fun zoom(scaleFactor: Float) {
-        map.scale(scaleFactor)
+        mapElement.scale(scaleFactor)
     }
 
     fun addAnchor(posX: Int, posY: Int) {
-        val anchor = Anchor(posX, posY)
+        val anchor = AnchorElement(posX, posY)
         anchor.setSize(width, height)
         anchors.add(anchor)
     }

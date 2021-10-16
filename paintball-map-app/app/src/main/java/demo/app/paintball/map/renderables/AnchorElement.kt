@@ -7,7 +7,7 @@ import android.graphics.Rect
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.R
 
-class Anchor(posX: Int, posY: Int) : Renderable() {
+class AnchorElement(posX: Int, posY: Int) : RenderableElement() {
 
     companion object {
         const val size = 2
@@ -21,8 +21,8 @@ class Anchor(posX: Int, posY: Int) : Renderable() {
     override val image: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_anchor)
 
     override fun render(canvas: Canvas) {
-        val distanceFromPlayerX = (User.posX - posX) / Map.zoom
-        val distanceFromPlayerY = (User.posY - posY) / Map.zoom
+        val distanceFromPlayerX = (UserElement.posX - posX) / MapElement.zoom
+        val distanceFromPlayerY = (UserElement.posY - posY) / MapElement.zoom
         val translateX = (screenWidth / 2 - distanceFromPlayerX).toInt() - (image.width / size / 2)
         val translateY = (screenHeight / 2 - distanceFromPlayerY).toInt() - (image.height / size / 2)
 

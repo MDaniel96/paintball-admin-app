@@ -1,6 +1,7 @@
 package demo.app.paintball.map.rendering
 
 import android.graphics.Canvas
+import demo.app.paintball.data.rest.models.Map
 import demo.app.paintball.data.rest.models.Player
 
 class RenderLoop(private val view: MapViewImpl, width: Int, height: Int) : Thread() {
@@ -43,6 +44,10 @@ class RenderLoop(private val view: MapViewImpl, width: Int, height: Int) : Threa
                 view.holder.unlockCanvasAndPost(canvas)
             }
         }
+    }
+
+    fun setMap(map: Map) {
+        renderer.setMap(map)
     }
 
     fun setPlayerPosition(posX: Int, posY: Int) {

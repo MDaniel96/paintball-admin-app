@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import demo.app.paintball.data.rest.models.Map
 import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.map.MapView
 import demo.app.paintball.util.xToMapPx
@@ -44,6 +45,10 @@ class MapViewImpl : SurfaceView, MapView {
                 (context as MapViewCreatedListener).mapViewCreated()
             }
         })
+    }
+
+    override fun setMap(map: Map) {
+        renderLoop?.setMap(map)
     }
 
     override fun setPlayerPosition(posX: Int, posY: Int) {
