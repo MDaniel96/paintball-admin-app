@@ -6,6 +6,7 @@ import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.models.Player
 
+// TODO: Rename to player
 class UserElement(private val mapOrientation: Int) : RenderableElement() {
 
     companion object {
