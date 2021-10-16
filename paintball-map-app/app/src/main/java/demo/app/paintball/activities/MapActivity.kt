@@ -3,7 +3,6 @@ package demo.app.paintball.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.config.Config
@@ -151,7 +150,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     override fun onGetGame(game: Game) {
         this.game = game
-        mapViewElement.setMap(game.map!!)
+        mapViewElement.initMap(game.map!!)
         // TODO
 //        statsPanel.refresh(game)
 //        addPlayersToMap()

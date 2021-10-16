@@ -6,7 +6,7 @@ import demo.app.paintball.data.rest.models.Player
 
 interface MapView {
 
-    fun setMap(map: Map)
+    fun initMap(map: Map)
 
     fun setPlayerPosition(posX: Int, posY: Int)
 

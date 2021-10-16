@@ -4,13 +4,9 @@ import android.graphics.*
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.R
-import demo.app.paintball.config.Config
 import demo.app.paintball.data.rest.models.Player
-import demo.app.paintball.util.xToMapPx
-import demo.app.paintball.util.yToMapPx
 
-
-class UserElement : RenderableElement() {
+class UserElement(private val mapOrientation: Int) : RenderableElement() {
 
     companion object {
         const val SIZE = 3
@@ -23,8 +19,8 @@ class UserElement : RenderableElement() {
 
         const val PHONE_ORIENTATION = 90.0F  // east
 
-        var posX = 1800.xToMapPx()
-        var posY = 1500.yToMapPx()
+        var posX = 1300 // TODO 1800.xToMapPx()
+        var posY = 1400 // TODO 1500.yToMapPx()
     }
 
     private var screenCenterX = 0F
@@ -96,7 +92,7 @@ class UserElement : RenderableElement() {
         )
         imageMatrix.setRectToRect(src, dst, Matrix.ScaleToFit.CENTER)
 
-        val mapOrientation = Config.mapConfig.mapOrientation.toFloat()
+        val mapOrientation = mapOrientation.toFloat()
         val phoneDegree = (degree + PHONE_ORIENTATION) % 360.0F
         val mapDegree = (phoneDegree - mapOrientation) % 360.0F
         imageMatrix.postRotate(

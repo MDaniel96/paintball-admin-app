@@ -14,24 +14,23 @@ class Renderer(private val width: Int, private val height: Int) {
     private val movables = mutableListOf<MovableElement>()
     private val anchors = mutableListOf<AnchorElement>()
 
-    private val mapElement = MapElement()
-    private val userElement = UserElement()
+    private var mapElement: MapElement? = null
+    private var userElement: UserElement? = null
 
-    init {
-        mapElement.setSize(width, height)
-        userElement.setSize(width, height)
-    }
+    fun initMap(map: Map) {
+        mapElement = MapElement(map.id)
+        userElement = UserElement(map.orientation)
 
-    fun setMap(map: Map) {
-
+        mapElement?.setSize(width, height)
+        userElement?.setSize(width, height)
     }
 
     fun draw(canvas: Canvas) {
         canvas.clear()
-        mapElement.render(canvas)
+        mapElement?.render(canvas)
         anchors.forEach { it.render(canvas) }
         movables.forEach { it.render(canvas) }
-        userElement.render(canvas)
+        userElement?.render(canvas)
     }
 
     fun setPlayerPosition(posX: Int, posY: Int) {
@@ -40,7 +39,7 @@ class Renderer(private val width: Int, private val height: Int) {
     }
 
     fun setPlayerOrientation(degree: Float) {
-        userElement.setOrientation(degree)
+        userElement?.setOrientation(degree)
     }
 
     fun setMovablePosition(movableName: String, posX: Int, posY: Int) {
@@ -64,7 +63,7 @@ class Renderer(private val width: Int, private val height: Int) {
     }
 
     fun zoom(scaleFactor: Float) {
-        mapElement.scale(scaleFactor)
+        mapElement?.scale(scaleFactor)
     }
 
     fun addAnchor(posX: Int, posY: Int) {

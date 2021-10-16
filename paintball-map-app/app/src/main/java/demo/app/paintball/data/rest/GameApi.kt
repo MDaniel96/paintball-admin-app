@@ -38,7 +38,7 @@ interface GameApi {
     fun addBluePlayer(@Body player: Player): Call<Any>
 
     companion object {
-        private val BASE_URL = "http://${context.getString(R.string.serverURL)}:8080/"
+        val BASE_URL = "http://${context.getString(R.string.serverURL)}:8080/"
 
         fun create(): GameApi {
             val retrofit = Retrofit.Builder()

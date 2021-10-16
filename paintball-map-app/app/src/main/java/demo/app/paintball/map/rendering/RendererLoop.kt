@@ -46,8 +46,8 @@ class RenderLoop(private val view: MapViewImpl, width: Int, height: Int) : Threa
         }
     }
 
-    fun setMap(map: Map) {
-        renderer.setMap(map)
+    fun initMap(map: Map) {
+        renderer.initMap(map)
     }
 
     fun setPlayerPosition(posX: Int, posY: Int) {

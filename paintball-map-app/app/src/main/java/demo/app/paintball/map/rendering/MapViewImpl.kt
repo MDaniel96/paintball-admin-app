@@ -47,8 +47,8 @@ class MapViewImpl : SurfaceView, MapView {
         })
     }
 
-    override fun setMap(map: Map) {
-        renderLoop?.setMap(map)
+    override fun initMap(map: Map) {
+        renderLoop?.initMap(map)
     }
 
     override fun setPlayerPosition(posX: Int, posY: Int) {
