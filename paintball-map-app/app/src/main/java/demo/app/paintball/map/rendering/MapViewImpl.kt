@@ -68,8 +68,8 @@ class MapViewImpl : SurfaceView, MapView {
         renderLoop?.addUser(user, team)
     }
 
-    override fun removePlayer(playerName: String) {
-        renderLoop?.removePlayer(playerName)
+    override fun removeUser(playerName: String) {
+        renderLoop?.removeUser(playerName)
     }
 
     override fun zoom(scaleFactor: Float) {

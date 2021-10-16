@@ -67,8 +67,8 @@ class RenderLoop(private val view: MapViewImpl, width: Int, height: Int) : Threa
         renderer.addUser(user, team)
     }
 
-    fun removePlayer(playerName: String) {
-        renderer.removePlayer(playerName)
+    fun removeUser(playerName: String) {
+        renderer.removeUser(playerName)
     }
 
     fun zoom(scaleFactor: Float) {

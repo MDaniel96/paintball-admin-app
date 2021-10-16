@@ -6,7 +6,7 @@ import demo.app.paintball.data.rest.models.Map
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.map.renderables.AnchorElement
 import demo.app.paintball.map.renderables.MapElement
-import demo.app.paintball.map.renderables.UserElement
+import demo.app.paintball.map.renderables.PlayerElement
 import demo.app.paintball.map.renderables.movables.MovableElement
 import demo.app.paintball.util.clear
 
@@ -16,14 +16,14 @@ class Renderer(private val width: Int, private val height: Int) {
     private val anchors = mutableListOf<AnchorElement>()
 
     private var mapElement: MapElement? = null
-    private var userElement: UserElement? = null
+    private var playerElement: PlayerElement? = null
 
     fun initMap(map: Map) {
         mapElement = MapElement(map.id)
-        userElement = UserElement(map.orientation)
+        playerElement = PlayerElement(map.orientation)
 
         mapElement?.setSize(width, height)
-        userElement?.setSize(width, height)
+        playerElement?.setSize(width, height)
     }
 
     fun draw(canvas: Canvas) {
@@ -31,16 +31,16 @@ class Renderer(private val width: Int, private val height: Int) {
         mapElement?.render(canvas)
         anchors.forEach { it.render(canvas) }
         movables.forEach { it.render(canvas) }
-        userElement?.render(canvas)
+        playerElement?.render(canvas)
     }
 
     fun setPlayerPosition(posX: Int, posY: Int) {
-        UserElement.posX = posX
-        UserElement.posY = posY
+        PlayerElement.posX = posX
+        PlayerElement.posY = posY
     }
 
     fun setPlayerOrientation(degree: Float) {
-        userElement?.setOrientation(degree)
+        playerElement?.setOrientation(degree)
     }
 
     fun setMovablePosition(movableName: String, posX: Int, posY: Int) {
@@ -57,7 +57,7 @@ class Renderer(private val width: Int, private val height: Int) {
         movables.add(user)
     }
 
-    fun removePlayer(playerName: String) {
+    fun removeUser(playerName: String) {
         movables.find { it.name == playerName }?.let {
             movables.remove(it)
         }

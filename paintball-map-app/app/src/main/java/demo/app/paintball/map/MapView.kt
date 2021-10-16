@@ -17,7 +17,7 @@ interface MapView {
 
     fun addUser(user: User, team: Team)
 
-    fun removePlayer(playerName: String)
+    fun removeUser(playerName: String)
 
     fun zoom(scaleFactor: Float)
 

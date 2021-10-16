@@ -21,8 +21,8 @@ class AnchorElement(posX: Int, posY: Int) : RenderableElement() {
     override val image: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_anchor)
 
     override fun render(canvas: Canvas) {
-        val distanceFromPlayerX = (UserElement.posX - posX) / MapElement.zoom
-        val distanceFromPlayerY = (UserElement.posY - posY) / MapElement.zoom
+        val distanceFromPlayerX = (PlayerElement.posX - posX) / MapElement.zoom
+        val distanceFromPlayerY = (PlayerElement.posY - posY) / MapElement.zoom
         val translateX = (screenWidth / 2 - distanceFromPlayerX).toInt() - (image.width / size / 2)
         val translateY = (screenHeight / 2 - distanceFromPlayerY).toInt() - (image.height / size / 2)
 

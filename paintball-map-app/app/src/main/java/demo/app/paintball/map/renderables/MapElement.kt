@@ -32,8 +32,8 @@ class MapElement(mapId: Long) : RenderableElement() {
 
     override fun render(canvas: Canvas) {
         if (bitmapDrawable != null) {
-            val translateX = (screenWidth / 2 - UserElement.posX / zoom).toInt()
-            val translateY = (screenHeight / 2 - UserElement.posY / zoom).toInt()
+            val translateX = (screenWidth / 2 - PlayerElement.posX / zoom).toInt()
+            val translateY = (screenHeight / 2 - PlayerElement.posY / zoom).toInt()
 
             val src = Rect(0, 0, image.width, image.height)
             val dst = Rect(

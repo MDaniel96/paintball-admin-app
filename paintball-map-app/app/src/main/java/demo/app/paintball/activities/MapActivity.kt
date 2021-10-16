@@ -194,7 +194,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 //            if (message.type == GameMessage.Type.LEAVE) {
 //                it.leave(message.playerName)
 //                statsPanel.refresh(it)
-//                mapViewElement.removePlayer(message.playerName)
+//                mapViewElement.removeUser(message.playerName)
 //                toast(getString(R.string.player_left_the_game, message.playerName))
 //            }
 //        }

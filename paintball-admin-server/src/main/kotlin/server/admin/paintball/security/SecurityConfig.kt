@@ -60,7 +60,8 @@ class SecurityConfig(
                         "/api/user/register",
                         "/api/map/image/**",
                         "/api/game/**",
-                        "/api/user"
+                        "/api/user",
+                        "/api/mqtt/test/**"
                 ).permitAll()
                 .antMatchers(*unAuthorized).permitAll()
                 .anyRequest().authenticated()
