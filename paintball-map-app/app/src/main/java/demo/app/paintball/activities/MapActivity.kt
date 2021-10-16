@@ -16,7 +16,6 @@ import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.OldGame
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
@@ -29,7 +28,6 @@ import demo.app.paintball.util.*
 import demo.app.paintball.util.positioning.PositionCalculator
 import demo.app.paintball.util.positioning.PositionCalculatorImpl
 import kotlinx.android.synthetic.main.activity_map.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscope.GyroscopeListener,
@@ -46,10 +44,11 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     @Inject
     lateinit var bleService: BleService
 
-    private var oldGame: OldGame? = null
+    private lateinit var game: Game
+
     private var isMapButtonsOpen = false
 
-    private lateinit var map: MapView
+    private lateinit var mapViewElement: MapView
     private lateinit var mainButtons: MapButtonsFragment
     private lateinit var chatButtons: MapButtonsFragment
 
@@ -64,7 +63,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         setContentView(R.layout.activity_map)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        map = mapView
+        mapViewElement = mapView
         mainButtons = supportFragmentManager.findFragmentById(R.id.mainButtonsFragment) as MapButtonsFragment
         chatButtons = supportFragmentManager.findFragmentById(R.id.chatButtonsFragment) as MapButtonsFragment
 
@@ -73,7 +72,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mainButtons.initLevel(0)
         chatButtons.initLevel(1)
 
-        map.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
+        mapViewElement.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
         gyroscope = Gyroscope(gyroscopeListener = this)
 
         restService = services.rest().apply { listener = this@MapActivity; errorListener = ErrorHandler }
@@ -81,7 +80,8 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mqttService = services.mqtt().apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
 
         if (!resources.getBoolean(R.bool.mapOnlyMode)) {
-            //restService.getGame()
+            val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
+            restService.getGame(selectedGameId)
             bleService.startPositionSending()
             mqttService.subscribe(playerTopics.teamChat)
             mqttService.subscribe(playerTopics.positions)
@@ -112,7 +112,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         if (resources.getBoolean(R.bool.displayAnchors)) {
             Config.mapConfig.anchors
                 .filter { it[2] != 0 }
-                .forEach { map.addAnchor(it[0], it[1]) }
+                .forEach { mapViewElement.addAnchor(it[0], it[1]) }
         }
     }
 
@@ -120,7 +120,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onScaleChanged(scaleFactor: Float) {
-        map.zoom(scaleFactor)
+        mapViewElement.zoom(scaleFactor)
     }
 
     override fun onZoomIn() {
@@ -146,12 +146,13 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onOrientationChanged(radian: Float) {
-        map.setPlayerOrientation(radian.toDegree())
+        mapViewElement.setPlayerOrientation(radian.toDegree())
     }
 
     override fun onGetGame(game: Game) {
-//        oldGame = response.body()
-//        statsPanel.refresh(oldGame = response.body())
+        this.game = game
+        // TODO
+//        statsPanel.refresh(game)
 //        addPlayersToMap()
     }
 
@@ -165,12 +166,13 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     private fun addPlayersToMap() {
-        oldGame?.redTeam
-            ?.filter { it.name != player.name }
-            ?.forEach { map.addPlayer(it) }
-        oldGame?.blueTeam
-            ?.filter { it.name != player.name }
-            ?.forEach { map.addPlayer(it) }
+        // TODO
+//        oldGame?.redTeam
+//            ?.filter { it.name != player.name }
+//            ?.forEach { mapViewElement.addPlayer(it) }
+//        oldGame?.blueTeam
+//            ?.filter { it.name != player.name }
+//            ?.forEach { mapViewElement.addPlayer(it) }
     }
 
     override fun onTagConnected() {
@@ -178,7 +180,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun positionMessageArrived(message: PositionMessage) {
-        map.setMovablePosition(message.playerName, message.posX, message.posY)
+        mapViewElement.setMovablePosition(message.playerName, message.posX, message.posY)
     }
 
     override fun connectComplete() {
@@ -187,14 +189,15 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun gameMessageArrived(message: GameMessage) {
-        oldGame?.let {
-            if (message.type == GameMessage.Type.LEAVE) {
-                it.leave(message.playerName)
-                statsPanel.refresh(it)
-                map.removePlayer(message.playerName)
-                toast(getString(R.string.player_left_the_game, message.playerName))
-            }
-        }
+        // TODO
+//        oldGame?.let {
+//            if (message.type == GameMessage.Type.LEAVE) {
+//                it.leave(message.playerName)
+//                statsPanel.refresh(it)
+//                mapViewElement.removePlayer(message.playerName)
+//                toast(getString(R.string.player_left_the_game, message.playerName))
+//            }
+//        }
     }
 
     override fun onBleConnected(connection: BleService) {
@@ -210,7 +213,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onPositionCalculated(posX: Int, posY: Int) {
-        map.setPlayerPosition(posX, posY)
+        mapViewElement.setPlayerPosition(posX, posY)
         PositionMessage(posX, posY).publish(mqttService)
     }
 

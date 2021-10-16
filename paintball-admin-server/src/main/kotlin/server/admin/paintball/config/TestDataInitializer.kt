@@ -56,7 +56,7 @@ class TestDataInitializer(
                 Game(name = "DM game5", type = "TDM", state = Game.State.FINISHED, date = YESTERDAY),
                 Game(name = "DM game6", type = "CTF", state = Game.State.CREATED, date = YESTERDAY),
                 Game(
-                    name = "DM game7",
+                    name = "Gyenes DM game7",
                     type = "DM",
                     state = Game.State.CREATED,
                     date = YESTERDAY,
@@ -111,6 +111,7 @@ class TestDataInitializer(
 
         val maps = mapRepository.saveAll(
             listOf(
+                createMapGyenes(),
                 Map(name = "Map1", borderX = 10, borderY = 10, borderWidth = 10, borderHeight = 10),
                 Map(name = "Map2", borderX = 20, borderY = 20, borderWidth = 20, borderHeight = 20),
                 Map(name = "Map3", borderX = 30, borderY = 30, borderWidth = 30, borderHeight = 30)
@@ -138,10 +139,21 @@ class TestDataInitializer(
 
         games[0].map = maps[0]
         games[1].map = maps[0]
+        games[6].map = maps[0]
 
         gameRepository.saveAll(games)
         userRepository.saveAll(users)
         locationRepository.saveAll(locations)
         mapRepository.saveAll(maps)
     }
+
+    private fun createMapGyenes() = Map(
+        id = 1,
+        name = "Gyenes",
+        width = 2968,
+        orientation = 270,
+        anchorRadiusInMm = 5_000,
+        anchorRadiusInPixels = 800
+        // TODO: anchors
+    )
 }

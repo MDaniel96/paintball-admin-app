@@ -149,6 +149,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         if (message.type == GameMessage.Type.START && joinedTeam != null) {
             timer.cancel()
             val intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("SELECTED_GAME_ID", game.id)
             startActivity(intent)
         }
     }
