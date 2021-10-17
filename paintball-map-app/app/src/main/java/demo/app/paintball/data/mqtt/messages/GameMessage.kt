@@ -1,6 +1,6 @@
 package demo.app.paintball.data.mqtt.messages
 
-import demo.app.paintball.PaintballApplication.Companion.player
+import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttMessage
 
@@ -8,7 +8,7 @@ class GameMessage(raw: String) : MqttMessage(raw) {
 
     var type: Type = Type.find(rawFields[1])
 
-    constructor(type: Type) : this("${player.name}$SEPARATOR$type")
+    constructor(type: Type) : this("${currentUser.username}$SEPARATOR$type")
 
     override fun getTopic() = playerTopics.game
 

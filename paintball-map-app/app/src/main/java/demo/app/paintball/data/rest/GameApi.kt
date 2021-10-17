@@ -4,7 +4,6 @@ import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -28,15 +27,6 @@ interface GameApi {
         @Path("userId") userId: Long,
         @Path("team") team: Team,
     ): Call<Team>
-
-    @DELETE("/api/game")
-    fun deleteGame(): Call<Any>
-
-    @POST("/api/game/red")
-    fun addRedPlayer(@Body player: Player): Call<Any>
-
-    @POST("/api/game/blue")
-    fun addBluePlayer(@Body player: Player): Call<Any>
 
     companion object {
         val BASE_URL = "http://${context.getString(R.string.serverURL)}:8080/"

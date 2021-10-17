@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication
-import demo.app.paintball.PaintballApplication.Companion.player
+import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
@@ -117,7 +117,7 @@ class ChatButtonsFragmentImpl : MapButtonsFragment(), MqttService.ChatListener {
     }
 
     override fun chatMessageArrived(message: ChatMessage) {
-        if (chatActivated && player.name != message.playerName) {
+        if (chatActivated && currentUser.username != message.playerName) {
             val bytes = message.message.fromHexToByteArray()
             bytes.playAudio()
         }

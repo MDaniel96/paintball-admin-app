@@ -5,13 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import demo.app.paintball.PaintballApplication.Companion.player
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.Player
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
@@ -46,7 +44,6 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
         btnConnectTag.setOnClickListener { ConnectTagFragment().show(supportFragmentManager, "TAG") }
         checkTagsEnabled()
         this.checkPermissions(permissionsNeeded)
-        checkOnlyMapMode()
         initAnimations()
     }
 
@@ -79,14 +76,6 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     override fun onTagConnected() {
         btnJoinGame.isEnabled = true
         btnConnectTag.isEnabled = false
-    }
-
-    private fun checkOnlyMapMode() {
-        if (resources.getBoolean(R.bool.mapOnlyMode)) {
-            player = Player(name = "OnlyMapPlayer", isAdmin = true)
-            val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun initAnimations() {

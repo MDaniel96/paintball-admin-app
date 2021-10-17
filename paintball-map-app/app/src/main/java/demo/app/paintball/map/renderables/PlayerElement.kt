@@ -2,9 +2,9 @@ package demo.app.paintball.map.renderables
 
 import android.graphics.*
 import demo.app.paintball.PaintballApplication.Companion.context
-import demo.app.paintball.PaintballApplication.Companion.player
+import demo.app.paintball.PaintballApplication.Companion.currentTeam
 import demo.app.paintball.R
-import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.enums.Team
 
 class PlayerElement(private val mapOrientation: Int) : RenderableElement() {
 
@@ -29,10 +29,9 @@ class PlayerElement(private val mapOrientation: Int) : RenderableElement() {
     override val image: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_arrow_white)
 
     private val sprite: Bitmap = BitmapFactory.decodeResource(
-        context.resources, when (player.team) {
-            Player.Team.RED -> R.drawable.sprite_pulse_red
-            Player.Team.BLUE -> R.drawable.sprite_pulse_blue
-            else -> R.drawable.sprite_pulse_gr
+        context.resources, when (currentTeam) {
+            Team.RED -> R.drawable.sprite_pulse_red
+            Team.BLUE -> R.drawable.sprite_pulse_blue
         }
     )
 

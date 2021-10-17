@@ -80,23 +80,17 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         bleService = services.ble().also { it.addListener(this@MapActivity) }
         mqttService = services.mqtt().apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
 
-        if (!resources.getBoolean(R.bool.mapOnlyMode)) {
-            val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
-            restService.getGame(selectedGameId)
-            bleService.startPositionSending()
-            mqttService.subscribe(playerTopics.teamChat)
-            mqttService.subscribe(playerTopics.positions)
-        }
+        val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
+        restService.getGame(selectedGameId)
+        bleService.startPositionSending()
+        mqttService.subscribe(playerTopics.teamChat)
+        mqttService.subscribe(playerTopics.positions)
 
         fabActivateButtons.setOnClickListener {
             if (isMapButtonsOpen) hideButtons() else showButtons()
         }
 
         positionCalculator = PositionCalculatorImpl(Config.mapConfig.anchors).apply { listener = this@MapActivity }
-
-        if (resources.getBoolean(R.bool.mapOnlyMode) && resources.getBoolean(R.bool.tagsEnabled)) {
-            ConnectTagFragment().show(supportFragmentManager, "TAG")
-        }
     }
 
     override fun onResume() {
