@@ -55,26 +55,6 @@ fun Float.toDegree() = Math.toDegrees(this.toDouble()).toFloat()
 
 fun Float.to2PIRadiant() = if (this < 0) (2 * Math.PI + this).toFloat() else this
 
-fun Int.mmToPx(): Int {
-    val unitMm = Config.mapConfig.anchorOriginPosX.toFloat()
-    val unitPx = Config.mapConfig.anchorOriginPxX.toFloat()
-    val imagePixel = Config.mapConfig.imageWidthPx.toFloat()
-    val imageBitmap =
-        ResourcesCompat.getDrawable(context.resources, Config.mapConfig.imageDrawableId, null)!!.intrinsicWidth.toFloat()
-
-    return ((this / unitMm * unitPx) * imageBitmap / imagePixel).toInt()
-}
-
-fun Int.xToMapPx(): Int {
-    val anchorXMm = Config.mapConfig.anchorOriginPosX
-    return (anchorXMm + this).mmToPx()
-}
-
-fun Int.yToMapPx(): Int {
-    val anchorYMm = Config.mapConfig.anchorOriginPosY
-    return (anchorYMm - this).mmToPx()
-}
-
 // ====================================
 //  AUDIO
 // ====================================

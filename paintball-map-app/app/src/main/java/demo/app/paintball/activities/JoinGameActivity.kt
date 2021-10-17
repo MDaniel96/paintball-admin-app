@@ -6,9 +6,9 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication.Companion.context
-import demo.app.paintball.PaintballApplication.Companion.player
+import demo.app.paintball.PaintballApplication.Companion.currentTeam
 import demo.app.paintball.PaintballApplication.Companion.services
-import demo.app.paintball.PaintballApplication.Companion.user
+import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
@@ -89,12 +89,14 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     private fun initTeamButtons() {
         btnJoinRed.setOnClickListener {
             if (joinedTeam == null){
-                restService.addUserToTeam(game.id, user.id, Team.RED)
+                restService.addUserToTeam(game.id, currentUser.id, Team.RED)
+                currentTeam = Team.RED
             }
         }
         btnJoinBlue.setOnClickListener {
             if (joinedTeam == null) {
-                restService.addUserToTeam(game.id, user.id, Team.BLUE)
+                restService.addUserToTeam(game.id, currentUser.id, Team.BLUE)
+                currentTeam = Team.BLUE
             }
         }
         btnViewRed.setOnClickListener {

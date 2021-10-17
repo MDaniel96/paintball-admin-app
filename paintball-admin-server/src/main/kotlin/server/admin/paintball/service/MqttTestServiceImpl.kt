@@ -24,12 +24,14 @@ class MqttTestServiceImpl(val gameService: GameService,
     private lateinit var timer: Timer
 
     override fun sendPositionMessages(gameId: Long) {
-        val blueStartX = 0
-        val redStartX = 60
-        val rangeFrom = -10L
-        val rangeTo = 200L
-        val blueStartY = 30
-        val redStartY = 50
+        val blueStartX = 20_000
+        val blueStartY = 25_000
+
+        val redStartX = 40_000
+        val redStartY = 15_000
+
+        val rangeFrom = -20_000L
+        val rangeTo = 20_000L
 
         val game = gameService.getGame(gameId)
         val redTeam = game.redPlayers
@@ -37,8 +39,8 @@ class MqttTestServiceImpl(val gameService: GameService,
 
         timer = Timer()
         redTeam.forEach {
-            val testPositions = getPositions(it.username, blueStartX + Random.nextLong(rangeFrom, rangeTo).toInt(),
-                    blueStartY + Random.nextLong(rangeFrom, rangeTo).toInt(), 10)
+            val testPositions = getPositions(it.username, redStartX + Random.nextLong(rangeFrom, rangeTo).toInt(),
+                    redStartY + Random.nextLong(rangeFrom, rangeTo).toInt(), 20)
             var i = 0
             timer.schedule(40L, Random.nextLong(50, 150)) {
                 if (i < testPositions.size - 1) i++ else i = 0
@@ -49,8 +51,8 @@ class MqttTestServiceImpl(val gameService: GameService,
             }
         }
         blueTeam.forEach {
-            val testPositions = getPositions(it.username, redStartX + Random.nextLong(rangeFrom, rangeTo).toInt(),
-                    redStartY + Random.nextLong(rangeFrom, rangeTo).toInt(), 10)
+            val testPositions = getPositions(it.username, blueStartX + Random.nextLong(rangeFrom, rangeTo).toInt(),
+                    blueStartY + Random.nextLong(rangeFrom, rangeTo).toInt(), 20)
             var i = 0
             timer.schedule(40L, Random.nextLong(50, 150)) {
                 if (i < testPositions.size - 1) i++ else i = 0

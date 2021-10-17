@@ -1,17 +1,16 @@
 package demo.app.paintball.config.topics
 
-import demo.app.paintball.PaintballApplication.Companion.player
+import demo.app.paintball.PaintballApplication.Companion.currentTeam
 import demo.app.paintball.data.mqtt.MqttTopic
-import demo.app.paintball.data.rest.models.Player
+import demo.app.paintball.data.rest.enums.Team
 
 abstract class TopicsConfig {
 
     companion object {
         val playerTopics
-            get() = when (player.team) {
-                Player.Team.RED -> RedTeamTopics
-                Player.Team.BLUE -> BlueTeamTopics
-                else -> RedTeamTopics
+            get() = when (currentTeam) {
+                Team.RED -> RedTeamTopics
+                Team.BLUE -> BlueTeamTopics
             }
     }
 

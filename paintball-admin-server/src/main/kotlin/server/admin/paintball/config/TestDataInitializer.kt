@@ -170,8 +170,8 @@ class TestDataInitializer(
         name = "Gyenes",
         width = 2968,
         orientation = 270,
-        anchorRadiusInMm = 5_000,
-        anchorRadiusInPixels = 800
+        anchorRadiusInMm = 20_000,
+        anchorRadiusInPixels = 1000
         // TODO: anchors
     )
 }

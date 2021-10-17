@@ -8,8 +8,6 @@ import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Map
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.map.MapView
-import demo.app.paintball.util.xToMapPx
-import demo.app.paintball.util.yToMapPx
 
 class MapViewImpl : SurfaceView, MapView {
 
@@ -53,11 +51,11 @@ class MapViewImpl : SurfaceView, MapView {
     }
 
     override fun setPlayerPosition(posX: Int, posY: Int) {
-        renderLoop?.setPlayerPosition(posX.xToMapPx(), posY.yToMapPx())
+        renderLoop?.setPlayerPosition(posX, posY)
     }
 
     override fun setMovablePosition(playerName: String, posX: Int, posY: Int) {
-        renderLoop?.setMovablePosition(playerName, posX.xToMapPx(), posY.yToMapPx())
+        renderLoop?.setMovablePosition(playerName, posX, posY)
     }
 
     override fun setPlayerOrientation(degree: Float) {
@@ -77,7 +75,7 @@ class MapViewImpl : SurfaceView, MapView {
     }
 
     override fun addAnchor(posX: Int, posY: Int) {
-        renderLoop?.addAnchor(posX.xToMapPx(), posY.yToMapPx())
+        renderLoop?.addAnchor(posX, posY)
     }
 
     interface MapViewCreatedListener {

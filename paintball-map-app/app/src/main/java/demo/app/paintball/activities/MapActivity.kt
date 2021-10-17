@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import demo.app.paintball.PaintballApplication.Companion.services
-import demo.app.paintball.PaintballApplication.Companion.user
+import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.R
 import demo.app.paintball.config.Config
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
@@ -110,11 +110,12 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun mapViewCreated() {
-        if (resources.getBoolean(R.bool.displayAnchors)) {
-            Config.mapConfig.anchors
-                .filter { it[2] != 0 }
-                .forEach { mapViewElement.addAnchor(it[0], it[1]) }
-        }
+        // TODO add anchor
+//        if (resources.getBoolean(R.bool.displayAnchors)) {
+//            Config.mapConfig.anchors
+//                .filter { it[2] != 0 }
+//                .forEach { mapViewElement.addAnchor(it[0], it[1]) }
+//        }
     }
 
     override fun onBackPressed() {
@@ -168,10 +169,10 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     private fun addUsersToMap() {
         game.redPlayers
-            .filter { it.id != user.id }
+            .filter { it.id != currentUser.id }
             .forEach { mapViewElement.addUser(it, Team.RED) }
         game.bluePlayers
-            .filter { it.id != user.id }
+            .filter { it.id != currentUser.id }
             .forEach { mapViewElement.addUser(it, Team.BLUE) }
     }
 
@@ -180,7 +181,9 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun positionMessageArrived(message: PositionMessage) {
-        mapViewElement.setMovablePosition(message.playerName, message.posX, message.posY)
+        game.map?.let {
+            mapViewElement.setMovablePosition(message.playerName, it.mmToPx(message.posX), it.mmToPx(message.posX))
+        }
     }
 
     override fun connectComplete() {
@@ -213,7 +216,9 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onPositionCalculated(posX: Int, posY: Int) {
-        mapViewElement.setPlayerPosition(posX, posY)
+        game.map?.let {
+            mapViewElement.setPlayerPosition(it.mmToPx(posX), it.mmToPx(posY))
+        }
         PositionMessage(posX, posY).publish(mqttService)
     }
 

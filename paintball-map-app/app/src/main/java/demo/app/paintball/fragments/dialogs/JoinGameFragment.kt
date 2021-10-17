@@ -67,7 +67,7 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
                 return@setOnClickListener
             }
 
-            PaintballApplication.user = selectedUser
+            PaintballApplication.currentUser = selectedUser
             listener.onJoinGame(selectedGame.id)
             dismiss()
         }
