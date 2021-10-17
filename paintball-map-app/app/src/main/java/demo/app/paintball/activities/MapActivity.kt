@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.R
-import demo.app.paintball.config.Config
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.ble.BleService
 import demo.app.paintball.data.ble.BleServiceImpl
@@ -16,13 +15,13 @@ import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
+import demo.app.paintball.data.rest.models.Anchor
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.panels.MapStatsPanelFragment
 import demo.app.paintball.map.MapView
-import demo.app.paintball.map.rendering.MapViewImpl
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
 import demo.app.paintball.util.*
@@ -90,7 +89,10 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
             if (isMapButtonsOpen) hideButtons() else showButtons()
         }
 
-        positionCalculator = PositionCalculatorImpl(Config.mapConfig.anchors).apply { listener = this@MapActivity }
+        // TODO: pass anchors here
+        positionCalculator = PositionCalculatorImpl(listOf(intArrayOf(0, 0, 0), intArrayOf(1, 1, 1))).apply {
+            listener = this@MapActivity
+        }
     }
 
     override fun onResume() {

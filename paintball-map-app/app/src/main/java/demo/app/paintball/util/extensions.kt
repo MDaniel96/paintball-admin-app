@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import demo.app.paintball.PaintballApplication.Companion.context
-import demo.app.paintball.config.Config
 import java.io.File
 
 // ====================================
