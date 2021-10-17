@@ -188,15 +188,17 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun gameMessageArrived(message: GameMessage) {
-        // TODO
-//        oldGame?.let {
-//            if (message.type == GameMessage.Type.LEAVE) {
-//                it.leave(message.playerName)
-//                statsPanel.refresh(it)
-//                mapViewElement.removeUser(message.playerName)
-//                toast(getString(R.string.player_left_the_game, message.playerName))
-//            }
-//        }
+        if (message.type == GameMessage.Type.LEAVE) {
+            game.bluePlayers
+                .union(game.redPlayers)
+                .find { it.username == message.playerName }
+                ?.let { leavingUser ->
+                    game.deadPlayers.add(leavingUser)
+                    statsPanel.refresh(game)
+                    mapViewElement.removeUser(message.playerName)
+                    toast(getString(R.string.player_left_the_game, message.playerName))
+                }
+        }
     }
 
     override fun onBleConnected(connection: BleService) {

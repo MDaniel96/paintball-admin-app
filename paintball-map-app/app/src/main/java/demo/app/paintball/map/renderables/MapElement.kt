@@ -15,8 +15,8 @@ import demo.app.paintball.data.rest.GameApi
 class MapElement(mapId: Long) : RenderableElement() {
 
     companion object {
-        const val MIN_ZOOM = 1.5 // TODO
-        const val MAX_ZOOM = 0.8 // TODO
+        const val MIN_ZOOM = 1.5
+        const val MAX_ZOOM = 0.8
         const val MAX_SCALE_FACTOR = 2
 
         var zoom = MIN_ZOOM
