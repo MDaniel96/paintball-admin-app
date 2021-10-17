@@ -6,14 +6,9 @@ import org.springframework.context.annotation.Profile
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import server.admin.paintball.model.Game
-import server.admin.paintball.model.Location
+import server.admin.paintball.model.*
 import server.admin.paintball.model.Map
-import server.admin.paintball.model.User
-import server.admin.paintball.repository.GameRepository
-import server.admin.paintball.repository.LocationRepository
-import server.admin.paintball.repository.MapRepository
-import server.admin.paintball.repository.UserRepository
+import server.admin.paintball.repository.*
 import server.admin.paintball.security.authorization.RoleService
 import java.time.LocalDate
 
@@ -24,6 +19,7 @@ class TestDataInitializer(
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository,
     private val mapRepository: MapRepository,
+    private val anchorRepository: AnchorRepository,
     private val roleService: RoleService,
     private val passwordEncoder: PasswordEncoder
 ) : ApplicationRunner {
@@ -93,12 +89,12 @@ class TestDataInitializer(
                     password = passwordEncoder.encode("player"),
                     roles = mutableSetOf(roleService.player)
                 ),
-                    User(
+                User(
                     username = "User4",
                     password = passwordEncoder.encode("player"),
                     roles = mutableSetOf(roleService.player)
                 ),
-                    User(
+                User(
                     username = "User5",
                     password = passwordEncoder.encode("player"),
                     roles = mutableSetOf(roleService.player)
@@ -125,6 +121,15 @@ class TestDataInitializer(
                 Map(name = "Map1", borderX = 10, borderY = 10, borderWidth = 10, borderHeight = 10),
                 Map(name = "Map2", borderX = 20, borderY = 20, borderWidth = 20, borderHeight = 20),
                 Map(name = "Map3", borderX = 30, borderY = 30, borderWidth = 30, borderHeight = 30)
+            )
+        )
+
+        val anchors = anchorRepository.saveAll(
+            listOf(
+                Anchor(x = 20_000, y = 20_000),
+                Anchor(x = 40_000, y = 20_000),
+                Anchor(x = 20_000, y = 40_000),
+                Anchor(x = 40_000, y = 40_000),
             )
         )
 
@@ -157,12 +162,18 @@ class TestDataInitializer(
             bluePlayers.add(users[3])
             bluePlayers.add(users[4])
             deadPlayers.add(users[3])
+            maps[0].anchors.addAll(anchors)
+            anchors[0].map = maps[0]
+            anchors[1].map = maps[0]
+            anchors[2].map = maps[0]
+            anchors[3].map = maps[0]
         }
 
         gameRepository.saveAll(games)
         userRepository.saveAll(users)
         locationRepository.saveAll(locations)
         mapRepository.saveAll(maps)
+        anchorRepository.saveAll(anchors)
     }
 
     private fun createMapGyenes() = Map(
@@ -172,6 +183,5 @@ class TestDataInitializer(
         orientation = 270,
         anchorRadiusInMm = 20_000,
         anchorRadiusInPixels = 1000
-        // TODO: anchors
     )
 }

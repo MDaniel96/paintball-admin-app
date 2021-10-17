@@ -41,7 +41,6 @@ class MapViewImpl : SurfaceView, MapView {
                 loop.running = true
                 loop.start()
                 renderLoop = loop
-                (context as MapViewCreatedListener).mapViewCreated()
             }
         })
     }
@@ -76,9 +75,5 @@ class MapViewImpl : SurfaceView, MapView {
 
     override fun addAnchor(posX: Int, posY: Int) {
         renderLoop?.addAnchor(posX, posY)
-    }
-
-    interface MapViewCreatedListener {
-        fun mapViewCreated()
     }
 }

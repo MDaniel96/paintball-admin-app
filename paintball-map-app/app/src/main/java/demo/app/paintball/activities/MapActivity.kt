@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscope.GyroscopeListener,
     RestService.SuccessListener, ConnectTagFragment.ConnectTagListener,
-    MqttService.PositionListener, MapViewImpl.MapViewCreatedListener, BleServiceImpl.BleServiceListener,
+    MqttService.PositionListener, BleServiceImpl.BleServiceListener,
     PositionCalculator.PositionCalculatorListener, MqttService.GameListener {
 
     @Inject
@@ -109,15 +109,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         gyroscope.stop()
     }
 
-    override fun mapViewCreated() {
-        // TODO add anchor
-//        if (resources.getBoolean(R.bool.displayAnchors)) {
-//            Config.mapConfig.anchors
-//                .filter { it[2] != 0 }
-//                .forEach { mapViewElement.addAnchor(it[0], it[1]) }
-//        }
-    }
-
     override fun onBackPressed() {
     }
 
@@ -156,6 +147,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mapViewElement.initMap(game.map!!)
         statsPanel.refresh(game)
         addUsersToMap()
+        addAnchorsToMap(game)
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
@@ -174,6 +166,14 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         game.bluePlayers
             .filter { it.id != currentUser.id }
             .forEach { mapViewElement.addUser(it, Team.BLUE) }
+    }
+
+    private fun addAnchorsToMap(game: Game) {
+        if (resources.getBoolean(R.bool.displayAnchors)) {
+            game.map?.anchors?.forEach {
+                mapViewElement.addAnchor(game.map!!.mmToPx(it.x.toInt()), game.map!!.mmToPx(it.y.toInt()))
+            }
+        }
     }
 
     override fun onTagConnected() {
