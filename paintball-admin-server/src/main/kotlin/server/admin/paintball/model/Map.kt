@@ -39,6 +39,15 @@ class Map(
     @Column(nullable = false)
     var anchorRadiusInPixels: Long = -1L,
 
+    @Column(nullable = false)
+    var topLeftLatitude: Double = -1.0,
+
+    @Column(nullable = false)
+    var topLeftLongitude: Double = -1.0,
+
+    @Column(nullable = false)
+    var topRightLongitude: Double = -1.0,
+
     @ManyToOne
     var location: Location? = null,
 

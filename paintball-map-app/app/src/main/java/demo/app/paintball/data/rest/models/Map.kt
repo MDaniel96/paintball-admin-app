@@ -12,6 +12,9 @@ class Map(
     var borderHeight: Long = -1L,
     var anchorRadiusInMm: Long = -1L,
     var anchorRadiusInPixels: Long = -1L,
+    var topLeftLatitude: Double = -1.0,
+    var topLeftLongitude: Double = -1.0,
+    var topRightLongitude: Double = -1.0,
     var location: Location? = null,
     var obstacles: MutableSet<Obstacle> = hashSetOf(),
     var anchors: MutableSet<Anchor> = hashSetOf()

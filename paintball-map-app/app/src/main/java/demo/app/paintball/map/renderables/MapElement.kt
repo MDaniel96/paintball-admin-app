@@ -7,6 +7,7 @@ import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import demo.app.paintball.PaintballApplication.Companion.context
@@ -55,6 +56,7 @@ class MapElement(mapId: Long) : RenderableElement() {
         Glide.with(context)
             .asBitmap()
             .load("${GameApi.BASE_URL}paintball-admin/api/map/image/$mapId")
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(object : CustomTarget<Bitmap>(){
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     image = resource

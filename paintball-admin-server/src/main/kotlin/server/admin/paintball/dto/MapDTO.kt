@@ -17,6 +17,9 @@ class MapDTO(
     var borderHeight: Long = -1L,
     var anchorRadiusInMm: Long = -1L,
     var anchorRadiusInPixels: Long = -1L,
+    var topLeftLatitude: Double = -1.0,
+    var topLeftLongitude: Double = -1.0,
+    var topRightLongitude: Double = -1.0,
     var location: LocationDTO? = null,
     var obstacles: MutableSet<ObstacleDTO> = hashSetOf(),
     var anchors: MutableSet<AnchorDTO> = hashSetOf()
