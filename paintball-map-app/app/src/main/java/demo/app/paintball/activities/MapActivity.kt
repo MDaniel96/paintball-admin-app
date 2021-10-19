@@ -1,10 +1,11 @@
 package demo.app.paintball.activities
 
+import android.location.Location
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.PaintballApplication.Companion.currentUser
+import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.ble.BleService
@@ -15,7 +16,6 @@ import demo.app.paintball.data.mqtt.messages.GameMessage
 import demo.app.paintball.data.mqtt.messages.PositionMessage
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
-import demo.app.paintball.data.rest.models.Anchor
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.buttons.MapButtonsFragment
@@ -24,6 +24,7 @@ import demo.app.paintball.fragments.panels.MapStatsPanelFragment
 import demo.app.paintball.map.MapView
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
+import demo.app.paintball.map.sensors.Locator
 import demo.app.paintball.util.*
 import demo.app.paintball.util.positioning.PositionCalculator
 import demo.app.paintball.util.positioning.PositionCalculatorImpl
@@ -33,7 +34,7 @@ import javax.inject.Inject
 class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscope.GyroscopeListener,
     RestService.SuccessListener, ConnectTagFragment.ConnectTagListener,
     MqttService.PositionListener, BleServiceImpl.BleServiceListener,
-    PositionCalculator.PositionCalculatorListener, MqttService.GameListener {
+    PositionCalculator.PositionCalculatorListener, MqttService.GameListener, Locator.LocatorListener {
 
     @Inject
     lateinit var restService: RestService
@@ -55,6 +56,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     private lateinit var statsPanel: MapStatsPanelFragment
 
     private lateinit var gyroscope: Gyroscope
+    private lateinit var locator: Locator
 
     private lateinit var positionCalculator: PositionCalculator
 
@@ -74,6 +76,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
         mapViewElement.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
         gyroscope = Gyroscope(gyroscopeListener = this)
+        locator = Locator(listener = this)
 
         restService = services.rest().apply { listener = this@MapActivity; errorListener = ErrorHandler }
         bleService = services.ble().also { it.addListener(this@MapActivity) }
@@ -213,6 +216,10 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         toast("Tag disconnected")
     }
 
+    override fun onLocationChanged(location: Location) {
+        println("locationChanged: ${location.latitude}  -  ${location.longitude}")
+    }
+
     override fun onPositionCalculated(posX: Int, posY: Int) {
         game.map?.let {
             mapViewElement.setPlayerPosition(it.mmToPx(posX), it.mmToPx(posY))
@@ -246,5 +253,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         super.onDestroy()
         bleService.removeListener(this)
         bleService.disconnectDevice()
+        locator.cancel()
     }
 }
