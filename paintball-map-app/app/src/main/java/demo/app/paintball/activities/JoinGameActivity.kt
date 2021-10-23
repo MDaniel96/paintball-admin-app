@@ -1,23 +1,17 @@
 package demo.app.paintball.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication.Companion.context
-import demo.app.paintball.PaintballApplication.Companion.currentTeam
-import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
-import demo.app.paintball.data.mqtt.MqttService
-import demo.app.paintball.data.mqtt.messages.GameMessage
-import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.util.ErrorHandler
+import demo.app.paintball.presenters.JoinGamePresenter
+import demo.app.paintball.screens.JoinGameScreen
 import demo.app.paintball.util.setBackgroundTint
 import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.activity_join_game.*
@@ -25,21 +19,14 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
-class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttService.GameListener {
+class JoinGameActivity : AppCompatActivity(), JoinGameScreen {
 
     companion object {
         const val GAME_REFRESH_PERIOD = 3_000L
     }
 
     @Inject
-    lateinit var restService: RestService
-
-    @Inject
-    lateinit var mqttService: MqttService
-
-    private lateinit var game: Game
-
-    private var joinedTeam: Team? = null
+    lateinit var joinGamePresenter: JoinGamePresenter
 
     private val timer = Timer()
 
@@ -47,31 +34,30 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_game)
         injector.inject(this)
+        joinGamePresenter.attachScreen(this)
 
         initStartGameButton()
-        val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
+        initTeamButtons()
 
-        restService.apply { listener = this@JoinGameActivity; errorListener = ErrorHandler }
-        mqttService.apply { gameListener = this@JoinGameActivity }
+        val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
         timer.schedule(timerTask {
-            runOnUiThread { restService.getGame(selectedGameId) }
+            runOnUiThread { joinGamePresenter.queryGame(selectedGameId) }
         }, 0, GAME_REFRESH_PERIOD)
     }
 
-    override fun onGetGame(game: Game) {
-        this.game = game
-        initTexts()
-        initTeamButtons()
-        initTeamLists()
+    private fun initStartGameButton() {
+        btnStartGame.isEnabled = false
+        btnStartGame.text = getString(R.string.waiting_for_admin)
     }
 
-    override fun onGetCreatedGames(games: List<Game>) {
+    private fun initTeamButtons() {
+        btnJoinRed.setOnClickListener { joinGamePresenter.joinTeam(Team.RED) }
+        btnJoinBlue.setOnClickListener { joinGamePresenter.joinTeam(Team.BLUE) }
+        btnViewRed.setOnClickListener { redExpansionLayout.toggle(true) }
+        btnViewBlue.setOnClickListener { blueExpansionLayout.toggle(true) }
     }
 
-    override fun onGetUsers(users: List<User>) {
-    }
-
-    private fun initTexts() {
+    override fun showGameDetails(game: Game) {
         game.run {
             tvGameName.text = name
             tvGameType.text = String.format(getString(R.string.type_is), type)
@@ -83,52 +69,16 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         }
     }
 
-    private fun initStartGameButton() {
-        btnStartGame.isEnabled = false
-        btnStartGame.text = getString(R.string.waiting_for_admin)
-    }
-
-    private fun initTeamButtons() {
-        btnJoinRed.setOnClickListener {
-            if (joinedTeam == null) {
-                restService.addUserToTeam(game.id, currentUser.id, Team.RED)
-                currentTeam = Team.RED
-            }
+    override fun showTeamLists(bluePlayers: MutableSet<User>, redPlayers: MutableSet<User>) {
+        bluePlayers.map { it.username }.also { playerNames ->
+            lsBluePlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
         }
-        btnJoinBlue.setOnClickListener {
-            if (joinedTeam == null) {
-                restService.addUserToTeam(game.id, currentUser.id, Team.BLUE)
-                currentTeam = Team.BLUE
-            }
-        }
-        btnViewRed.setOnClickListener {
-            redExpansionLayout.toggle(true)
-        }
-        btnViewBlue.setOnClickListener {
-            blueExpansionLayout.toggle(true)
+        redPlayers.map { it.username }.also { playerNames ->
+            lsRedPlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
         }
     }
 
-    private fun initTeamLists() {
-        game.run {
-            bluePlayers.map { it.username }.also { playerNames ->
-                lsBluePlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
-            }
-            redPlayers.map { it.username }.also { playerNames ->
-                lsRedPlayers.adapter = ArrayAdapter(context, R.layout.list_item_player, playerNames)
-            }
-        }
-    }
-
-    override fun onAddUserToTeam(team: Team) {
-        joinedTeam = team
-        when (team) {
-            Team.RED -> displayAddRedPlayer()
-            Team.BLUE -> displayAddBluePlayer()
-        }
-    }
-
-    private fun displayAddRedPlayer() {
+    override fun displayAddRedPlayer() {
         btnJoinRed.setBackgroundTint(R.color.redTeam)
         btnJoinRed.setTextColor(ContextCompat.getColor(this, R.color.white))
         btnJoinBlue.setBackgroundTint(R.color.transparent)
@@ -137,7 +87,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         btnJoinBlue.isEnabled = true
     }
 
-    private fun displayAddBluePlayer() {
+    override fun displayAddBluePlayer() {
         btnJoinBlue.setBackgroundTint(R.color.blueTeam)
         btnJoinBlue.setTextColor(ContextCompat.getColor(this, R.color.white))
         btnJoinRed.setBackgroundTint(R.color.transparent)
@@ -146,17 +96,8 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
         btnJoinRed.isEnabled = true
     }
 
-    override fun connectComplete() {
-        mqttService.subscribe(playerTopics.game)
-    }
-
-    override fun gameMessageArrived(message: GameMessage) {
-        if (message.type == GameMessage.Type.START && joinedTeam != null) {
-            timer.cancel()
-            val intent = Intent(this, MapActivity::class.java)
-            intent.putExtra("SELECTED_GAME_ID", game.id)
-            startActivity(intent)
-        }
+    override fun stopTimer() {
+        timer.cancel()
     }
 
     override fun onBackPressed() {
@@ -165,6 +106,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
 
     override fun onDestroy() {
         timer.cancel()
+        joinGamePresenter.detachScreen()
         super.onDestroy()
     }
 }

@@ -9,6 +9,7 @@ import demo.app.paintball.data.mqtt.MqttServiceImpl
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.RestServiceImpl
 import demo.app.paintball.presenters.DashboardPresenter
+import demo.app.paintball.presenters.JoinGamePresenter
 import javax.inject.Singleton
 
 @Module
@@ -29,4 +30,8 @@ class InjectorModule {
     @Provides
     @Singleton
     fun dashboardPresenter() = DashboardPresenter()
+
+    @Provides
+    @Singleton
+    fun joinGamePresenter() = JoinGamePresenter()
 }

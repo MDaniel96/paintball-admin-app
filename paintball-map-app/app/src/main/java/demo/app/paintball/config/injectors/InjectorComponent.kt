@@ -9,6 +9,7 @@ import demo.app.paintball.fragments.buttons.MainButtonsFragmentImpl
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
 import demo.app.paintball.presenters.DashboardPresenter
+import demo.app.paintball.presenters.JoinGamePresenter
 import javax.inject.Singleton
 
 @Singleton
@@ -20,6 +21,7 @@ interface InjectorComponent {
     fun inject(mapActivity: MapActivity)
 
     fun inject(dashboardPresenter: DashboardPresenter)
+    fun inject(joinGamePresenter: JoinGamePresenter)
 
     fun inject(connectTagFragment: ConnectTagFragment)
     fun inject(joinGameFragment: JoinGameFragment)
