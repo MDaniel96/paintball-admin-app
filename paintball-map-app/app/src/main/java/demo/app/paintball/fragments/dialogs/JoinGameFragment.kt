@@ -10,35 +10,18 @@ import androidx.fragment.app.DialogFragment
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.data.rest.RestService
-import demo.app.paintball.data.rest.enums.Team
-import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.util.ErrorHandler
+import demo.app.paintball.presenters.DashboardPresenter
 import kotlinx.android.synthetic.main.fragment_join_game.*
 import javax.inject.Inject
 
-class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
-
-    private lateinit var listener: JoinGameListener
-
-    private var createdGames = emptyList<Game>()
-    private var users = emptyList<User>()
+class JoinGameFragment : DialogFragment() {
 
     @Inject
-    lateinit var restService: RestService
+    lateinit var dashboardPresenter: DashboardPresenter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         injector.inject(this)
-
-        restService.apply { listener = this@JoinGameFragment; errorListener = ErrorHandler }
-
-        try {
-            listener = activity as JoinGameListener
-        } catch (e: ClassCastException) {
-            throw RuntimeException(e)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,12 +33,11 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        restService.getCreatedGames()
-        restService.getUsers()
+        dashboardPresenter.queryJoinGameData()
 
         btnDone.setOnClickListener {
-            val selectedUser = users.find { it.username == etPlayerName.text.toString() }
-            val selectedGame = createdGames.find { it.name == spGames.selectedItem.toString() }
+            val selectedUser = dashboardPresenter.users.find { it.username == etPlayerName.text.toString() }
+            val selectedGame = dashboardPresenter.createdGames.find { it.name == spGames.selectedItem.toString() }
 
             if (etPlayerName.text.toString() == "") {
                 etPlayerName.error = getString(R.string.fill_out)
@@ -68,32 +50,19 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
                 return@setOnClickListener
             }
 
-            PaintballApplication.currentUser = selectedUser
-            listener.onJoinGame(selectedGame.id)
+            dashboardPresenter.joinGame(selectedGame.id, selectedUser)
             dismiss()
         }
     }
 
-    override fun onGetGame(game: Game) {
-    }
-
-    override fun onGetCreatedGames(games: List<Game>) {
-        createdGames = games
-        ArrayAdapter(PaintballApplication.context, android.R.layout.simple_spinner_item, games.map { it.name })
+    fun showCreatedGames() {
+        ArrayAdapter(
+            PaintballApplication.context,
+            android.R.layout.simple_spinner_item,
+            dashboardPresenter.createdGames.map { it.name })
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spGames.adapter = adapter
             }
-    }
-
-    override fun onGetUsers(users: List<User>) {
-        this.users = users
-    }
-
-    override fun onAddUserToTeam(team: Team) {
-    }
-
-    interface JoinGameListener {
-        fun onJoinGame(selectedGameId: Long)
     }
 }

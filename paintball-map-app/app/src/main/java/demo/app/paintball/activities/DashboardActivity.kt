@@ -1,50 +1,34 @@
 package demo.app.paintball.activities
 
-import android.Manifest
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.data.rest.RestService
-import demo.app.paintball.data.rest.enums.Team
-import demo.app.paintball.data.rest.models.Game
-import demo.app.paintball.data.rest.models.User
 import demo.app.paintball.fragments.dialogs.ConnectTagFragment
 import demo.app.paintball.fragments.dialogs.JoinGameFragment
-import demo.app.paintball.util.ErrorHandler
-import demo.app.paintball.util.checkPermissions
+import demo.app.paintball.presenters.DashboardPresenter
+import demo.app.paintball.screens.DashboardScreen
 import demo.app.paintball.util.fadeIn
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import javax.inject.Inject
 
-class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
-    JoinGameFragment.JoinGameListener, ConnectTagFragment.ConnectTagListener {
-
-    companion object {
-        val permissionsNeeded = listOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
+class DashboardActivity : AppCompatActivity(), DashboardScreen, ConnectTagFragment.ConnectTagListener {
 
     @Inject
-    lateinit var restService: RestService
+    lateinit var dashboardPresenter: DashboardPresenter
+
+    private val joinGameFragment = JoinGameFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         injector.inject(this)
+        dashboardPresenter.attachScreen(this)
 
-        restService.apply { listener = this@DashboardActivity; errorListener = ErrorHandler }
-
-        btnJoinGame.setOnClickListener { JoinGameFragment().show(supportFragmentManager, "TAG") }
+        btnJoinGame.setOnClickListener { joinGameFragment.show(supportFragmentManager, "TAG") }
         btnConnectTag.setOnClickListener { ConnectTagFragment().show(supportFragmentManager, "TAG") }
         checkTagsEnabled()
-        this.checkPermissions(permissionsNeeded)
         initAnimations()
     }
 
@@ -56,22 +40,8 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
         }
     }
 
-    override fun onJoinGame(selectedGameId: Long) {
-        val intent = Intent(this, JoinGameActivity::class.java)
-        intent.putExtra("SELECTED_GAME_ID", selectedGameId)
-        startActivity(intent)
-    }
-
-    override fun onGetGame(game: Game) {
-    }
-
-    override fun onGetCreatedGames(games: List<Game>) {
-    }
-
-    override fun onGetUsers(users: List<User>) {
-    }
-
-    override fun onAddUserToTeam(team: Team) {
+    override fun showCreatedGames() {
+        joinGameFragment.showCreatedGames()
     }
 
     override fun onTagConnected() {
@@ -88,5 +58,10 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
             .translationY(-150F)
             .setDuration(800).startDelay = 300
         Glide.with(this).load(R.drawable.gif_icon).into(imgIcon)
+    }
+
+    override fun onDestroy() {
+        dashboardPresenter.detachScreen()
+        super.onDestroy()
     }
 }

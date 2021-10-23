@@ -8,6 +8,7 @@ import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.MqttServiceImpl
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.RestServiceImpl
+import demo.app.paintball.presenters.DashboardPresenter
 import javax.inject.Singleton
 
 @Module
@@ -24,4 +25,8 @@ class InjectorModule {
     @Provides
     @Singleton
     fun bleService(): BleService = BleServiceImpl()
+
+    @Provides
+    @Singleton
+    fun dashboardPresenter() = DashboardPresenter()
 }

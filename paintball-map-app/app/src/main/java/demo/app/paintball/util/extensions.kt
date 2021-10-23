@@ -77,12 +77,3 @@ fun ByteArray.playAudio() {
         }
     }
 }
-
-// ====================================
-//  PERMISSIONS
-// ====================================
-
-fun Activity.checkPermissions(permissions: List<String>) {
-    permissions.filter { ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED }
-        .map { ActivityCompat.requestPermissions(this, permissions.toTypedArray(), 0) }
-}
