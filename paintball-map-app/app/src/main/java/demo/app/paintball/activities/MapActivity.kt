@@ -26,6 +26,8 @@ import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
 import demo.app.paintball.map.sensors.Locator
 import demo.app.paintball.positioning.PositionCalculatorListener
+import demo.app.paintball.positioning.gps.GpsPositionCalculator
+import demo.app.paintball.positioning.gps.GpsPositionCalculatorImpl
 import demo.app.paintball.util.*
 import demo.app.paintball.positioning.uwb.UwbPositionCalculator
 import demo.app.paintball.positioning.uwb.UwbPositionCalculatorImpl
@@ -60,6 +62,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     private lateinit var locator: Locator
 
     private lateinit var uwbPositionCalculator: UwbPositionCalculator
+    private lateinit var gpsPositionCalculator: GpsPositionCalculator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +80,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
         mapViewElement.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
         gyroscope = Gyroscope(gyroscopeListener = this)
-        locator = Locator(listener = this)
 
         restService = services.rest().apply { listener = this@MapActivity; errorListener = ErrorHandler }
         bleService = services.ble().also { it.addListener(this@MapActivity) }
@@ -91,11 +93,6 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
         fabActivateButtons.setOnClickListener {
             if (isMapButtonsOpen) hideButtons() else showButtons()
-        }
-
-        // TODO: pass anchors here
-        uwbPositionCalculator = UwbPositionCalculatorImpl(listOf(intArrayOf(0, 0, 0), intArrayOf(1, 1, 1))).apply {
-            listener = this@MapActivity
         }
     }
 
@@ -148,6 +145,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         statsPanel.refresh(game)
         addUsersToMap()
         addAnchorsToMap(game)
+        initPositionCalculators(game)
     }
 
     override fun onGetCreatedGames(games: List<Game>) {
@@ -172,6 +170,23 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         if (resources.getBoolean(R.bool.displayAnchors)) {
             game.map?.anchors?.forEach {
                 mapViewElement.addAnchor(game.map!!.mmToPx(it.x.toInt()), game.map!!.mmToPx(it.y.toInt()))
+            }
+        }
+    }
+
+    private fun initPositionCalculators(game: Game) {
+        when (game.localizationMode) {
+            Game.LocalizationMode.UWB -> {
+                val anchorPositions = game.map!!.anchors.map { intArrayOf(it.x.toInt(), it.y.toInt(), 1000) }
+                uwbPositionCalculator = UwbPositionCalculatorImpl(anchorPositions).apply { listener = this@MapActivity }
+            }
+            Game.LocalizationMode.GPS -> {
+                locator = Locator(listener = this)
+                val originLocation = Location("").apply {
+                    latitude = game.map!!.topLeftLatitude
+                    longitude = game.map!!.topLeftLongitude
+                }
+                gpsPositionCalculator = GpsPositionCalculatorImpl(originLocation).apply { listener = this@MapActivity }
             }
         }
     }
@@ -218,7 +233,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onLocationChanged(location: Location) {
-        println("locationChanged: ${location.latitude}  -  ${location.longitude}")
+        gpsPositionCalculator.calculate(location)
     }
 
     override fun onPositionCalculated(posX: Int, posY: Int) {
