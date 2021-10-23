@@ -1,7 +1,7 @@
-package demo.app.paintball.positioning.gps
+package demo.app.paintball.positioning.calculators.gps
 
 import android.location.Location
-import demo.app.paintball.positioning.PositionCalculatorListener
+import demo.app.paintball.positioning.calculators.PositionCalculatorListener
 
 interface GpsPositionCalculator {
 

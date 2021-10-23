@@ -25,12 +25,13 @@ import demo.app.paintball.map.MapView
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
 import demo.app.paintball.map.sensors.Locator
-import demo.app.paintball.positioning.PositionCalculatorListener
-import demo.app.paintball.positioning.gps.GpsPositionCalculator
-import demo.app.paintball.positioning.gps.GpsPositionCalculatorImpl
+import demo.app.paintball.positioning.calculators.PositionCalculatorListener
+import demo.app.paintball.positioning.calculators.gps.GpsPositionCalculator
+import demo.app.paintball.positioning.calculators.gps.GpsPositionCalculatorImpl
+import demo.app.paintball.positioning.calculators.uwb.UwbPositionCalculator
+import demo.app.paintball.positioning.calculators.uwb.UwbPositionCalculatorImpl
+import demo.app.paintball.positioning.converters.PositionConverter
 import demo.app.paintball.util.*
-import demo.app.paintball.positioning.uwb.UwbPositionCalculator
-import demo.app.paintball.positioning.uwb.UwbPositionCalculatorImpl
 import kotlinx.android.synthetic.main.activity_map.*
 import javax.inject.Inject
 
@@ -63,6 +64,8 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     private lateinit var uwbPositionCalculator: UwbPositionCalculator
     private lateinit var gpsPositionCalculator: GpsPositionCalculator
+
+    private lateinit var positionConverter: PositionConverter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,6 +144,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     override fun onGetGame(game: Game) {
         this.game = game
+        positionConverter = PositionConverter.create(game)
         mapViewElement.initMap(game.map!!)
         statsPanel.refresh(game)
         addUsersToMap()
@@ -169,7 +173,10 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     private fun addAnchorsToMap(game: Game) {
         if (resources.getBoolean(R.bool.displayAnchors)) {
             game.map?.anchors?.forEach {
-                mapViewElement.addAnchor(game.map!!.mmToPx(it.x.toInt()), game.map!!.mmToPx(it.y.toInt()))
+                mapViewElement.addAnchor(
+                    positionConverter.mmToPx(it.x.toInt()),
+                    positionConverter.mmToPx(it.y.toInt())
+                )
             }
         }
     }
@@ -197,7 +204,11 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     override fun positionMessageArrived(message: PositionMessage) {
         game.map?.let {
-            mapViewElement.setMovablePosition(message.playerName, it.mmToPx(message.posX), it.mmToPx(message.posX))
+            mapViewElement.setMovablePosition(
+                message.playerName,
+                positionConverter.mmToPx(message.posX),
+                positionConverter.mmToPx(message.posX)
+            )
         }
     }
 
@@ -238,7 +249,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
 
     override fun onPositionCalculated(posX: Int, posY: Int) {
         game.map?.let {
-            mapViewElement.setPlayerPosition(it.mmToPx(posX), it.mmToPx(posY))
+            mapViewElement.setPlayerPosition(positionConverter.mmToPx(posX), positionConverter.mmToPx(posY))
         }
         PositionMessage(posX, posY).publish(mqttService)
     }

@@ -1,4 +1,4 @@
-package demo.app.paintball.positioning
+package demo.app.paintball.positioning.calculators
 
 interface PositionCalculatorListener {
     fun onPositionCalculated(posX: Int, posY: Int)

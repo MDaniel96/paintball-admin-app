@@ -18,10 +18,7 @@ class Map(
     var location: Location? = null,
     var obstacles: MutableSet<Obstacle> = hashSetOf(),
     var anchors: MutableSet<Anchor> = hashSetOf()
-) {
-
-    fun mmToPx(inputMm: Int) = (inputMm.toFloat() / anchorRadiusInMm.toFloat() * anchorRadiusInPixels.toFloat()).toInt()
-}
+)
 
 class Location(
     val id: Long = -1L,

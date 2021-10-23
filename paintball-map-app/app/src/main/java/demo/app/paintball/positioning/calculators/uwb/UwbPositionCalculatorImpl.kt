@@ -1,10 +1,10 @@
-package demo.app.paintball.positioning.uwb
+package demo.app.paintball.positioning.calculators.uwb
 
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import demo.app.paintball.data.ble.data.BlePositionData
-import demo.app.paintball.positioning.PositionCalculatorListener
+import demo.app.paintball.positioning.calculators.PositionCalculatorListener
 import demo.app.paintball.util.toast
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.MatrixUtils.createRealIdentityMatrix
