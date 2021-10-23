@@ -13,7 +13,7 @@ abstract class MovableElement(val name: String) : RenderableElement() {
 
     companion object {
         const val SIZE = 3
-        const val MAX_TIME_BETWEEN_POSITION_UPDATES = 1_500
+        const val MAX_TIME_BETWEEN_POSITION_UPDATES = 15_000
 
         fun create(user: User, team: Team) = when (team) {
             Team.RED -> RedPlayerElement(user.username)

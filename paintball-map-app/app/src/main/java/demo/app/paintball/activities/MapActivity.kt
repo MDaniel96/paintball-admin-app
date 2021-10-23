@@ -207,7 +207,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
             mapViewElement.setMovablePosition(
                 message.playerName,
                 positionConverter.mmToPx(message.posX),
-                positionConverter.mmToPx(message.posX)
+                positionConverter.mmToPx(message.posY)
             )
         }
     }
