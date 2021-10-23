@@ -1,9 +1,10 @@
-package demo.app.paintball.util.positioning
+package demo.app.paintball.positioning.uwb
 
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import demo.app.paintball.data.ble.data.BlePositionData
+import demo.app.paintball.positioning.PositionCalculatorListener
 import demo.app.paintball.util.toast
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.MatrixUtils.createRealIdentityMatrix
@@ -14,7 +15,7 @@ import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.sqrt
 
-class PositionCalculatorImpl(private val anchors: List<IntArray>) : PositionCalculator {
+class UwbPositionCalculatorImpl(private val anchors: List<IntArray>) : UwbPositionCalculator {
 
     companion object {
         /*
@@ -40,7 +41,7 @@ class PositionCalculatorImpl(private val anchors: List<IntArray>) : PositionCalc
         const val WINDOW_SIZE = 6
     }
 
-    override lateinit var listener: PositionCalculator.PositionCalculatorListener
+    override lateinit var listener: PositionCalculatorListener
 
     /*
     Measurement results: distance differences between anchors (will be loaded to zk)

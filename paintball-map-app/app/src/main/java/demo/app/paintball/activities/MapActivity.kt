@@ -25,16 +25,17 @@ import demo.app.paintball.map.MapView
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
 import demo.app.paintball.map.sensors.Locator
+import demo.app.paintball.positioning.PositionCalculatorListener
 import demo.app.paintball.util.*
-import demo.app.paintball.util.positioning.PositionCalculator
-import demo.app.paintball.util.positioning.PositionCalculatorImpl
+import demo.app.paintball.positioning.uwb.UwbPositionCalculator
+import demo.app.paintball.positioning.uwb.UwbPositionCalculatorImpl
 import kotlinx.android.synthetic.main.activity_map.*
 import javax.inject.Inject
 
 class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscope.GyroscopeListener,
     RestService.SuccessListener, ConnectTagFragment.ConnectTagListener,
     MqttService.PositionListener, BleServiceImpl.BleServiceListener,
-    PositionCalculator.PositionCalculatorListener, MqttService.GameListener, Locator.LocatorListener {
+    PositionCalculatorListener, MqttService.GameListener, Locator.LocatorListener {
 
     @Inject
     lateinit var restService: RestService
@@ -58,7 +59,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     private lateinit var gyroscope: Gyroscope
     private lateinit var locator: Locator
 
-    private lateinit var positionCalculator: PositionCalculator
+    private lateinit var uwbPositionCalculator: UwbPositionCalculator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +94,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         }
 
         // TODO: pass anchors here
-        positionCalculator = PositionCalculatorImpl(listOf(intArrayOf(0, 0, 0), intArrayOf(1, 1, 1))).apply {
+        uwbPositionCalculator = UwbPositionCalculatorImpl(listOf(intArrayOf(0, 0, 0), intArrayOf(1, 1, 1))).apply {
             listener = this@MapActivity
         }
     }
@@ -209,7 +210,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onBlePositionDataReceived(connection: BleService, data: BlePositionData) {
-        positionCalculator.calculate(data)
+        uwbPositionCalculator.calculate(data)
     }
 
     override fun onBleDisconnected(connection: BleService) {
