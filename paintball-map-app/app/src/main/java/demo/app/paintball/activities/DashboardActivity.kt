@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
@@ -37,8 +37,9 @@ class DashboardActivity : AppCompatActivity(), RestService.SuccessListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        injector.inject(this)
 
-        restService = services.rest().apply { listener = this@DashboardActivity; errorListener = ErrorHandler }
+        restService.apply { listener = this@DashboardActivity; errorListener = ErrorHandler }
 
         btnJoinGame.setOnClickListener { JoinGameFragment().show(supportFragmentManager, "TAG") }
         btnConnectTag.setOnClickListener { ConnectTagFragment().show(supportFragmentManager, "TAG") }

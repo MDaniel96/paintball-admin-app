@@ -2,8 +2,9 @@ package demo.app.paintball
 
 import android.app.Application
 import android.content.Context
-import demo.app.paintball.data.DaggerDataServiceInjector
-import demo.app.paintball.data.DataServiceInjector
+import demo.app.paintball.config.injectors.DaggerInjectorComponent
+import demo.app.paintball.config.injectors.InjectorComponent
+import demo.app.paintball.config.injectors.InjectorModule
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.User
 
@@ -11,7 +12,7 @@ class PaintballApplication : Application() {
 
     companion object {
         lateinit var context: Context
-        lateinit var services: DataServiceInjector
+        lateinit var injector: InjectorComponent
         lateinit var currentUser: User
         lateinit var currentTeam: Team
     }
@@ -19,7 +20,7 @@ class PaintballApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-        services = DaggerDataServiceInjector.builder().build()
+        injector = DaggerInjectorComponent.builder().injectorModule(InjectorModule()).build()
         currentUser = User()
         currentTeam = Team.BLUE
     }

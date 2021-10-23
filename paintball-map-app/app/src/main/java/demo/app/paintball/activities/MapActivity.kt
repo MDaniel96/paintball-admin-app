@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import demo.app.paintball.PaintballApplication.Companion.currentUser
-import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.ble.BleService
@@ -71,6 +71,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        injector.inject(this)
 
         mapViewElement = mapView
         mainButtons = supportFragmentManager.findFragmentById(R.id.mainButtonsFragment) as MapButtonsFragment
@@ -84,9 +85,9 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mapViewElement.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
         gyroscope = Gyroscope(gyroscopeListener = this)
 
-        restService = services.rest().apply { listener = this@MapActivity; errorListener = ErrorHandler }
-        bleService = services.ble().also { it.addListener(this@MapActivity) }
-        mqttService = services.mqtt().apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
+        restService.apply { listener = this@MapActivity; errorListener = ErrorHandler }
+        bleService.also { it.addListener(this@MapActivity) }
+        mqttService.apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
 
         val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
         restService.getGame(selectedGameId)

@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.PaintballApplication.Companion.currentTeam
-import demo.app.paintball.PaintballApplication.Companion.services
 import demo.app.paintball.PaintballApplication.Companion.currentUser
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
@@ -46,11 +46,13 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_game)
+        injector.inject(this)
+
         initStartGameButton()
         val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
 
-        restService = services.rest().apply { listener = this@JoinGameActivity; errorListener = ErrorHandler }
-        mqttService = services.mqtt().apply { gameListener = this@JoinGameActivity }
+        restService.apply { listener = this@JoinGameActivity; errorListener = ErrorHandler }
+        mqttService.apply { gameListener = this@JoinGameActivity }
         timer.schedule(timerTask {
             runOnUiThread { restService.getGame(selectedGameId) }
         }, 0, GAME_REFRESH_PERIOD)
@@ -88,7 +90,7 @@ class JoinGameActivity : AppCompatActivity(), RestService.SuccessListener, MqttS
 
     private fun initTeamButtons() {
         btnJoinRed.setOnClickListener {
-            if (joinedTeam == null){
+            if (joinedTeam == null) {
                 restService.addUserToTeam(game.id, currentUser.id, Team.RED)
                 currentTeam = Team.RED
             }

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import demo.app.paintball.PaintballApplication
-import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
@@ -30,8 +30,9 @@ class JoinGameFragment : DialogFragment(), RestService.SuccessListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        injector.inject(this)
 
-        restService = services.rest().apply { listener = this@JoinGameFragment; errorListener = ErrorHandler }
+        restService.apply { listener = this@JoinGameFragment; errorListener = ErrorHandler }
 
         try {
             listener = activity as JoinGameListener

@@ -17,7 +17,7 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import demo.app.paintball.PaintballApplication
-import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.data.ble.BleService
 import demo.app.paintball.data.ble.BleServiceImpl
@@ -49,8 +49,9 @@ class ConnectTagFragment : DialogFragment(), BleServiceImpl.BleServiceListener {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setStyle(STYLE_NORMAL, R.style.TitleDialog)
+        injector.inject(this)
 
-        bleService = services.ble().also { it.addListener(this@ConnectTagFragment) }
+        bleService.also { it.addListener(this@ConnectTagFragment) }
 
         try {
             listener = activity as ConnectTagListener

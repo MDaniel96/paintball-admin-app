@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.currentUser
-import demo.app.paintball.PaintballApplication.Companion.services
+import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
@@ -48,7 +48,8 @@ class ChatButtonsFragmentImpl : MapButtonsFragment(), MqttService.ChatListener {
     private var chatActivated = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mqttService = services.mqtt().apply { chatListener = this@ChatButtonsFragmentImpl }
+        injector.inject(this)
+        mqttService.apply { chatListener = this@ChatButtonsFragmentImpl }
 
         return inflater.inflate(R.layout.fragment_chat_buttons, container, false)
     }
