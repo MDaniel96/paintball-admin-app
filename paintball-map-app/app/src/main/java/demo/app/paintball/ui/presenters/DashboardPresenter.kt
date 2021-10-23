@@ -1,4 +1,4 @@
-package demo.app.paintball.presenters
+package demo.app.paintball.ui.presenters
 
 import android.Manifest
 import android.app.Activity
@@ -9,12 +9,12 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.context
 import demo.app.paintball.PaintballApplication.Companion.injector
-import demo.app.paintball.activities.JoinGameActivity
+import demo.app.paintball.ui.activities.JoinGameActivity
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.screens.DashboardScreen
+import demo.app.paintball.ui.screens.DashboardScreen
 import demo.app.paintball.util.ErrorHandler
 import kotlinx.android.synthetic.main.fragment_join_game.*
 import javax.inject.Inject

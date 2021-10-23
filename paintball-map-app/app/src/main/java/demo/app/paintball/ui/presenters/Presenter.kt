@@ -1,4 +1,4 @@
-package demo.app.paintball.presenters
+package demo.app.paintball.ui.presenters
 
 abstract class Presenter<S> {
 

@@ -1,4 +1,4 @@
-package demo.app.paintball.screens
+package demo.app.paintball.ui.screens
 
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User

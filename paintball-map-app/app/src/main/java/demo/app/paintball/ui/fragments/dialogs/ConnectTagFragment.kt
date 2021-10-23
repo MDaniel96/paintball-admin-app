@@ -1,4 +1,4 @@
-package demo.app.paintball.fragments.dialogs
+package demo.app.paintball.ui.fragments.dialogs
 
 import android.app.Activity
 import android.bluetooth.BluetoothDevice

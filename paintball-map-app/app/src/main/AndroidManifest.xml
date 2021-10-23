@@ -20,15 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.DashboardActivity">
+        <activity android:name="demo.app.paintball.ui.activities.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.JoinGameActivity" />
+        <activity android:name="demo.app.paintball.ui.activities.JoinGameActivity" />
         <activity
-            android:name=".activities.MapActivity"
+            android:name="demo.app.paintball.ui.activities.MapActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

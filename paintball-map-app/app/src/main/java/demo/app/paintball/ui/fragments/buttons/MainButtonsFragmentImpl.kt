@@ -1,4 +1,4 @@
-package demo.app.paintball.fragments.buttons
+package demo.app.paintball.ui.fragments.buttons
 
 import android.app.Activity
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.activities.MapActivity
+import demo.app.paintball.ui.activities.MapActivity
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.util.services.ButtonProgressDisplayService

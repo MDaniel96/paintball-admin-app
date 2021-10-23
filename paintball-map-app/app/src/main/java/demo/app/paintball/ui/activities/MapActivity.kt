@@ -1,4 +1,4 @@
-package demo.app.paintball.activities
+package demo.app.paintball.ui.activities
 
 import android.location.Location
 import android.os.Bundle
@@ -18,9 +18,9 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.fragments.buttons.MapButtonsFragment
-import demo.app.paintball.fragments.dialogs.ConnectTagFragment
-import demo.app.paintball.fragments.panels.MapStatsPanelFragment
+import demo.app.paintball.ui.fragments.buttons.MapButtonsFragment
+import demo.app.paintball.ui.fragments.dialogs.ConnectTagFragment
+import demo.app.paintball.ui.fragments.panels.MapStatsPanelFragment
 import demo.app.paintball.map.MapView
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope

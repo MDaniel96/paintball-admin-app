@@ -1,4 +1,4 @@
-package demo.app.paintball.fragments.buttons
+package demo.app.paintball.ui.fragments.buttons
 
 import android.content.Context
 import android.view.View

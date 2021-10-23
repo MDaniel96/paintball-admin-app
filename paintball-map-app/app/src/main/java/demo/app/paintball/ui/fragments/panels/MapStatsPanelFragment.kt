@@ -1,4 +1,4 @@
-package demo.app.paintball.fragments.panels
+package demo.app.paintball.ui.fragments.panels
 
 import android.os.Bundle
 import android.view.LayoutInflater

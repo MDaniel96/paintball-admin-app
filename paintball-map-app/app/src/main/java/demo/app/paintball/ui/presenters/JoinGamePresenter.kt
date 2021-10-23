@@ -1,10 +1,10 @@
-package demo.app.paintball.presenters
+package demo.app.paintball.ui.presenters
 
 import android.app.Activity
 import android.content.Intent
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.injector
-import demo.app.paintball.activities.MapActivity
+import demo.app.paintball.ui.activities.MapActivity
 import demo.app.paintball.config.topics.TopicsConfig
 import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.GameMessage
@@ -12,7 +12,7 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.screens.JoinGameScreen
+import demo.app.paintball.ui.screens.JoinGameScreen
 import demo.app.paintball.util.ErrorHandler
 import java.util.*
 import javax.inject.Inject

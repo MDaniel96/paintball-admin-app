@@ -1,15 +1,15 @@
 package demo.app.paintball.config.injectors
 
 import dagger.Component
-import demo.app.paintball.activities.DashboardActivity
-import demo.app.paintball.activities.JoinGameActivity
-import demo.app.paintball.activities.MapActivity
-import demo.app.paintball.fragments.buttons.ChatButtonsFragmentImpl
-import demo.app.paintball.fragments.buttons.MainButtonsFragmentImpl
-import demo.app.paintball.fragments.dialogs.ConnectTagFragment
-import demo.app.paintball.fragments.dialogs.JoinGameFragment
-import demo.app.paintball.presenters.DashboardPresenter
-import demo.app.paintball.presenters.JoinGamePresenter
+import demo.app.paintball.ui.activities.DashboardActivity
+import demo.app.paintball.ui.activities.JoinGameActivity
+import demo.app.paintball.ui.activities.MapActivity
+import demo.app.paintball.ui.fragments.buttons.ChatButtonsFragmentImpl
+import demo.app.paintball.ui.fragments.buttons.MainButtonsFragmentImpl
+import demo.app.paintball.ui.fragments.dialogs.ConnectTagFragment
+import demo.app.paintball.ui.fragments.dialogs.JoinGameFragment
+import demo.app.paintball.ui.presenters.DashboardPresenter
+import demo.app.paintball.ui.presenters.JoinGamePresenter
 import javax.inject.Singleton
 
 @Singleton

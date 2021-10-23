@@ -1,4 +1,4 @@
-package demo.app.paintball.activities
+package demo.app.paintball.ui.activities
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -10,8 +10,8 @@ import demo.app.paintball.R
 import demo.app.paintball.data.rest.enums.Team
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.presenters.JoinGamePresenter
-import demo.app.paintball.screens.JoinGameScreen
+import demo.app.paintball.ui.presenters.JoinGamePresenter
+import demo.app.paintball.ui.screens.JoinGameScreen
 import demo.app.paintball.util.setBackgroundTint
 import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.activity_join_game.*

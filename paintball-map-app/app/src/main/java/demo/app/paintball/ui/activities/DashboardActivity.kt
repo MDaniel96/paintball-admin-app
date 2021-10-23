@@ -1,14 +1,14 @@
-package demo.app.paintball.activities
+package demo.app.paintball.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.fragments.dialogs.ConnectTagFragment
-import demo.app.paintball.fragments.dialogs.JoinGameFragment
-import demo.app.paintball.presenters.DashboardPresenter
-import demo.app.paintball.screens.DashboardScreen
+import demo.app.paintball.ui.fragments.dialogs.ConnectTagFragment
+import demo.app.paintball.ui.fragments.dialogs.JoinGameFragment
+import demo.app.paintball.ui.presenters.DashboardPresenter
+import demo.app.paintball.ui.screens.DashboardScreen
 import demo.app.paintball.util.fadeIn
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import javax.inject.Inject

@@ -16,13 +16,13 @@
 
         <fragment
             android:id="@+id/chatButtonsFragment"
-            class="demo.app.paintball.fragments.buttons.ChatButtonsFragmentImpl"
+            class="demo.app.paintball.ui.fragments.buttons.ChatButtonsFragmentImpl"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <fragment
             android:id="@+id/mainButtonsFragment"
-            class="demo.app.paintball.fragments.buttons.MainButtonsFragmentImpl"
+            class="demo.app.paintball.ui.fragments.buttons.MainButtonsFragmentImpl"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -74,7 +74,7 @@
 
     <fragment
         android:id="@+id/statsPanelFragment"
-        class="demo.app.paintball.fragments.panels.MapStatsPanelFragment"
+        class="demo.app.paintball.ui.fragments.panels.MapStatsPanelFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 

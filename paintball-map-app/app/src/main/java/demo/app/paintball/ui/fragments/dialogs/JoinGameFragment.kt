@@ -1,4 +1,4 @@
-package demo.app.paintball.fragments.dialogs
+package demo.app.paintball.ui.fragments.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.presenters.DashboardPresenter
+import demo.app.paintball.ui.presenters.DashboardPresenter
 import kotlinx.android.synthetic.main.fragment_join_game.*
 import javax.inject.Inject
 

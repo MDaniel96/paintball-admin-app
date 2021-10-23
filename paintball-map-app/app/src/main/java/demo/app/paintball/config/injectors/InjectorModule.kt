@@ -8,8 +8,8 @@ import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.MqttServiceImpl
 import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.RestServiceImpl
-import demo.app.paintball.presenters.DashboardPresenter
-import demo.app.paintball.presenters.JoinGamePresenter
+import demo.app.paintball.ui.presenters.DashboardPresenter
+import demo.app.paintball.ui.presenters.JoinGamePresenter
 import javax.inject.Singleton
 
 @Module

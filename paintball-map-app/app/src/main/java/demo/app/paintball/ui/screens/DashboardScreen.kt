@@ -1,4 +1,4 @@
-package demo.app.paintball.screens
+package demo.app.paintball.ui.screens
 
 interface DashboardScreen {
 
