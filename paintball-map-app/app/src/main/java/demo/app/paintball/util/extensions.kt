@@ -1,15 +1,12 @@
 package demo.app.paintball.util
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton

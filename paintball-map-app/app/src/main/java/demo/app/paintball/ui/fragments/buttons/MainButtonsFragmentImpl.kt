@@ -11,7 +11,7 @@ import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.ui.presenters.MapPresenter
-import demo.app.paintball.util.services.ButtonProgressDisplayService
+import demo.app.paintball.util.ButtonProgressDisplayer
 import kotlinx.android.synthetic.main.fragment_main_buttons.*
 import java.util.*
 import javax.inject.Inject
@@ -59,7 +59,7 @@ class MainButtonsFragmentImpl : MapButtonsFragment() {
 
     private fun initFabSpyingButton() {
         val rootActivity = activity as Activity
-        val fabProgressDisplayer = ButtonProgressDisplayService(fabSpying, rootActivity)
+        val fabProgressDisplayer = ButtonProgressDisplayer(fabSpying, rootActivity)
         fabSpying.setOnClickListener {
             mapPresenter.mqttService.subscribe(playerTopics.enemyPositions)
             fabSpying.isEnabled = false

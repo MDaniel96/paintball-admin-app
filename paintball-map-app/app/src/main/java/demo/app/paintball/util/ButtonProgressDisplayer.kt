@@ -1,11 +1,14 @@
-package demo.app.paintball.util.services
+package demo.app.paintball.util
 
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import mbanje.kurt.fabbutton.FabButton
 
-class ButtonProgressDisplayService(private val button: FabButton, private val activity: Activity) {
+class ButtonProgressDisplayer(
+    private val button: FabButton,
+    private val activity: Activity
+) {
 
     companion object {
         const val MAX_PROGRESS_VALUE = 100F

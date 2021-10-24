@@ -1,12 +1,12 @@
-package demo.app.paintball.util.services
+package demo.app.paintball.util
 
 import android.media.MediaRecorder
 import android.os.ParcelFileDescriptor
 import java.io.ByteArrayOutputStream
 
-class RecordService {
+class Recorder {
 
-    private val recorder: MediaRecorder
+    private val mediaRecorder: MediaRecorder
     private val inputStream: ParcelFileDescriptor.AutoCloseInputStream
     private lateinit var recordingOutputStream: ByteArrayOutputStream
 
@@ -17,17 +17,17 @@ class RecordService {
 
         inputStream = ParcelFileDescriptor.AutoCloseInputStream(parcelRead)
 
-        recorder = MediaRecorder()
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB)
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-        recorder.setOutputFile(parcelWrite.fileDescriptor)
+        mediaRecorder = MediaRecorder()
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+        mediaRecorder.setOutputFile(parcelWrite.fileDescriptor)
     }
 
     private val recordingThread = Thread {
         recordingOutputStream = ByteArrayOutputStream()
-        recorder.prepare()
-        recorder.start()
+        mediaRecorder.prepare()
+        mediaRecorder.start()
         var read: Int
         val data = ByteArray(16384)
         while (inputStream.read(data, 0, data.size).also { read = it } != -1) {
@@ -40,9 +40,9 @@ class RecordService {
     }
 
     fun stop(): ByteArray {
-        recorder.stop()
-        recorder.reset()
-        recorder.release()
+        mediaRecorder.stop()
+        mediaRecorder.reset()
+        mediaRecorder.release()
         return recordingOutputStream.toByteArray()
     }
 }

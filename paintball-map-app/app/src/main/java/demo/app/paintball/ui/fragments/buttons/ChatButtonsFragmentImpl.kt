@@ -16,8 +16,8 @@ import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
 import demo.app.paintball.data.mqtt.MqttService
 import demo.app.paintball.data.mqtt.messages.ChatMessage
 import demo.app.paintball.util.*
-import demo.app.paintball.util.services.ButtonProgressDisplayService
-import demo.app.paintball.util.services.RecordService
+import demo.app.paintball.util.ButtonProgressDisplayer
+import demo.app.paintball.util.Recorder
 import kotlinx.android.synthetic.main.fragment_chat_buttons.*
 import java.util.*
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class ChatButtonsFragmentImpl : MapButtonsFragment(), MqttService.ChatListener {
     @Inject
     lateinit var mqttService: MqttService
 
-    private lateinit var recordService: RecordService
+    private lateinit var recorder: Recorder
 
     private var recording = false
     private var chatActivated = true
@@ -69,30 +69,30 @@ class ChatButtonsFragmentImpl : MapButtonsFragment(), MqttService.ChatListener {
 
     private fun initFabTeamChat() {
         val rootActivity = activity as Activity
-        val buttonProgressDisplayService = ButtonProgressDisplayService(fabTeamChat, rootActivity)
+        val buttonProgressDisplayer = ButtonProgressDisplayer(fabTeamChat, rootActivity)
         var timer = Timer()
         var timerStarted = 0L
         val recordingStopped = {
             rootActivity.runOnUiThread {
                 timer.cancel()
-                val recordedBytes = recordService.stop()
+                val recordedBytes = recorder.stop()
                 val messageLength = SystemClock.uptimeMillis() - timerStarted
                 ChatMessage(message = recordedBytes.toHexString(), length = messageLength).publish(mqttService)
                 recording = false
                 fabTeamChat.setColor(ContextCompat.getColor(PaintballApplication.context, R.color.primaryLightColor))
                 fabTeamChat.setIcon(R.drawable.ic_teamspeak, 0)
-                buttonProgressDisplayService.stop()
+                buttonProgressDisplayer.stop()
             }
         }
         fabTeamChat.setOnClickListener {
             if (!recording) {
-                recordService = RecordService()
-                recordService.start()
+                recorder = Recorder()
+                recorder.start()
                 recording = true
                 timerStarted = SystemClock.uptimeMillis()
                 fabTeamChat.setColor(ContextCompat.getColor(PaintballApplication.context, R.color.lightTransparentGray))
                 fabTeamChat.setIcon(R.drawable.ic_stop, 0)
-                buttonProgressDisplayService.show(RECORDING_TIME)
+                buttonProgressDisplayer.show(RECORDING_TIME)
                 timer = Timer()
                 timer.schedule(RECORDING_TIME) { recordingStopped() }
             } else {
