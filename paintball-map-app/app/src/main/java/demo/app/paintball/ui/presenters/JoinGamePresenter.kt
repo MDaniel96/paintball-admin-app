@@ -45,7 +45,7 @@ class JoinGamePresenter @Inject constructor() : Presenter<JoinGameScreen>(),
     fun joinTeam(team: Team) {
         if (joinedTeam == null) {
             restService.addUserToTeam(game.id, PaintballApplication.currentUser.id, team)
-            PaintballApplication.currentTeam = Team.BLUE
+            PaintballApplication.currentTeam = team
         }
     }
 
