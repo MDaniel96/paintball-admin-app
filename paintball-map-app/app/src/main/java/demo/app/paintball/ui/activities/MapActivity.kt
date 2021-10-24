@@ -1,55 +1,36 @@
 package demo.app.paintball.ui.activities
 
-import android.location.Location
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import demo.app.paintball.PaintballApplication.Companion.currentUser
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
-import demo.app.paintball.data.ble.BleService
-import demo.app.paintball.data.ble.BleServiceImpl
-import demo.app.paintball.data.ble.data.BlePositionData
-import demo.app.paintball.data.mqtt.MqttService
-import demo.app.paintball.data.mqtt.messages.GameMessage
-import demo.app.paintball.data.mqtt.messages.PositionMessage
-import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.enums.Team
+import demo.app.paintball.data.rest.models.Anchor
 import demo.app.paintball.data.rest.models.Game
 import demo.app.paintball.data.rest.models.User
-import demo.app.paintball.ui.fragments.buttons.MapButtonsFragment
-import demo.app.paintball.ui.fragments.dialogs.ConnectTagFragment
-import demo.app.paintball.ui.fragments.panels.MapStatsPanelFragment
 import demo.app.paintball.map.MapView
 import demo.app.paintball.map.sensors.GestureSensor
 import demo.app.paintball.map.sensors.Gyroscope
-import demo.app.paintball.map.sensors.Locator
-import demo.app.paintball.positioning.calculators.PositionCalculatorListener
-import demo.app.paintball.positioning.calculators.gps.GpsPositionCalculator
-import demo.app.paintball.positioning.calculators.gps.GpsPositionCalculatorImpl
-import demo.app.paintball.positioning.calculators.uwb.UwbPositionCalculator
-import demo.app.paintball.positioning.calculators.uwb.UwbPositionCalculatorImpl
 import demo.app.paintball.positioning.converters.PositionConverter
-import demo.app.paintball.util.*
+import demo.app.paintball.ui.fragments.buttons.MapButtonsFragment
+import demo.app.paintball.ui.fragments.dialogs.ConnectTagFragment
+import demo.app.paintball.ui.fragments.panels.MapStatsPanelFragment
+import demo.app.paintball.ui.presenters.MapPresenter
+import demo.app.paintball.ui.screens.MapScreen
+import demo.app.paintball.util.setBackgroundTint
+import demo.app.paintball.util.setSrc
+import demo.app.paintball.util.toDegree
+import demo.app.paintball.util.toast
 import kotlinx.android.synthetic.main.activity_map.*
 import javax.inject.Inject
 
-class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscope.GyroscopeListener,
-    RestService.SuccessListener, ConnectTagFragment.ConnectTagListener,
-    MqttService.PositionListener, BleServiceImpl.BleServiceListener,
-    PositionCalculatorListener, MqttService.GameListener, Locator.LocatorListener {
+class MapActivity : AppCompatActivity(), MapScreen,
+    GestureSensor.GestureListener, Gyroscope.GyroscopeListener, ConnectTagFragment.ConnectTagListener {
 
     @Inject
-    lateinit var restService: RestService
-
-    @Inject
-    lateinit var mqttService: MqttService
-
-    @Inject
-    lateinit var bleService: BleService
-
-    private lateinit var game: Game
+    lateinit var mapPresenter: MapPresenter
 
     private var isMapButtonsOpen = false
 
@@ -60,18 +41,13 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     private lateinit var statsPanel: MapStatsPanelFragment
 
     private lateinit var gyroscope: Gyroscope
-    private lateinit var locator: Locator
-
-    private lateinit var uwbPositionCalculator: UwbPositionCalculator
-    private lateinit var gpsPositionCalculator: GpsPositionCalculator
-
-    private lateinit var positionConverter: PositionConverter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         injector.inject(this)
+        mapPresenter.attachScreen(this)
 
         mapViewElement = mapView
         mainButtons = supportFragmentManager.findFragmentById(R.id.mainButtonsFragment) as MapButtonsFragment
@@ -85,19 +61,49 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mapViewElement.setOnTouchListener(GestureSensor(gestureListener = this, scrollPanel = buttonsPanel))
         gyroscope = Gyroscope(gyroscopeListener = this)
 
-        restService.apply { listener = this@MapActivity; errorListener = ErrorHandler }
-        bleService.also { it.addListener(this@MapActivity) }
-        mqttService.apply { positionListener = this@MapActivity; gameListener = this@MapActivity }
-
         val selectedGameId = intent.getLongExtra("SELECTED_GAME_ID", -1L)
-        restService.getGame(selectedGameId)
-        bleService.startPositionSending()
-        mqttService.subscribe(playerTopics.teamChat)
-        mqttService.subscribe(playerTopics.positions)
+        mapPresenter.queryGame(selectedGameId)
 
         fabActivateButtons.setOnClickListener {
             if (isMapButtonsOpen) hideButtons() else showButtons()
         }
+    }
+
+    override fun initMap(game: Game) {
+        mapViewElement.initMap(game.map!!)
+        statsPanel.refresh(game)
+    }
+
+    override fun showUsers(bluePlayers: Set<User>, redPlayers: Set<User>) {
+        redPlayers.filter { it.id != currentUser.id }
+            .forEach { mapViewElement.addUser(it, Team.RED) }
+        bluePlayers.filter { it.id != currentUser.id }
+            .forEach { mapViewElement.addUser(it, Team.BLUE) }
+    }
+
+    override fun showAnchors(anchors: Set<Anchor>, positionConverter: PositionConverter) {
+        if (resources.getBoolean(R.bool.displayAnchors)) {
+            anchors.forEach {
+                mapViewElement.addAnchor(
+                    positionConverter.mmToPx(it.x.toInt()),
+                    positionConverter.mmToPx(it.y.toInt())
+                )
+            }
+        }
+    }
+
+    override fun removePlayer(playerName: String, game: Game) {
+        statsPanel.refresh(game)
+        mapViewElement.removeUser(playerName)
+        toast(getString(R.string.player_left_the_game, playerName))
+    }
+
+    override fun setPlayerPosition(posX: Int, posY: Int) {
+        mapViewElement.setPlayerPosition(posX, posY)
+    }
+
+    override fun setMovablePosition(playerName: String, posX: Int, posY: Int) {
+        mapViewElement.setMovablePosition(playerName, posX, posY)
     }
 
     override fun onResume() {
@@ -143,116 +149,8 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
         mapViewElement.setPlayerOrientation(radian.toDegree())
     }
 
-    override fun onGetGame(game: Game) {
-        this.game = game
-        positionConverter = PositionConverter.create(game)
-        mapViewElement.initMap(game.map!!)
-        statsPanel.refresh(game)
-        addUsersToMap()
-        addAnchorsToMap(game)
-        initPositionCalculators(game)
-    }
-
-    override fun onGetCreatedGames(games: List<Game>) {
-    }
-
-    override fun onGetUsers(users: List<User>) {
-    }
-
-    override fun onAddUserToTeam(team: Team) {
-    }
-
-    private fun addUsersToMap() {
-        game.redPlayers
-            .filter { it.id != currentUser.id }
-            .forEach { mapViewElement.addUser(it, Team.RED) }
-        game.bluePlayers
-            .filter { it.id != currentUser.id }
-            .forEach { mapViewElement.addUser(it, Team.BLUE) }
-    }
-
-    private fun addAnchorsToMap(game: Game) {
-        if (resources.getBoolean(R.bool.displayAnchors)) {
-            game.map?.anchors?.forEach {
-                mapViewElement.addAnchor(
-                    positionConverter.mmToPx(it.x.toInt()),
-                    positionConverter.mmToPx(it.y.toInt())
-                )
-            }
-        }
-    }
-
-    private fun initPositionCalculators(game: Game) {
-        when (game.localizationMode) {
-            Game.LocalizationMode.UWB -> {
-                val anchorPositions = game.map!!.anchors.map { intArrayOf(it.x.toInt(), it.y.toInt(), 1000) }
-                uwbPositionCalculator = UwbPositionCalculatorImpl(anchorPositions).apply { listener = this@MapActivity }
-            }
-            Game.LocalizationMode.GPS -> {
-                locator = Locator(listener = this)
-                val originLocation = Location("").apply {
-                    latitude = game.map!!.topLeftLatitude
-                    longitude = game.map!!.topLeftLongitude
-                }
-                gpsPositionCalculator = GpsPositionCalculatorImpl(originLocation).apply { listener = this@MapActivity }
-            }
-        }
-    }
-
     override fun onTagConnected() {
-        bleService.startPositionSending()
-    }
-
-    override fun positionMessageArrived(message: PositionMessage) {
-        game.map?.let {
-            mapViewElement.setMovablePosition(
-                message.playerName,
-                positionConverter.mmToPx(message.posX),
-                positionConverter.mmToPx(message.posY)
-            )
-        }
-    }
-
-    override fun connectComplete() {
-        mqttService.subscribe(playerTopics.teamChat)
-        mqttService.subscribe(playerTopics.positions)
-    }
-
-    override fun gameMessageArrived(message: GameMessage) {
-        if (message.type == GameMessage.Type.LEAVE) {
-            game.bluePlayers
-                .union(game.redPlayers)
-                .find { it.username == message.playerName }
-                ?.let { leavingUser ->
-                    game.deadPlayers.add(leavingUser)
-                    statsPanel.refresh(game)
-                    mapViewElement.removeUser(message.playerName)
-                    toast(getString(R.string.player_left_the_game, message.playerName))
-                }
-        }
-    }
-
-    override fun onBleConnected(connection: BleService) {
-        bleService.startPositionSending()
-    }
-
-    override fun onBlePositionDataReceived(connection: BleService, data: BlePositionData) {
-        uwbPositionCalculator.calculate(data)
-    }
-
-    override fun onBleDisconnected(connection: BleService) {
-        toast("Tag disconnected")
-    }
-
-    override fun onLocationChanged(location: Location) {
-        gpsPositionCalculator.calculate(location)
-    }
-
-    override fun onPositionCalculated(posX: Int, posY: Int) {
-        game.map?.let {
-            mapViewElement.setPlayerPosition(positionConverter.mmToPx(posX), positionConverter.mmToPx(posY))
-        }
-        PositionMessage(posX, posY).publish(mqttService)
+        mapPresenter.bleService.startPositionSending()
     }
 
     private fun showButtons() {
@@ -278,9 +176,7 @@ class MapActivity : AppCompatActivity(), GestureSensor.GestureListener, Gyroscop
     }
 
     override fun onDestroy() {
+        mapPresenter.detachScreen()
         super.onDestroy()
-        bleService.removeListener(this)
-        bleService.disconnectDevice()
-        locator.cancel()
     }
 }

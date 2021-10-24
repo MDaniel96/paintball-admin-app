@@ -10,6 +10,7 @@ import demo.app.paintball.data.rest.RestService
 import demo.app.paintball.data.rest.RestServiceImpl
 import demo.app.paintball.ui.presenters.DashboardPresenter
 import demo.app.paintball.ui.presenters.JoinGamePresenter
+import demo.app.paintball.ui.presenters.MapPresenter
 import javax.inject.Singleton
 
 @Module
@@ -34,4 +35,8 @@ class InjectorModule {
     @Provides
     @Singleton
     fun joinGamePresenter() = JoinGamePresenter()
+
+    @Provides
+    @Singleton
+    fun mapPresenter() = MapPresenter()
 }

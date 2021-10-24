@@ -9,9 +9,8 @@ import androidx.core.content.ContextCompat
 import demo.app.paintball.PaintballApplication
 import demo.app.paintball.PaintballApplication.Companion.injector
 import demo.app.paintball.R
-import demo.app.paintball.ui.activities.MapActivity
 import demo.app.paintball.config.topics.TopicsConfig.Companion.playerTopics
-import demo.app.paintball.data.mqtt.MqttService
+import demo.app.paintball.ui.presenters.MapPresenter
 import demo.app.paintball.util.services.ButtonProgressDisplayService
 import kotlinx.android.synthetic.main.fragment_main_buttons.*
 import java.util.*
@@ -21,8 +20,8 @@ import kotlin.concurrent.schedule
 class MainButtonsFragmentImpl : MapButtonsFragment() {
 
     companion object {
-        const val SPYING_TIME = 7_000L
-        const val SPYING_RECHARGE_TIME = 12_000L
+        const val SPYING_TIME = 15_000L
+        const val SPYING_RECHARGE_TIME = 10_000L
     }
 
     override lateinit var rootLayout: View
@@ -36,13 +35,12 @@ class MainButtonsFragmentImpl : MapButtonsFragment() {
     override lateinit var btnMiddleTextView: View
 
     @Inject
-    lateinit var mqttService: MqttService
+    lateinit var mapPresenter: MapPresenter
 
     private val timer = Timer()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         injector.inject(this)
-        mqttService.apply { positionListener = activity as MapActivity }
 
         return inflater.inflate(R.layout.fragment_main_buttons, container, false)
     }
@@ -63,13 +61,13 @@ class MainButtonsFragmentImpl : MapButtonsFragment() {
         val rootActivity = activity as Activity
         val fabProgressDisplayer = ButtonProgressDisplayService(fabSpying, rootActivity)
         fabSpying.setOnClickListener {
-            mqttService.subscribe(playerTopics.enemyPositions)
+            mapPresenter.mqttService.subscribe(playerTopics.enemyPositions)
             fabSpying.isEnabled = false
             fabSpying.setColor(ContextCompat.getColor(PaintballApplication.context, R.color.lightTransparentGray))
 
             timer.schedule(SPYING_TIME) {
                 rootActivity.runOnUiThread {
-                    mqttService.unsubscribe(playerTopics.enemyPositions)
+                    mapPresenter.mqttService.unsubscribe(playerTopics.enemyPositions)
                     fabProgressDisplayer.show(SPYING_RECHARGE_TIME)
                 }
             }
