@@ -105,14 +105,31 @@ class GameControllerTest {
 
         @Test
         fun `should return 401 if game to delete is not found`() {
-            gameRepository.save(Game(id = 1L))
+            val savedGame = gameRepository.save(Game())
+            val nonExistingGameId = savedGame.id + 1L
 
             given()
                 .pathParams(mapOf(
-                    "id" to "2"
+                    "id" to nonExistingGameId
                 ))
                 .`when`().delete("/{id}")
                 .then().statusCode(`is`(404))
+        }
+
+        @Test
+        fun `should delete game by id`() {
+            val games = gameRepository.saveAll(
+                listOf(Game(), Game())
+            )
+
+            given()
+                .pathParams(mapOf(
+                    "id" to games[0].id
+                ))
+                .`when`().delete("/{id}")
+                .then().statusCode(`is`(204))
+
+            assertEquals(1, gameRepository.count())
         }
     }
 }
