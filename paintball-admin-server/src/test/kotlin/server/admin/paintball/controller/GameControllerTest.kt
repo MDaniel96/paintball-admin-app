@@ -14,40 +14,24 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import server.admin.paintball.dto.GameDTO
 import server.admin.paintball.model.Game
 import server.admin.paintball.repository.GameRepository
-import server.admin.paintball.security.SecurityConfig
 import java.time.LocalDate
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GameControllerTest {
+class GameControllerTest : ControllerTest() {
 
-    @LocalServerPort
-    private var port = 0
+    override val apiUrl = "/api/game"
 
     @Autowired
     lateinit var gameRepository: GameRepository
 
     @BeforeEach
     fun setup() {
-        RestAssured.port = port
-        RestAssured.basePath = "/paintball-admin" + "/api/game"
-        RestAssured.authentication = getAuthScheme()
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
-
         gameRepository.deleteAll()
-    }
-
-    private fun getAuthScheme(): FormAuthScheme {
-        return FormAuthScheme().apply {
-            userName = "admin"
-            password = "admin"
-            config = FormAuthConfig("paintball-admin" + SecurityConfig.LOGIN_URL, "username", "password")
-        }
     }
 
     @Nested
