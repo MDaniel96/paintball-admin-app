@@ -3,6 +3,8 @@ package server.admin.paintball.controller
 import io.restassured.RestAssured
 import io.restassured.RestAssured.`when`
 import io.restassured.RestAssured.given
+import io.restassured.authentication.FormAuthConfig
+import io.restassured.authentication.FormAuthScheme
 import io.restassured.mapper.TypeRef
 import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import server.admin.paintball.dto.GameDTO
 import server.admin.paintball.model.Game
 import server.admin.paintball.repository.GameRepository
+import server.admin.paintball.security.SecurityConfig
 import java.time.LocalDate
 
 @ExtendWith(SpringExtension::class)
@@ -33,9 +36,18 @@ class GameControllerTest {
     fun setup() {
         RestAssured.port = port
         RestAssured.basePath = "/paintball-admin" + "/api/game"
+        RestAssured.authentication = getAuthScheme()
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
         gameRepository.deleteAll()
+    }
+
+    private fun getAuthScheme(): FormAuthScheme {
+        return FormAuthScheme().apply {
+            userName = "admin"
+            password = "admin"
+            config = FormAuthConfig("paintball-admin" + SecurityConfig.LOGIN_URL, "username", "password")
+        }
     }
 
     @Nested
@@ -85,6 +97,22 @@ class GameControllerTest {
 
             assertEquals(1, gameList.size)
             assertEquals("Game1", gameList[0].name)
+        }
+    }
+
+    @Nested
+    inner class DeleteGame {
+
+        @Test
+        fun `should return 401 if game to delete is not found`() {
+            gameRepository.save(Game(id = 1L))
+
+            given()
+                .pathParams(mapOf(
+                    "id" to "2"
+                ))
+                .`when`().delete("/{id}")
+                .then().statusCode(`is`(404))
         }
     }
 }

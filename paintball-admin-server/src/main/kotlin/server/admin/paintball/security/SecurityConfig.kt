@@ -23,6 +23,10 @@ class SecurityConfig(
     private val appConfig: AppConfig
 ) : WebSecurityConfigurerAdapter() {
 
+    companion object {
+        const val LOGIN_URL = "/auth/login"
+    }
+
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
@@ -66,7 +70,7 @@ class SecurityConfig(
                 .antMatchers(*unAuthorized).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginProcessingUrl("/auth/login").permitAll()
+                .formLogin().loginProcessingUrl(LOGIN_URL).permitAll()
                 .and()
                 .logout().logoutUrl("/auth/logout").permitAll().clearAuthentication(true).invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
