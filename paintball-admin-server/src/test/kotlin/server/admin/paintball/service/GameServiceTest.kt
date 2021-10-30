@@ -1,7 +1,7 @@
 package server.admin.paintball.service
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.modelmapper.ModelMapper
 import server.admin.paintball.dto.UserDTO
 import server.admin.paintball.model.Game
+import server.admin.paintball.model.User
 import server.admin.paintball.repository.GameRepository
 import server.admin.paintball.util.exceptions.EntityNotFoundException
 import java.util.*
@@ -70,6 +71,34 @@ class GameServiceTest {
             val changedGame = gameService.changeGameState(1L, finishedState)
 
             assertEquals(Game.State.FINISHED, changedGame.state)
+        }
+    }
+
+    @Nested
+    inner class AddUserToTeam {
+        private lateinit var user: User
+        private lateinit var game: Game
+
+        @BeforeEach
+        fun setup() {
+            user = User()
+            game = Game()
+            doReturn(user).`when`(userService).getUserById(anyLong())
+            doReturn(Optional.of(game)).`when`(gameRepository).findById(anyLong())
+        }
+
+        @Test
+        fun `should add user to red players`() {
+            gameService.addUserToTeam(1L, 1L, Game.Team.RED)
+
+            assertTrue(game.redPlayers.contains(user))
+        }
+
+        @Test
+        fun `should add user to blue players`() {
+            gameService.addUserToTeam(1L, 1L, Game.Team.BLUE)
+
+            assertTrue(game.bluePlayers.contains(user))
         }
     }
 }
