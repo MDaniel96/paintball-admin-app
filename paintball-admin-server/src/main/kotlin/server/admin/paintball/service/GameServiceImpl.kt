@@ -12,6 +12,7 @@ import server.admin.paintball.dto.toDTO
 import server.admin.paintball.dto.util.GameFilter
 import server.admin.paintball.model.Game
 import server.admin.paintball.repository.GameRepository
+import server.admin.paintball.service.MqttTestServiceImpl.Companion.GAME
 import server.admin.paintball.util.exceptions.EntityNotFoundException
 
 @Service
@@ -88,6 +89,7 @@ class GameServiceImpl(
         return getGameById(gameId).apply {
             val player = userService.getUserById(playerId)
             deadPlayers.add(player)
+            mqttService.publish(topic = GAME, message = "${player.username}|LEAVE")
         }.run {
             toDTO(mapper)
         }
