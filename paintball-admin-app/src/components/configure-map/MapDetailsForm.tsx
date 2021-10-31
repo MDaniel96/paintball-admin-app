@@ -22,6 +22,10 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
     const [orientation, setOrientation] = useState<string>('');
     const [location, setLocation] = useState<Location>(new Location());
 
+    const [topLeftLatitude, setTopLeftLatitude] = useState<string>('');
+    const [topLeftLongitude, setTopLeftLongitude] = useState<string>('');
+    const [topRightLongitude, setTopRightLongitude] = useState<string>('');
+
     const locations: readonly Location[] = useSelector((state: { locations: LocationState }) => state.locations.locations);
 
     useEffect(() => {
@@ -35,6 +39,9 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
             setName(props.map.name);
             setOrientation(props.map.orientation.toString());
             setLocation(props.map.location);
+            setTopLeftLatitude(props.map.topLeftLatitude.toString());
+            setTopLeftLongitude(props.map.topLeftLongitude.toString());
+            setTopRightLongitude(props.map.topRightLongitude.toString());
             setSaved(true);
         }
     }
@@ -60,12 +67,16 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
     }
 
     const save = () => {
-        if (!isSaved && name != '' && orientation != '' && location.name != '' && image && image.base64) {
+        if (!isSaved && name != '' && orientation != '' && location.name != '' && image && image.base64 &&
+            topLeftLatitude != '' && topLeftLongitude != '' && topRightLongitude != '') {
             MapService.createMap({
                 locationId: location.id,
                 name: name,
                 imageBase64: image.base64,
                 orientation: parseInt(orientation),
+                topLeftLatitude: parseFloat(topLeftLatitude),
+                topLeftLongitude: parseFloat(topLeftLongitude),
+                topRightLongitude: parseFloat(topRightLongitude),
                 width: image.width,
                 height: image.height
             }).then(() => {
@@ -102,6 +113,27 @@ const MapDetailsForm: FC<MapConfigurationProps> = (props) => {
                             mode="outlined"
                             onChangeText={(text) => setOrientation(text)}
                             value={orientation}/>
+                        <TextInput
+                            style={styles.input}
+                            label="Top left latitude"
+                            keyboardType="numeric"
+                            mode="outlined"
+                            onChangeText={(text) => setTopLeftLatitude(text)}
+                            value={topLeftLatitude}/>
+                        <TextInput
+                            style={styles.input}
+                            label="Top left longitude"
+                            keyboardType="numeric"
+                            mode="outlined"
+                            onChangeText={(text) => setTopLeftLongitude(text)}
+                            value={topLeftLongitude}/>
+                        <TextInput
+                            style={styles.input}
+                            label="Top right longitude"
+                            keyboardType="numeric"
+                            mode="outlined"
+                            onChangeText={(text) => setTopRightLongitude(text)}
+                            value={topRightLongitude}/>
                         <View style={{borderWidth: 1, borderRadius: 4, backgroundColor: Colors.lightGrey}}>
                             <Picker
                                 selectedValue={location}

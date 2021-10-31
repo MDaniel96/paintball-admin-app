@@ -14,6 +14,9 @@ export class Map {
     borderHeight: number = -1;
     anchorRadiusInMm: number = -1;
     anchorRadiusInPixels: number = -1;
+    topLeftLatitude: number = -1;
+    topLeftLongitude: number = -1;
+    topRightLongitude: number = -1;
     location: Location = new Location();
     obstacles: Obstacle[] = [];
     anchors: Anchor[] = [];

@@ -43,6 +43,9 @@ class MapServiceImpl(
                 Map(
                     name = name,
                     orientation = orientation,
+                    topLeftLatitude = topLeftLatitude,
+                    topLeftLongitude = topLeftLongitude,
+                    topRightLongitude = topRightLongitude,
                     location = locationService.getLocationById(locationId),
                     creator = user,
                     width = width,
