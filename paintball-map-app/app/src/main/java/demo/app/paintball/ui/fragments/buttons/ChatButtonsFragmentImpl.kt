@@ -119,8 +119,13 @@ class ChatButtonsFragmentImpl : MapButtonsFragment(), MqttService.ChatListener {
 
     override fun chatMessageArrived(message: ChatMessage) {
         if (chatActivated && currentUser.username != message.playerName) {
-            val bytes = message.message.fromHexToByteArray()
-            bytes.playAudio()
+            try {
+                val bytes = message.message.fromHexToByteArray()
+                bytes.playAudio()
+            } catch (exception: Exception) {
+                // message from admin app is base64 encoded
+                Base64.getDecoder().decode(message.message.substring(1, message.message.length - 1)).playAudio()
+            }
         }
     }
 }

@@ -96,27 +96,17 @@ class GameServiceImpl(
     }
 
     override fun sendVoiceMessageToTeam(gameId: Long, target: String, message: String) {
-        println(
-            ("""
-            gameId: $gameId,
-            target: $target,
-            message: ${message.length}
-        """.trimIndent())
-        )
         getGameById(gameId).run {
-            // TODO("Not yet implemented")
             when (target) {
                 "red" -> {
-                    // sendToRedTeam()
+                    mqttService.publish(topic = MqttTestServiceImpl.RED_TEAM_CHAT, message = "admin|$message|1800")
                 }
                 "blue" -> {
-                    // sendToBlueTeam()
+                    mqttService.publish(topic = MqttTestServiceImpl.BLUE_TEAM_CHAT, message = "admin|$message|1800")
                 }
                 "both" -> {
-                    // sendToBothTeams()
-                }
-                else -> {
-                    // error, nothing to do
+                    mqttService.publish(topic = MqttTestServiceImpl.RED_TEAM_CHAT, message = "admin|$message|1800")
+                    mqttService.publish(topic = MqttTestServiceImpl.BLUE_TEAM_CHAT, message = "admin|$message|1800")
                 }
             }
         }
