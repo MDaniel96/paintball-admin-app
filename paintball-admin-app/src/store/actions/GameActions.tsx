@@ -30,7 +30,6 @@ export const getGamesAction = (gameFilter: GameFilter) => {
 export const getGameAction = (id: number) => {
     return async (dispatch: GameDispatch) => {
         const game = await GameService.getGame(id);
-        console.log('sel game', game);
         dispatch({
             type: SET_SELECTED_GAME,
             games: [game],
